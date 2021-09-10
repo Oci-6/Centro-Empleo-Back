@@ -1,99 +1,106 @@
 import cors from "cors";
 import express from "express";
 import { Request, Response } from "express";
-import { createConnection } from "typeorm";
+import { getRepository } from "typeorm";
 import { User } from "./models/User";
+import morgan from "morgan";
+import { createConnection } from "typeorm";
+import apiRoutes from "./routes/api.routes";
 
-// create typeorm connection
-createConnection().then(connection => {
-    const userRepository = connection.getRepository(User);
+const nodemailer = require("nodemailer");
 
-    // create and setup express app
-    const app = express();
-    const nodemailer = require("nodemailer");
+const app = express();
 
-    app.use(express.json());
+/* ----- DataBase Connection ----- */
 
-    app.use(cors());
+import './databaseConnection';
 
-    app.use('/uploads', express.static('uploads'))
+/* ----- Middlewares ----- */
 
-    // register routes
+// Enable connection between diferent servers
+app.use(cors());
 
-    app.use(require('./routes/uploads.routes'));
+// Request and Response Logger
+app.use(morgan("dev"));
 
-    app.post("/api/send-email", function (req: Request, res: Response) {
-        var transporter = nodemailer.createTransport({
-            host: "smtp.gmail.com",
-            port: 465,
-            secure: true,
-            auth: {
-                user: "mauri3418@gmail.com",
-                pass: "weqmlnjpcakcomld"
-            }
-        });
+// Allows JSON interpretation.
+app.use(express.json());
 
-        var mailOptions = {
-            from: "Centro empleo <mauri3418@gmail.com>",
-            to: "agustin.peraza@estudiantes.utec.edu.uy,mauricio.camacho@estudiantes.utec.edu.uy",
-            subject: "Enviado desde nodemailer",
-            text: "PT"
-        }
+// Uploads
+app.use('/uploads', express.static('uploads'))
 
-        transporter.verify().then(() => {
-            console.log('Ready for send emails');
-        })
+app.use("/api", apiRoutes);
 
-        transporter.sendMail(mailOptions, (error: any, info: any) => {
-            if (error) {
-                res.status(500).send(error.message);
-            } else {
-                console.log("Email enviado");
-                res.status(200).jsonp(req.body);
+// app.post("/api/send-email", function (req: Request, res: Response) {
+//     var transporter = nodemailer.createTransport({
+//         host: "smtp.gmail.com",
+//         port: 465,
+//         secure: true,
+//         auth: {
+//             user: "mauri3418@gmail.com",
+//             pass: "weqmlnjpcakcomld"
+//         }
+//     });
 
-            }
-        })
-    });
+//     var mailOptions = {
+//         from: "Centro empleo <mauri3418@gmail.com>",
+//         to: "agustin.peraza@estudiantes.utec.edu.uy,mauricio.camacho@estudiantes.utec.edu.uy",
+//         subject: "Enviado desde nodemailer",
+//         text: "PT"
+//     }
 
-    app.get("/users", async function (req: Request, res: Response) {
-        const users = await userRepository.find();
-        res.json(users);
-    });
+//     transporter.verify().then(() => {
+//         console.log('Ready for send emails');
+//     })
 
-    app.get("/users/:id", async function (req: Request, res: Response) {
-        const results = await userRepository.findOne(req.params.id);
-        return res.send(results);
-    });
+//     transporter.sendMail(mailOptions, (error: any, info: any) => {
+//         if (error) {
+//             res.status(500).send(error.message);
+//         } else {
+//             console.log("Email enviado");
+//             res.status(200).jsonp(req.body);
 
-    app.post("/users", async function (req: Request, res: Response) {
-        const user = await userRepository.create(req.body);
-        const results = await userRepository.save(user);
-        return res.send(results);
-    });
+//         }
+//     })
+// });
 
-    app.post("/api/auth/signingoogle", async function (req: Request, res: Response) {
-        const usuario = await userRepository.findOne(req.params.id);
-        if (usuario) return res.send(usuario);
+// app.get("/users", async function (req: Request, res: Response) {
+//     const users = await userRepository.find();
+//     res.json(users);
+// });
+
+// app.get("/users/:id", async function (req: Request, res: Response) {
+//     const results = await userRepository.findOne(req.params.id);
+//     return res.send(results);
+// });
+
+// app.post("/users", async function (req: Request, res: Response) {
+//     const user = await userRepository.create(req.body);
+//     const results = await userRepository.save(user);
+//     return res.send(results);
+// });
+
+// app.post("/api/auth/signingoogle", async function (req: Request, res: Response) {
+//     const usuario = await userRepository.findOne(req.params.id);
+//     if (usuario) return res.send(usuario);
 
 
-        const user = await userRepository.create(req.body);
-        const results = await userRepository.save(user);
-        return res.send(results);
-    });
+//     const user = await userRepository.create(req.body);
+//     const results = await userRepository.save(user);
+//     return res.send(results);
+// });
 
-    app.put("/users/:id", async function (req: Request, res: Response) {
-        const user = await userRepository.findOne(req.params.id);
-        if (!user) return JSON.parse("{message: 'error'}")
-        userRepository.merge(user, req.body);
-        const results = await userRepository.save(user);
-        return res.send(results);
-    });
+// app.put("/users/:id", async function (req: Request, res: Response) {
+//     const user = await userRepository.findOne(req.params.id);
+//     if (!user) return JSON.parse("{message: 'error'}")
+//     userRepository.merge(user, req.body);
+//     const results = await userRepository.save(user);
+//     return res.send(results);
+// });
 
-    app.delete("/users/:id", async function (req: Request, res: Response) {
-        const results = await userRepository.delete(req.params.id);
-        return res.send(results);
-    });
+// app.delete("/users/:id", async function (req: Request, res: Response) {
+//     const results = await userRepository.delete(req.params.id);
+//     return res.send(results);
+// });
 
-    // start express server
-    app.listen(3000);
-});
+export default app;

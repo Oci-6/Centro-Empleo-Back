@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable} from "typeorm";
 
 @Entity()
 export class User extends BaseEntity {
@@ -7,12 +7,9 @@ export class User extends BaseEntity {
     id: number;
 
     @Column()
-    firstName: string;
-
-    @Column()
-    lastName: string;
-
-    @Column()
     email: string;
+
+    @Column()
+    contraseña: string;
 
 }
