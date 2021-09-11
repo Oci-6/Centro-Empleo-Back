@@ -13,6 +13,8 @@ router.post("/", PostulanteController.postPostulante)
 
 router.get("/:id", PostulanteController.getPostulante)
 
+router.get("/", PostulanteController.getPostulantes)
+
 router.put("/", PostulanteController.putPostulante)
 
 //Capacitaciones y cursos
