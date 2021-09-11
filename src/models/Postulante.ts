@@ -1,121 +1,167 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity} from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { CapacitacionFormacion } from "./CapacitacionFormacion";
+import { ConocimientoInfo } from "./ConocimientoInfo";
+import { Idioma } from "./Idioma";
+import { Localidad } from "./Localidad";
+import { Pais } from "./Pais";
 import { User } from "./User";
 
 @Entity()
 export class Postulante extends User {
- 
+
     //Datos basicos
     @Column({
-    nullable: true})
+        nullable: true
+    })
     documento: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     tipoDocumento: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     primerNombre: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     segundoNombre: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     primerApellido: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     segundoApellido: string;
-    
+
     @Column({
-    nullable: true})
+        nullable: true
+    })
     sexo: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     fechaNacimiento: Date;
 
     //Direccion
     @Column({
-    nullable: true})
+        nullable: true
+    })
     barrio: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     direccion: string;
 
     //Contacto
     @Column({
-    nullable: true})
+        nullable: true
+    })
     primerTelefono: string;
-    
+
     @Column({
-    nullable: true})
+        nullable: true
+    })
     segundoTelefono: string;
 
     //Nivel educativo formal
     @Column({
-    nullable: true})
+        nullable: true
+    })
     nivelEducativo: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     estadoNE: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     orientacionNE: string;
 
     //Jornadas preferidas
     @Column({
-    nullable: true})
+        nullable: true
+    })
     jIndiferente: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     jCompleta: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     jMtMañana: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     jMtTarde: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     jMtNoche: boolean;
 
     //Trabajo
     @Column({
-    nullable: true})
+        nullable: true
+    })
     puestoPreferido: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     areaInteres: string;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     aspiracionSalarial: number;
 
     //Flags de control
     @Column({
-    nullable: true})
+        nullable: true
+    })
     visibilidad: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     estado: boolean;
 
     @Column({
-    nullable: true})
+        nullable: true
+    })
     recibirOfertas: boolean;
 
     //Relaciones con otros datos
 
+    @OneToOne(() => Pais)
+    @JoinColumn()
+    pais: Pais;
 
+    @OneToOne(() => Localidad)
+    @JoinColumn()
+    localidad: Localidad | null;
+    
+    @OneToMany(() => CapacitacionFormacion, capacitacionFormacion => capacitacionFormacion.postulante)
+    capacitacionFormacion: CapacitacionFormacion[];
+
+    @OneToMany(() => ConocimientoInfo, conocimientoInfo => conocimientoInfo.postulante)
+    conocimientoInfo: ConocimientoInfo[];
+
+    @OneToMany(() => Idioma, idioma => idioma.postulante)
+    idioma: Idioma[];
 }

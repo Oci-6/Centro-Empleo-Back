@@ -11,7 +11,7 @@ export class Departamento extends BaseEntity {
     @Column()
     nombre: string;
 
-    @OneToMany(() => Localidad, localidad => localidad.deparmento)
+    @OneToMany(() => Localidad, localidad => localidad.departamento)
     localidades: Localidad[];
 
     @ManyToOne(() => Pais, pais => pais.departamentos)

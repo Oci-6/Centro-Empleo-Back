@@ -1,4 +1,6 @@
 import { DeepPartial, getRepository } from "typeorm";
+import { CapacitacionFormacion } from "../models/CapacitacionFormacion";
+import { ConocimientoInfo } from "../models/ConocimientoInfo";
 import { Postulante } from "../models/Postulante";
 
 export const get = async (id: string): Promise<Postulante|undefined> => {
@@ -31,7 +33,8 @@ export const save = async (postulante: any): Promise<Postulante[]> => {
     return savedPostulante;
 }
 
-export const update = async (postulante: DeepPartial<Postulante>[]): Promise<Postulante[]> => {
+export const update = async (postulante: DeepPartial<Postulante>[] | any): Promise<Postulante[]> => {
+    
     const savedPostulante = await getRepository(Postulante).save(postulante);
 
     return savedPostulante;

@@ -27,5 +27,4 @@ export const login = async (request: Request, response: Response): Promise<Respo
         return response.status(400).json({mensaje: "Contraseña incorrecta"});
     }
 
-
 }

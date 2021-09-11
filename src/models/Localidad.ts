@@ -11,5 +11,5 @@ export class Localidad extends BaseEntity {
     nombre: string;
 
     @ManyToOne(() => Departamento, departamento => departamento.localidades)
-    deparmento: Departamento;
+    departamento: Departamento;
 }

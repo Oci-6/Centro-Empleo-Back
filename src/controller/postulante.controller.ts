@@ -3,7 +3,8 @@ import { getRepository } from "typeorm";
 import { Postulante } from "../models/Postulante";
 import { encrypt } from "../libs/encriptacion"
 import * as helperPostulante from "../helpers/postulante.helper"
-import { User } from "../models/User";
+import * as helperPais from "../helpers/pais.helper"
+import * as helperLocalidad from "../helpers/localidad.helper"
 
 /* ----- Postulante Controller ----- */
 
@@ -44,6 +45,21 @@ export const putPostulante = async (request: Request, response: Response): Promi
     if (request.body.cedula&&helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
 
 
-    if(!await helperPostulante.get(request.params.id)) return response.status(400).json({ message: 'No se encontro usuario' });
-    return response.status(200).json(await helperPostulante.update(request.body));
+    if(!await helperPostulante.get(request.body.id)) return response.status(400).json({ message: 'No se encontro usuario' });
+
+    let postulante: Postulante = request.body;
+
+    if(!request.body.localidadId){
+        let pais = await helperPais.get(request.body.paisId); 
+        if (!pais) return response.status(400).json({ message: 'No existe pais' });
+        postulante.pais = pais;
+        postulante.localidad = null;
+    }else{
+        let localidad = await helperLocalidad.get(request.body.localidadId)
+        if (!localidad) return response.status(400).json({ message: 'No existe localidad' });
+        postulante.localidad = localidad;
+        postulante.pais = localidad.departamento.pais
+    }
+
+    return response.status(200).json(await helperPostulante.update(postulante));
 }
