@@ -4,6 +4,8 @@ import * as PostulanteController from '../controller/postulante.controller';
 import * as CapacitacionController from '../controller/capacitacionFormacion.controller';
 import * as  ConocimientoInfoController from '../controller/conocimientoInfo.controller';
 import * as  IdiomaController from '../controller/idioma.controller';
+import * as  ExpLaboralController from '../controller/expLaboral.controller';
+
 
 const router = Router();
 
@@ -45,5 +47,16 @@ router.post("/idioma/:idPostulante", IdiomaController.postIdioma)
 router.put("/idioma/", IdiomaController.putIdioma)
 
 router.delete("/idioma/", IdiomaController.deleteIdioma)
+
+//Experiencia laboral
+router.get("/expLaboral/:id", ExpLaboralController.getExpLaboral)
+
+router.get("/expLaboral/:idPostulante", ExpLaboralController.getExpLaborales)
+
+router.post("/expLaboral/:idPostulante", ExpLaboralController.postExpLaboral)
+
+router.put("/expLaboral/", ExpLaboralController.putExpLaboral)
+
+router.delete("/expLaboral/", ExpLaboralController.deleteExpLaboral)
 
 export default router;

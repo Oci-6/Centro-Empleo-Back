@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
+import { ExpLaboral } from "./ExpLaboral";
 import { Idioma } from "./Idioma";
 import { Localidad } from "./Localidad";
 import { Pais } from "./Pais";
@@ -164,4 +165,7 @@ export class Postulante extends User {
 
     @OneToMany(() => Idioma, idioma => idioma.postulante)
     idioma: Idioma[];
+
+    @OneToMany(() => ExpLaboral, expLaboral => expLaboral.postulante)
+    expLaboral: ExpLaboral[];
 }
