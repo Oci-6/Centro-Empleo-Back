@@ -1,10 +1,13 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
+import { Documento } from "./Documento";
 import { ExpLaboral } from "./ExpLaboral";
 import { Idioma } from "./Idioma";
 import { Localidad } from "./Localidad";
 import { Pais } from "./Pais";
+import { PermisosLicencias } from "./PermisosLicencias";
+import { PreferenciaLaboral } from "./PreferenciaLaboral";
 import { User } from "./User";
 
 @Entity()
@@ -115,22 +118,6 @@ export class Postulante extends User {
     })
     jMtNoche: boolean;
 
-    //Trabajo
-    @Column({
-        nullable: true
-    })
-    puestoPreferido: string;
-
-    @Column({
-        nullable: true
-    })
-    areaInteres: string;
-
-    @Column({
-        nullable: true
-    })
-    aspiracionSalarial: number;
-
     //Flags de control
     @Column({
         nullable: true
@@ -168,4 +155,13 @@ export class Postulante extends User {
 
     @OneToMany(() => ExpLaboral, expLaboral => expLaboral.postulante)
     expLaboral: ExpLaboral[];
+
+    @OneToMany(() => PermisosLicencias, permisosLicencias => permisosLicencias.postulante)
+    permisosLicencias: PermisosLicencias[];
+
+    @OneToMany(() => Documento, documentos => documentos.postulante)
+    documentos: Documento[];
+
+    @OneToMany(() => PreferenciaLaboral, preferenciaLaboral=> preferenciaLaboral.postulante)
+    preferenciaLaboral: PreferenciaLaboral[];
 }

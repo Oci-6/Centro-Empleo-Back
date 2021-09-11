@@ -6,7 +6,7 @@ import { Postulante } from "../models/Postulante";
 export const get = async (id: string): Promise<Postulante|undefined> => {
     if (!id) return undefined;
 
-    return await getRepository(Postulante).findOne(id);
+    return await getRepository(Postulante).findOne(id,{relations: ["pais", "localidad", "localidad.departamento", "capacitacionFormacion", "conocimientoInfo", "idioma", "expLaboral", "permisosLicencias", "documentos"]});
 }
 
 export const getByEmail = async (email: string): Promise<Postulante|undefined> => {
