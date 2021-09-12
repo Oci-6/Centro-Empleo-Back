@@ -8,7 +8,11 @@ import * as  ExpLaboralController from '../controller/expLaboral.controller';
 import * as  PermisosLicenciasController from '../controller/permisosLicencias.controller';
 import * as  PreferenciaLaboralController from '../controller/preferenciaLaboral.controller.';
 
+/*
+    Rutas Postulante
 
+    http://localhost:3000/api/postulante
+*/
 
 const router = Router();
 

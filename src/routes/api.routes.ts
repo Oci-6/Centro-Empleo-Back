@@ -7,7 +7,11 @@ import paisRoutes from './pais.routes';
 import uploadRoutes from './uploads.routes';
 
 const router = Router();
+/*
+    Rutas 
 
+    http://localhost:3000/api
+*/
 router.use("/postulante", postulantesRoutes)
 
 router.use("/auth", authRoutes)

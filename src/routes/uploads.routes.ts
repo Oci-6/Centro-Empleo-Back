@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import path from "path";
-import * as helperPostulante from "../helpers/postulante.helper"
-import * as helperDocumento from "../helpers/documento.helper"
+import * as DocumentoController from "../controller/documento.controller"
 
 const router = Router();
 const multer = require('multer');
@@ -19,26 +18,18 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage: storage
-}).single('image');
+}).single('file');
 
+/*
+    Subida documentos postulante
 
-router.post('/:idPostulante', upload, async (req, res) => {
-    if (!req.params.idPostulante) return res.status(400).json({ message: "No se ingreso postulante" });
+    http://localhost:3000/api/upload/
+*/
+router.use('/documento/:idPostulante', upload, DocumentoController.postDocumento)
 
-    let postulante = await helperPostulante.get(req.params.idPostulante);
-    if (!postulante) return res.status(400).json({ message: "No existe postulante" });
+router.use('/documentos/:idPostulante', upload, DocumentoController.getDocumentos)
 
-    let documento = {
-        tipo: req.body.tipo,
-        ubicacion: req.file?.path,
-        postulante: postulante
-    }
-
-    await helperDocumento.save(documento);
-
-    console.log(req.file);
-    return res.send("uploaded");
-})
+router.use('/documento/:id', upload, DocumentoController.getDocumento)
 
 
 export default router;

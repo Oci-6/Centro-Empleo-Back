@@ -3,7 +3,11 @@ import * as PaisController from "../controller/pais.controller"
 
 const router = Router();
 
-// Rutas Pais
+/*
+    Rutas Pais
+
+    http://localhost:3000/api/pais
+*/
 
 router.get("/", PaisController.getPaises);
 

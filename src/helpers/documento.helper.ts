@@ -8,7 +8,7 @@ export const get = async (id: string): Promise<Documento|undefined> => {
 }
 
 export const getAll = async (id:string): Promise<Documento[]> => {
-    return await getRepository(Documento).find({where: {postulante: id}, relations: ["postulante"] });
+    return await getRepository(Documento).find({where: {postulante: id}});
 }
 
 export const save = async (entity: any): Promise<Documento[]> => {
