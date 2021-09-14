@@ -5,7 +5,7 @@ export const getByEmail = async (email: string): Promise<Postulante|undefined> =
 
     let user: Postulante | undefined;
 
-    user = await getRepository(Postulante).findOne({where: {email}, select: ["email", "contraseña"]});
+    user = await getRepository(Postulante).findOne({where: {email}, select: ["id","email", "contraseña"]});
     
     if(user){
        return user; 
