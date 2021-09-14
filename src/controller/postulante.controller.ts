@@ -5,6 +5,7 @@ import { encrypt } from "../libs/encriptacion"
 import * as helperPostulante from "../helpers/postulante.helper"
 import * as helperPais from "../helpers/pais.helper"
 import * as helperLocalidad from "../helpers/localidad.helper"
+import * as helperUsuario from "../helpers/usuario.helper"
 
 /* ----- Postulante Controller ----- */
 
@@ -16,7 +17,7 @@ export const postPostulante = async (request: Request, response: Response): Prom
     const { email, contraseña } = request.body;
 
     //Validando email único
-    let postulante = await getRepository(Postulante).findOne({ where: { email }, select: ['contraseña', 'id'] })
+    let postulante = await helperUsuario.getByEmail( email);
     if (postulante) return response.status(400).json({ message: 'Ya existe un usuario con el email ingresado' });
 
     // Crear nuevo postulante

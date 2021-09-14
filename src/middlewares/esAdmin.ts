@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 
-export const esPostulante = async (request:  Request, response: Response, next: NextFunction) => {
+export const esAdmin = async (request:  Request, response: Response, next: NextFunction) => {
     let jwtauth = JSON.parse(request.params.jwtauth);
 
-    if(jwtauth.tipo&& jwtauth.tipo === "Postulante"){
+    if(jwtauth.tipo&& jwtauth.tipo === "Admin"){
         next();
         
     }else{

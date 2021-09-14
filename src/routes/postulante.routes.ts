@@ -8,6 +8,7 @@ import * as  ExpLaboralController from '../controller/expLaboral.controller';
 import * as  PermisosLicenciasController from '../controller/permisosLicencias.controller';
 import * as  PreferenciaLaboralController from '../controller/preferenciaLaboral.controller.';
 import { esPostulante } from '../middlewares/esPostulante';
+import { esAdmin } from '../middlewares/esAdmin';
 
 /*
     Rutas Postulante
@@ -21,7 +22,7 @@ router.post("/", PostulanteController.postPostulante)
 
 router.get("/:id", PostulanteController.getPostulante)
 
-router.get("/", PostulanteController.getPostulantes)
+router.get("/", [verify,esAdmin], PostulanteController.getPostulantes)
 
 router.put("/", PostulanteController.putPostulante)
 
