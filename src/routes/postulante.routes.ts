@@ -7,6 +7,7 @@ import * as  IdiomaController from '../controller/idioma.controller';
 import * as  ExpLaboralController from '../controller/expLaboral.controller';
 import * as  PermisosLicenciasController from '../controller/permisosLicencias.controller';
 import * as  PreferenciaLaboralController from '../controller/preferenciaLaboral.controller.';
+import { esPostulante } from '../middlewares/esPostulante';
 
 /*
     Rutas Postulante
@@ -82,7 +83,7 @@ router.delete("/permisosLicencia/", PermisosLicenciasController.deletePermisosLi
 //Preferencia Laboral
 router.get("/preferenciaLaboral/:id", PreferenciaLaboralController.getPreferenciaLaboral)
 
-router.get("/preferenciaLaboral/:idPostulante", PreferenciaLaboralController.getPreferenciaLaborales)
+router.get("/preferenciaLaborales/:idPostulante", PreferenciaLaboralController.getPreferenciaLaborales)
 
 router.post("/preferenciaLaboral/:idPostulante", PreferenciaLaboralController.postPreferenciaLaboral)
 

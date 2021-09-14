@@ -4,7 +4,6 @@ require('dotenv').config()
 
 export const verify = async (request: Request, response: Response, next: NextFunction) => {
     const bearerHeader = request.headers['authorization']
-    console.log(bearerHeader);
     if( typeof bearerHeader !== 'undefined'){
         const bearer = bearerHeader.split(" ");
         const bearerToken = bearer[1];
@@ -12,6 +11,9 @@ export const verify = async (request: Request, response: Response, next: NextFun
             if(err) {
                 response.status(403).json({mensaje: "No permitido"});
             }else{
+                if(data)
+                    request.params.jwtauth = JSON.stringify(data);
+                console.log(request.params.jwtauth);
                 next();
             }
         });
