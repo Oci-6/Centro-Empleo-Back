@@ -26,7 +26,6 @@ export const postDocumento = async (req: Request, res:Response): Promise<Respons
 
     let postulante = await helperPostulante.get(req.params.idPostulante);
     if(!postulante) return res.status(200).json({message: "No se encontre postulante"})
- 
     let documento = {
         tipo: req.body.tipo,
         ubicacion: req.file?.path,

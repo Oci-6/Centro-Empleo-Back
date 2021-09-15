@@ -118,6 +118,14 @@ export class Postulante extends User {
     })
     jMtNoche: boolean;
 
+    //Archivos
+
+    @Column({
+        nullable: true
+    })
+    foto: string;
+
+
     //Flags de control
     @Column({
         nullable: true

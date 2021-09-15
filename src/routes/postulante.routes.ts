@@ -9,6 +9,7 @@ import * as  PermisosLicenciasController from '../controller/permisosLicencias.c
 import * as  PreferenciaLaboralController from '../controller/preferenciaLaboral.controller.';
 import { esPostulante } from '../middlewares/esPostulante';
 import { esAdmin } from '../middlewares/esAdmin';
+import { upload } from '../libs/multerPostulante';
 
 /*
     Rutas Postulante
@@ -18,13 +19,15 @@ import { esAdmin } from '../middlewares/esAdmin';
 
 const router = Router();
 
-router.post("/", PostulanteController.postPostulante)
+router.post("/",  PostulanteController.postPostulante)
 
 router.get("/:id", PostulanteController.getPostulante)
 
 router.get("/", [verify,esAdmin], PostulanteController.getPostulantes)
 
 router.put("/", PostulanteController.putPostulante)
+
+router.post("/foto",  [verify,esPostulante,upload], PostulanteController.postFoto)
 
 //Capacitaciones y cursos
 router.get("/capacitacion/:id", CapacitacionController.getCapacitacion)

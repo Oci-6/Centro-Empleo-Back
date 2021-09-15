@@ -41,6 +41,8 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
+    console.log(request.body.id);
+    
     if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
     if (request.body.email && helperPostulante.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
     if (request.body.cedula && helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
@@ -49,7 +51,6 @@ export const putPostulante = async (request: Request, response: Response): Promi
     if (!await helperPostulante.get(request.body.id)) return response.status(400).json({ message: 'No se encontro usuario' });
 
     let postulante: Postulante = request.body;
-
     if (request.body.localidadId || request.body.paisId) {
         if (!request.body.localidadId) {
             let pais = await helperPais.get(request.body.paisId);
@@ -64,4 +65,17 @@ export const putPostulante = async (request: Request, response: Response): Promi
         }
     }
     return response.status(200).json(await helperPostulante.update(postulante));
+}
+
+export const postFoto = async (req: Request, response: Response): Promise<Response> => {
+    let jwtauth = JSON.parse(req.params.jwtauth);
+
+    let postulante = await helperPostulante.get(jwtauth.usuario);
+    if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
+
+    if(req.file) postulante.foto = req.file?.path;
+
+    await helperPostulante.save(postulante);
+
+    return response.status(200).json({message: "Foto subida correctamente"})
 }
