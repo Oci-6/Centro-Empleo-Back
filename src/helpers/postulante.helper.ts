@@ -15,6 +15,8 @@ export const getByEmail = async (email: string): Promise<Postulante|undefined> =
     return await getRepository(Postulante).findOne({where: {email}});
 }
 
+
+
 export const getByDocumento = async (documento: string): Promise<Postulante|undefined> => {
     if (!documento) return undefined;
 
