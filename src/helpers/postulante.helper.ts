@@ -29,7 +29,6 @@ export const save = async (postulante: any): Promise<Postulante[]> => {
     const newPostulante = getRepository(Postulante).create(postulante);
 
     const savedPostulante = await getRepository(Postulante).save(newPostulante);
-
     return savedPostulante;
 }
 

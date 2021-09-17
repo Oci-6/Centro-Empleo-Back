@@ -128,17 +128,17 @@ export class Postulante extends User {
 
     //Flags de control
     @Column({
-        nullable: true
+        default: false
     })
     visibilidad: boolean;
 
     @Column({
-        nullable: true
+        default: true
     })
     estado: boolean;
 
     @Column({
-        nullable: true
+        default: false
     })
     recibirOfertas: boolean;
 

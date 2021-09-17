@@ -1,12 +1,11 @@
 import { Request, Response } from "express";
-import { getRepository } from "typeorm";
 import { Postulante } from "../models/Postulante";
 import { encrypt } from "../libs/encriptacion"
 import * as helperPostulante from "../helpers/postulante.helper"
 import * as helperPais from "../helpers/pais.helper"
 import * as helperLocalidad from "../helpers/localidad.helper"
 import * as helperUsuario from "../helpers/usuario.helper"
-
+import moment from "moment"
 /* ----- Postulante Controller ----- */
 
 export const postPostulante = async (request: Request, response: Response): Promise<Response> => {
@@ -41,10 +40,9 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
-    console.log(request.body.id);
     
     if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
-    if (request.body.email && helperPostulante.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
+    if (request.body.email && helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
     if (request.body.cedula && helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
 
 
@@ -64,6 +62,10 @@ export const putPostulante = async (request: Request, response: Response): Promi
             postulante.pais = localidad.departamento.pais
         }
     }
+
+    if(postulante.documento&&!postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo de documento' })  
+    if(!postulante.documento&&postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipe documento' })
+
     return response.status(200).json(await helperPostulante.update(postulante));
 }
 

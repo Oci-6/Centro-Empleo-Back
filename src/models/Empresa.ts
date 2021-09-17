@@ -13,10 +13,14 @@ export class Empresa extends User{
     @Column()
     razonSocial: string;
 
-    @Column()
+    @Column({
+        default:false
+    })
     estado: boolean;
 
-    @Column()
+    @Column({
+        nullable:true
+    })
     fechaExpiracion: Date;
 
     @OneToMany(() => Oferta, ofertas => ofertas.empresa)

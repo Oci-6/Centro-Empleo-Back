@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import {NextFunction, Request, Response} from 'express';
 require('dotenv').config()
 
-export const verify = async (request: Request, response: Response, next: NextFunction) => {
+export const verifyToken = async (request: Request, response: Response, next: NextFunction) => {
     const bearerHeader = request.headers['authorization']
     if( typeof bearerHeader !== 'undefined'){
         const bearer = bearerHeader.split(" ");
