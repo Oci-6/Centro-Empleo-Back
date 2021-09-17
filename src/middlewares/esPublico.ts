@@ -6,7 +6,6 @@ export const esPublico = async (request:  Request, response: Response, next: Nex
     let fileName = request.url.substr(request.url.lastIndexOf('/')+1);
 
     let id = fileName.split('.')[0];
-    console.log(id);
 
     let postulante = await helperPostulante.get(id);
 
