@@ -106,7 +106,7 @@ export class Postulante extends User {
     @Column({
         nullable: true
     })
-    jMtMañana: boolean;
+    jMtManiana: boolean;
 
     @Column({
         nullable: true
