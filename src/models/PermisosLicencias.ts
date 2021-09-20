@@ -14,7 +14,7 @@ export class PermisosLicencias extends BaseEntity{
     tipoDocumento: string;
 
     @Column()
-    vigencia: string;
+    vigencia: Date;
 
     @Column()
     especificacion: string;

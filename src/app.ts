@@ -25,7 +25,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Uploads
-app.use('/uploads', [verifyToken,esPublico] , express.static('uploads'))
+app.use('/uploads', [esPublico] , express.static('uploads'))
 
 app.use("/api", apiRoutes);
 
