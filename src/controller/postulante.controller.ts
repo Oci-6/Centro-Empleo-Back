@@ -75,7 +75,7 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
-    if(req.file) postulante.foto = req.file?.path;
+    if(req.file) postulante.foto = "http://localhost:3000/"+req.file?.path;
 
     await helperPostulante.save(postulante);
 

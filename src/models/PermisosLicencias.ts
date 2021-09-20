@@ -2,7 +2,7 @@ import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "t
 import { Postulante } from "./Postulante";
 
 @Entity()
-export class PermisosLicencias extends BaseEntity{
+export class PermisosLicencias extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
