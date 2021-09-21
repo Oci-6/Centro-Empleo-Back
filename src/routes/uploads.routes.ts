@@ -14,7 +14,7 @@ const multer = require('multer');
 
     http://localhost:3000/api/upload/
 */
-router.post('/documento/:idPostulante', [verifyToken, esPostulante, upload], DocumentoController.postDocumento)
+router.post('/documento/:idPostulante&:tipo', [verifyToken, esPostulante, upload], DocumentoController.postDocumento)
 
 router.get('/documentos/:idPostulante', [verifyToken, esPostulante], DocumentoController.getDocumentos)
 
