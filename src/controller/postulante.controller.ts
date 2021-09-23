@@ -5,7 +5,9 @@ import * as helperPostulante from "../helpers/postulante.helper"
 import * as helperPais from "../helpers/pais.helper"
 import * as helperLocalidad from "../helpers/localidad.helper"
 import * as helperUsuario from "../helpers/usuario.helper"
-import moment from "moment"
+import * as helperOferta from "../helpers/oferta.helper"
+import { Oferta } from "../models/Oferta";
+
 /* ----- Postulante Controller ----- */
 
 export const postPostulante = async (request: Request, response: Response): Promise<Response> => {
@@ -80,4 +82,21 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
     await helperPostulante.save(postulante);
 
     return response.status(200).json({message: "Foto subida correctamente"})
+}
+
+
+export const postularse = async (req: Request, res: Response): Promise<Response> => {
+    let jwtauth = JSON.parse(req.params.jwtauth);
+
+    
+    if (!req.params.idOferta) return res.status(400).json({ message: 'No se ingreso oferta' });
+    let oferta: any | undefined = await helperOferta.get(req.params.idOferta);
+    if(!oferta) return res.status(400).json({ message: 'No se encontro oferta' });
+
+    let postulante = await helperPostulante.get(jwtauth.usuario);
+    if (!postulante) return res.status(400).json({ message: 'No se encontro usuario' });
+
+    oferta.postulantes.push(postulante);
+
+    return res.status(200).json(await helperOferta.update(oferta));
 }

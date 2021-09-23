@@ -30,6 +30,8 @@ router.put("/", [verifyToken,esPostulante],PostulanteController.putPostulante)
 
 router.post("/foto",  [verifyToken,esPostulante,upload], PostulanteController.postFoto)
 
+router.post("/postularse/:idOferta",  [verifyToken,esPostulante], PostulanteController.postularse)
+
 //Capacitaciones y cursos
 router.get("/capacitacion/:id",  [verifyToken,esPostulante], CapacitacionController.getCapacitacion)
 

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn, ManyToOne, ManyToMany } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
 import { Documento } from "./Documento";
@@ -144,11 +144,11 @@ export class Postulante extends User {
 
     //Relaciones con otros datos
 
-    @OneToOne(() => Pais)
+    @ManyToOne(() => Pais)
     @JoinColumn()
     pais: Pais;
 
-    @OneToOne(() => Localidad)
+    @ManyToOne(() => Localidad)
     @JoinColumn()
     localidad: Localidad | null;
     

@@ -1,6 +1,7 @@
-import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Admin } from "./Admin";
 import { Empresa } from "./Empresa";
+import { Postulante } from "./Postulante";
 
 @Entity()
 export class Oferta extends BaseEntity{
@@ -28,4 +29,7 @@ export class Oferta extends BaseEntity{
     @ManyToOne(() => Empresa, empresa => empresa.ofertas)
     empresa: Empresa;
 
+    @ManyToMany(() => Postulante)
+    @JoinTable()
+    postulantes: Postulante[];
 }
