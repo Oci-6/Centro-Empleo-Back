@@ -1,6 +1,7 @@
 import * as helperOferta from "../helpers/oferta.helper"
 import { Request, Response } from "express";
 import { Oferta } from "../models/Oferta";
+import { getRepository } from "typeorm";
 
 export const postOferta = async (request: Request, response: Response): Promise<Response> => {
 
@@ -54,6 +55,19 @@ export const deleteOferta = async (request: Request, response: Response): Promis
     if(!request.params.id) return response.status(400).json({message: "No ingreso id"}); 
 
     return response.status(200).json(await helperOferta.borrar(request.params.id));
+
+}
+
+export const buscarOfertas = async (request: Request, response: Response): Promise<Response> => {
+
+    console.log(request.query);
+    let {query, page} = request.query;
+    let res = {
+        ofertas: await helperOferta.search(query,12*Number(page)),
+        total: await helperOferta.totalRows(query)
+    }
+        return response.status(200).json(res);
+   
 
 }
 

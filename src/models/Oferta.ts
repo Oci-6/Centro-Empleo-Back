@@ -29,7 +29,7 @@ export class Oferta extends BaseEntity{
     @ManyToOne(() => Empresa, empresa => empresa.ofertas)
     empresa: Empresa;
 
-    @ManyToMany(() => Postulante)
+    @ManyToMany(() => Postulante, postulante => postulante.ofertas)
     @JoinTable()
     postulantes: Postulante[];
 }

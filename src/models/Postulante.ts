@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn, ManyToOne, ManyToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
 import { Documento } from "./Documento";
 import { ExpLaboral } from "./ExpLaboral";
 import { Idioma } from "./Idioma";
 import { Localidad } from "./Localidad";
+import { Oferta } from "./Oferta";
 import { Pais } from "./Pais";
 import { PermisosLicencias } from "./PermisosLicencias";
 import { PreferenciaLaboral } from "./PreferenciaLaboral";
@@ -172,4 +173,7 @@ export class Postulante extends User {
 
     @OneToMany(() => PreferenciaLaboral, preferenciaLaboral=> preferenciaLaboral.postulante)
     preferenciaLaboral: PreferenciaLaboral[];
+
+    @ManyToMany(() => Oferta, oferta => oferta.postulantes)
+    ofertas: Oferta[];
 }

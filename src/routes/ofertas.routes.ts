@@ -11,6 +11,8 @@ const router = Router()
     http://localhost:3000/api/ofertas/
 */
 
+router.get("/buscar/",  OfertaController.buscarOfertas);
+
 router.post("/", [verifyToken, esEmpresa], OfertaController.postOferta);
 
 router.get("/:id", OfertaController.getOferta);
@@ -20,5 +22,6 @@ router.get("/", [verifyToken, esEmpresa], OfertaController.getOfertas);
 router.put("/", [verifyToken, esEmpresa], OfertaController.putOferta);
 
 router.delete("/", [verifyToken, esEmpresa], OfertaController.deleteOferta);
+
 
 export default router;
