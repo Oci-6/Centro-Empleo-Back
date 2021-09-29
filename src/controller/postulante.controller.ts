@@ -7,6 +7,7 @@ import * as helperLocalidad from "../helpers/localidad.helper"
 import * as helperUsuario from "../helpers/usuario.helper"
 import * as helperOferta from "../helpers/oferta.helper"
 import { Oferta } from "../models/Oferta";
+import { RelationQueryBuilder } from "typeorm";
 
 /* ----- Postulante Controller ----- */
 
@@ -99,4 +100,8 @@ export const postularse = async (req: Request, res: Response): Promise<Response>
     oferta.postulantes.push(postulante);
 
     return res.status(200).json(await helperOferta.update(oferta));
+}
+
+export const buscarPostulantes = async (request: Request, response: Response): Promise<Response> => {
+    return response.status(200).json(await helperPostulante.buscar(request.body));
 }
