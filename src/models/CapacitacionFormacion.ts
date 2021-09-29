@@ -26,6 +26,9 @@ export class CapacitacionFormacion extends BaseEntity{
     duracion: number;
 
     @Column()
+    tipoDuracion: string;
+
+    @Column()
     estado: string;
 
 

@@ -6,7 +6,7 @@ import { Postulante } from "../models/Postulante";
 export const get = async (id: string): Promise<Postulante|undefined> => {
     if (!id) return undefined;
 
-    return await getRepository(Postulante).findOne(id,{relations: ["pais","pais.departamentos","pais.departamentos.localidades", "localidad", "localidad.departamento", "capacitacionFormacion", "conocimientoInfo", "idioma", "expLaboral", "permisosLicencias", "documentos"]});
+    return await getRepository(Postulante).findOne(id,{relations: ["pais","pais.departamentos","pais.departamentos.localidades", "localidad", "localidad.departamento", "capacitacionFormacion", "conocimientoInfo", "idioma", "expLaboral", "permisosLicencias", "documentos", "preferenciaLaboral", "ofertas", "ofertas.empresa"]});
 }
 
 export const getByEmail = async (email: string): Promise<Postulante|undefined> => {
@@ -14,8 +14,6 @@ export const getByEmail = async (email: string): Promise<Postulante|undefined> =
 
     return await getRepository(Postulante).findOne({where: {email}});
 }
-
-
 
 export const getByDocumento = async (documento: string): Promise<Postulante|undefined> => {
     if (!documento) return undefined;
@@ -31,7 +29,6 @@ export const save = async (postulante: any): Promise<Postulante[]> => {
     const newPostulante = getRepository(Postulante).create(postulante);
 
     const savedPostulante = await getRepository(Postulante).save(newPostulante);
-
     return savedPostulante;
 }
 

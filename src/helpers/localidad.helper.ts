@@ -7,8 +7,8 @@ export const get = async (id: string): Promise<Localidad|undefined> => {
     return await getRepository(Localidad).findOne(id,{ relations: ["departamento", "departamento.pais"] });
 }
 
-export const getAll = async (): Promise<Localidad[]> => {
-    return await getRepository(Localidad).find({ relations: ["departamentos", "departamentos.localidades"] });
+export const getAll = async (departamento: string): Promise<Localidad[]> => {
+    return await getRepository(Localidad).find({ where: {departamento}, relations: ["departamento", "departamento.pais"] });
 }
 
 export const save = async (entity: any): Promise<Localidad[]> => {

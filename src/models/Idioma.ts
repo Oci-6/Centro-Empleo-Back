@@ -24,4 +24,7 @@ export class Idioma extends BaseEntity {
 
     @Column()
     escritura: string;
+
+    @Column()
+    compAud: string;
 }

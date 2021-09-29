@@ -1,10 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
 import { Documento } from "./Documento";
 import { ExpLaboral } from "./ExpLaboral";
 import { Idioma } from "./Idioma";
 import { Localidad } from "./Localidad";
+import { Oferta } from "./Oferta";
 import { Pais } from "./Pais";
 import { PermisosLicencias } from "./PermisosLicencias";
 import { PreferenciaLaboral } from "./PreferenciaLaboral";
@@ -106,7 +107,7 @@ export class Postulante extends User {
     @Column({
         nullable: true
     })
-    jMtMañana: boolean;
+    jMtManiana: boolean;
 
     @Column({
         nullable: true
@@ -118,29 +119,37 @@ export class Postulante extends User {
     })
     jMtNoche: boolean;
 
-    //Flags de control
+    //Archivos
+
     @Column({
         nullable: true
+    })
+    foto: string;
+
+
+    //Flags de control
+    @Column({
+        default: false
     })
     visibilidad: boolean;
 
     @Column({
-        nullable: true
+        default: true
     })
     estado: boolean;
 
     @Column({
-        nullable: true
+        default: false
     })
     recibirOfertas: boolean;
 
     //Relaciones con otros datos
 
-    @OneToOne(() => Pais)
+    @ManyToOne(() => Pais)
     @JoinColumn()
     pais: Pais;
 
-    @OneToOne(() => Localidad)
+    @ManyToOne(() => Localidad)
     @JoinColumn()
     localidad: Localidad | null;
     
@@ -164,4 +173,7 @@ export class Postulante extends User {
 
     @OneToMany(() => PreferenciaLaboral, preferenciaLaboral=> preferenciaLaboral.postulante)
     preferenciaLaboral: PreferenciaLaboral[];
+
+    @ManyToMany(() => Oferta, oferta => oferta.postulantes)
+    ofertas: Oferta[];
 }

@@ -16,6 +16,7 @@ imagen: string;
 @Column()
 contenido: string;
 
+
 @ManyToOne(() => Admin, admin => admin.novedades)
 admin: Admin;
 

@@ -31,3 +31,30 @@ export const login = async (request: Request, response: Response): Promise<Respo
     }
 
 }
+
+export const signInSocial = async (request: Request, response: Response): Promise<Response> => {
+    if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
+
+    let { email, tipo, foto } = request.body;
+    let user: User | undefined= await helperUsuario.getByEmail(email);
+
+    if (user){
+        return response.status(200).json({ usuario: user.id, token: jwt.sign({usuario: user.id, tipo: tipo}, process.env.JWT_TOKEN as string), tipo: tipo });
+    }else{
+        switch(tipo){
+            case "Postulante":
+                let postulante: any = await helperPostulante.save({email,foto});
+                return response.status(200).json({ usuario: postulante.id, token: jwt.sign({usuario: postulante.id, tipo: tipo}, process.env.JWT_TOKEN as string), tipo: tipo });
+
+                break;
+                
+            default:         
+                return response.status(400).json({ message: "Algo salio mal" });
+
+        }
+    }
+
+    
+
+}
+

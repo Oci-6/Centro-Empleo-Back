@@ -1,27 +1,35 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable, OneToMany, ManyToOne} from "typeorm";
+import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Admin } from "./Admin";
-import { Departamento } from "./Departamento";
+import { Empresa } from "./Empresa";
+import { Postulante } from "./Postulante";
 
 @Entity()
-export class Oferta extends BaseEntity {
+export class Oferta extends BaseEntity{
 
-@ManyToOne(() => Admin, admin => admin.ofertas)
-admin: Admin;
+    @PrimaryGeneratedColumn()
+    id: number;
 
-@PrimaryGeneratedColumn()
-id: number;
+    @Column()
+    titulo: string;
 
-@Column()
-titulo: string;
+    @Column()
+    descripcion: string;
 
-@Column()
-descripcion: string;
+    @Column({
+        default: new Date()
+    })
+    fechaCreacion: Date;
 
-@Column()
-fechaCreacion: Date;
+    @Column()
+    fechaCierre: Date;
 
-@Column()
-fechaCierre: Date;
+    @ManyToOne(() => Admin, admin => admin.ofertas)
+    admin: Admin;
 
+    @ManyToOne(() => Empresa, empresa => empresa.ofertas)
+    empresa: Empresa;
 
+    @ManyToMany(() => Postulante, postulante => postulante.ofertas)
+    @JoinTable()
+    postulantes: Postulante[];
 }

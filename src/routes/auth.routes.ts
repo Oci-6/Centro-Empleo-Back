@@ -10,4 +10,6 @@ const router = Router();
 */
 router.post("/login", AuthController.login);
 
+router.post("/signInSocial", AuthController.signInSocial);
+
 export default router;

@@ -1,35 +1,24 @@
+import { verifyToken} from '../middlewares/verifyToken';
 import { Router } from 'express';
-import path from "path";
 import * as DocumentoController from "../controller/documento.controller"
+import { esPostulante } from '../middlewares/esPostulante';
+import { upload } from '../libs/multerPostulante';
 
 const router = Router();
 const multer = require('multer');
 
-const storage = multer.diskStorage({
-    destination: (req: any, file: any, cb: any) => {
-        cb(null, 'uploads');
-    },
-    filename: (req: any, file: any, cb: any) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-    }
 
-
-})
-
-const upload = multer({
-    storage: storage
-}).single('file');
 
 /*
     Subida documentos postulante
 
     http://localhost:3000/api/upload/
 */
-router.use('/documento/:idPostulante', upload, DocumentoController.postDocumento)
+router.post('/documento/:idPostulante&:tipo', [verifyToken, esPostulante, upload], DocumentoController.postDocumento)
 
-router.use('/documentos/:idPostulante', upload, DocumentoController.getDocumentos)
+router.get('/documentos/:idPostulante', [verifyToken, esPostulante], DocumentoController.getDocumentos)
 
-router.use('/documento/:id', upload, DocumentoController.getDocumento)
+router.get('/documento/:id', [verifyToken, esPostulante],  DocumentoController.getDocumento)
 
 
 export default router;
