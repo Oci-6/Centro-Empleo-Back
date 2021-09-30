@@ -4,9 +4,9 @@ import { Router } from 'express';
 import postulantesRoutes from './postulante.routes';
 import authRoutes from './auth.routes';
 import paisRoutes from './pais.routes';
-import uploadRoutes from './uploads.routes';
 import empresaRoutes from './empresa.routes';
 import ofertasRoutes from './ofertas.routes';
+import adminRoutes from './admin.routes';
 
 const router = Router();
 /*
@@ -20,10 +20,10 @@ router.use("/auth", authRoutes)
 
 router.use("/pais", paisRoutes)
 
-router.use("/upload", uploadRoutes)
-
 router.use("/empresa", empresaRoutes)
 
 router.use("/ofertas", ofertasRoutes)
+
+router.use("/admin", adminRoutes)
 
 export default router;

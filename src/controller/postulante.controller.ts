@@ -19,7 +19,7 @@ export const postPostulante = async (request: Request, response: Response): Prom
     const { email, contraseña } = request.body;
 
     //Validando email único
-    let postulante = await helperUsuario.getByEmail( email);
+    let postulante = await helperUsuario.getByEmail(email);
     if (postulante) return response.status(400).json({ message: 'Ya existe un usuario con el email ingresado' });
 
     // Crear nuevo postulante
@@ -43,7 +43,7 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
-    
+
     if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
     if (request.body.email && helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
     if (request.body.cedula && helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
@@ -66,8 +66,8 @@ export const putPostulante = async (request: Request, response: Response): Promi
         }
     }
 
-    if(postulante.documento&&!postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo de documento' })  
-    if(!postulante.documento&&postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipe documento' })
+    if (postulante.documento && !postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo de documento' })
+    if (!postulante.documento && postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipe documento' })
 
     return response.status(200).json(await helperPostulante.update(postulante));
 }
@@ -78,21 +78,21 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
-    if(req.file) postulante.foto = "http://localhost:3000/"+req.file?.path;
+    if (req.file) postulante.foto = "http://localhost:3000/" + req.file?.path;
 
     await helperPostulante.save(postulante);
 
-    return response.status(200).json({message: "Foto subida correctamente"})
+    return response.status(200).json({ message: "Foto subida correctamente" })
 }
 
 
 export const postularse = async (req: Request, res: Response): Promise<Response> => {
     let jwtauth = JSON.parse(req.params.jwtauth);
 
-    
+
     if (!req.params.idOferta) return res.status(400).json({ message: 'No se ingreso oferta' });
     let oferta: any | undefined = await helperOferta.get(req.params.idOferta);
-    if(!oferta) return res.status(400).json({ message: 'No se encontro oferta' });
+    if (!oferta) return res.status(400).json({ message: 'No se encontro oferta' });
 
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return res.status(400).json({ message: 'No se encontro usuario' });
@@ -103,5 +103,11 @@ export const postularse = async (req: Request, res: Response): Promise<Response>
 }
 
 export const buscarPostulantes = async (request: Request, response: Response): Promise<Response> => {
-    return response.status(200).json(await helperPostulante.buscar(request.body));
+    let { filtros, page } = request.query;
+    //Obtener token
+    let jwtauth = JSON.parse(request.params.jwtauth);
+    let params = JSON.parse(filtros as string)
+    params["usuario"] = jwtauth.tipo;
+
+    return response.status(200).json(await helperPostulante.buscar(params, 10 * Number(page)));
 }

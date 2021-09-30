@@ -13,7 +13,6 @@ export const verifyToken = async (request: Request, response: Response, next: Ne
             }else{
                 if(data)
                     request.params.jwtauth = JSON.stringify(data);
-                    console.log(request.params.jwtauth);
                 next();
             }
         });

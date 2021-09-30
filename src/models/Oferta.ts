@@ -13,7 +13,34 @@ export class Oferta extends BaseEntity{
     titulo: string;
 
     @Column()
-    descripcion: string;
+    vacante: string;
+
+    @Column()
+    areaTrabajo: string;
+    
+    @Column()
+    requisitosExcluyentes: string;
+
+    @Column({
+        nullable: true
+    })
+    requisitosValorar: string;
+
+    @Column()
+    horario: string;
+
+    @Column({
+        nullable: true
+    })
+   salarioDesde: number;
+
+    @Column({
+        nullable: true
+    })
+    salarioHasta: number;
+
+    @Column()
+    lugar: string;
 
     @Column({
         default: new Date()
@@ -22,9 +49,6 @@ export class Oferta extends BaseEntity{
 
     @Column()
     fechaCierre: Date;
-
-    @ManyToOne(() => Admin, admin => admin.ofertas)
-    admin: Admin;
 
     @ManyToOne(() => Empresa, empresa => empresa.ofertas)
     empresa: Empresa;

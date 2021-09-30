@@ -1,7 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, OneToMany, OneToOne, JoinColumn, ManyToOne, ManyToMany, JoinTable } from "typeorm";
 import { CapacitacionFormacion } from "./CapacitacionFormacion";
 import { ConocimientoInfo } from "./ConocimientoInfo";
-import { Documento } from "./Documento";
 import { ExpLaboral } from "./ExpLaboral";
 import { Idioma } from "./Idioma";
 import { Localidad } from "./Localidad";
@@ -125,7 +124,11 @@ export class Postulante extends User {
         nullable: true
     })
     foto: string;
-
+    
+    @Column({
+        nullable: true
+    })
+    curriculum: string;
 
     //Flags de control
     @Column({
@@ -167,9 +170,6 @@ export class Postulante extends User {
 
     @OneToMany(() => PermisosLicencias, permisosLicencias => permisosLicencias.postulante)
     permisosLicencias: PermisosLicencias[];
-
-    @OneToMany(() => Documento, documentos => documentos.postulante)
-    documentos: Documento[];
 
     @OneToMany(() => PreferenciaLaboral, preferenciaLaboral=> preferenciaLaboral.postulante)
     preferenciaLaboral: PreferenciaLaboral[];

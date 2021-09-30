@@ -2,7 +2,6 @@ import { NextFunction, Request, Response } from "express";
 import * as helperEmpresa from "../helpers/empresa.helper"
 
 export const esEmpresa = async (request: Request, response: Response, next: NextFunction) => {
-    console.log(request.params.jwtauth);
     let jwtauth = JSON.parse(request.params.jwtauth);
 
     if (jwtauth.tipo && jwtauth.tipo === "Admin") {

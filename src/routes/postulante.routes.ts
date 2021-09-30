@@ -22,7 +22,7 @@ const router = Router();
 
 router.post("/",  PostulanteController.postPostulante)
 
-router.post("/buscar/", [verifyToken], PostulanteController.buscarPostulantes)
+router.get("/buscar/", [verifyToken, esEmpresa], PostulanteController.buscarPostulantes)
 
 router.get("/:id", [verifyToken], PostulanteController.getPostulante)
 
