@@ -41,5 +41,7 @@ export const putExpLaboral = async (req: Request, res: Response): Promise<Respon
 }
 
 export const  deleteExpLaboral = async (req: Request, res: Response): Promise<Response> => {
-    return res.send("borrado");
+    if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+
+    return res.status(200).json(await helperExpLaboral.borrar(req.params.id))
 }

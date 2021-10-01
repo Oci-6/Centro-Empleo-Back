@@ -32,6 +32,8 @@ router.put("/", [verifyToken,esPostulante],PostulanteController.putPostulante)
 
 router.post("/foto",  [verifyToken,esPostulante,upload], PostulanteController.postFoto)
 
+router.post("/curriculum",  [verifyToken,esPostulante,upload], PostulanteController.postCV)
+
 router.get("/postularse/:idOferta",  [verifyToken,esPostulante], PostulanteController.postularse)
 
 //Capacitaciones y cursos
@@ -43,7 +45,7 @@ router.post("/capacitacion/:idPostulante", [verifyToken,esPostulante],Capacitaci
 
 router.put("/capacitacion/",[verifyToken,esPostulante], CapacitacionController.putCapacitacion)
 
-router.delete("/capacitacion/",[verifyToken,esPostulante], CapacitacionController.deleteCapacitacion)
+router.delete("/capacitacion/:id",[verifyToken,esPostulante], CapacitacionController.deleteCapacitacion)
 
 //Conocimientos Informaticos
 router.get("/conocimientoInfo/:id",[verifyToken,esPostulante], ConocimientoInfoController.getConocimientoInfo)
@@ -54,7 +56,7 @@ router.post("/conocimientoInfo/:idPostulante",[verifyToken,esPostulante], Conoci
 
 router.put("/conocimientoInfo/",[verifyToken,esPostulante], ConocimientoInfoController.putConocimientoInfo)
 
-router.delete("/conocimientoInfo/",[verifyToken,esPostulante], ConocimientoInfoController.deleteConocimientoInfo)
+router.delete("/conocimientoInfo/:id",[verifyToken,esPostulante], ConocimientoInfoController.deleteConocimientoInfo)
 
 //Idioma
 router.get("/idioma/:id",[verifyToken,esPostulante], IdiomaController.getIdioma)
@@ -65,7 +67,7 @@ router.post("/idioma/:idPostulante",[verifyToken,esPostulante], IdiomaController
 
 router.put("/idioma/",[verifyToken,esPostulante], IdiomaController.putIdioma)
 
-router.delete("/idioma/",[verifyToken,esPostulante], IdiomaController.deleteIdioma)
+router.delete("/idioma/:id",[verifyToken,esPostulante], IdiomaController.deleteIdioma)
 
 //Experiencia laboral
 router.get("/expLaboral/:id",[verifyToken,esPostulante], ExpLaboralController.getExpLaboral)
@@ -76,7 +78,7 @@ router.post("/expLaboral/:idPostulante",[verifyToken,esPostulante], ExpLaboralCo
 
 router.put("/expLaboral/",[verifyToken,esPostulante], ExpLaboralController.putExpLaboral)
 
-router.delete("/expLaboral/",[verifyToken,esPostulante], ExpLaboralController.deleteExpLaboral)
+router.delete("/expLaboral/:id",[verifyToken,esPostulante], ExpLaboralController.deleteExpLaboral)
 
 //Permisos y licencias
 router.get("/permisosLicencia/:id",[verifyToken,esPostulante], PermisosLicenciasController.getPermisosLicencia)
@@ -87,7 +89,7 @@ router.post("/permisosLicencia/:idPostulante",[verifyToken,esPostulante], Permis
 
 router.put("/permisosLicencia/",[verifyToken,esPostulante], PermisosLicenciasController.putPermisosLicencia)
 
-router.delete("/permisosLicencia/",[verifyToken,esPostulante], PermisosLicenciasController.deletePermisosLicencia)
+router.delete("/permisosLicencia/:id",[verifyToken,esPostulante], PermisosLicenciasController.deletePermisosLicencia)
 
 //Preferencia Laboral
 router.get("/preferenciaLaboral/:id", [verifyToken,esPostulante], PreferenciaLaboralController.getPreferenciaLaboral)
@@ -98,6 +100,6 @@ router.post("/preferenciaLaboral/:idPostulante", [verifyToken,esPostulante], Pre
 
 router.put("/preferenciaLaboral/", [verifyToken,esPostulante], PreferenciaLaboralController.putPreferenciaLaboral)
 
-router.delete("/preferenciaLaboral/", [verifyToken,esPostulante], PreferenciaLaboralController.deletePreferenciaLaboral)
+router.delete("/preferenciaLaboral/:id", [verifyToken,esPostulante], PreferenciaLaboralController.deletePreferenciaLaboral)
 
 export default router;

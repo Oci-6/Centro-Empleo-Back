@@ -41,5 +41,7 @@ export const putPreferenciaLaboral = async (req: Request, res: Response): Promis
 }
 
 export const  deletePreferenciaLaboral = async (req: Request, res: Response): Promise<Response> => {
-    return res.send("borrado");
+    if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+
+    return res.status(200).json(await helperPreferenciaLaboral.borrar(req.params.id))
 }

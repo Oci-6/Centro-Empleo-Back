@@ -42,5 +42,7 @@ export const putCapacitacion = async (req: Request, res: Response): Promise<Resp
 }
 
 export const  deleteCapacitacion = async (req: Request, res: Response): Promise<Response> => {
-    return res.send("borrado");
+    if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+
+    return res.status(200).json(await helperCapacitacion.borrar(req.params.id))
 }

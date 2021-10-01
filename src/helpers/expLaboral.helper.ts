@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+import { DeleteResult, getRepository } from "typeorm";
 import { ExpLaboral } from "../models/ExpLaboral";
 
 export const get = async (id: string): Promise<ExpLaboral|undefined> => {
@@ -23,4 +23,8 @@ export const update = async (entity: any): Promise<ExpLaboral[]> => {
     const savedEntity = await getRepository(ExpLaboral).save(entity);
 
     return savedEntity;
+}
+
+export const borrar = async (id: string): Promise<DeleteResult> => {
+    return await getRepository(ExpLaboral).delete(id);;
 }

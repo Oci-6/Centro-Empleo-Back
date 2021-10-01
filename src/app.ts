@@ -14,6 +14,7 @@ import './databaseConnection';
 
 import { esPublico } from "./middlewares/esPublico";
 import { verifyToken } from "./middlewares/verifyToken";
+import { esEmpresa } from "./middlewares/esEmpresa";
 
 // Enable connection between diferent servers
 app.use(cors());
@@ -25,7 +26,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Uploads
-app.use('/uploads', [verifyToken,esPublico] , express.static('uploads'))
+app.use('/uploads', [verifyToken] , express.static('uploads'))
 
 app.use("/api", apiRoutes);
 

@@ -1,4 +1,4 @@
-import { DeepPartial, getRepository } from "typeorm";
+import { DeepPartial, DeleteResult, getRepository } from "typeorm";
 import { CapacitacionFormacion} from '../models/CapacitacionFormacion'
 import { Postulante } from "../models/Postulante";
 
@@ -24,4 +24,9 @@ export const update = async (entity: any): Promise<CapacitacionFormacion[]> => {
     const savedEntity = await getRepository(CapacitacionFormacion).save(entity);
 
     return savedEntity;
+}
+
+
+export const borrar = async (id: string): Promise<DeleteResult> => {
+    return await getRepository(CapacitacionFormacion).delete(id);;
 }

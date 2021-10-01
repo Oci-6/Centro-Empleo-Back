@@ -8,6 +8,7 @@ import * as helperUsuario from "../helpers/usuario.helper"
 import * as helperOferta from "../helpers/oferta.helper"
 import { Oferta } from "../models/Oferta";
 import { RelationQueryBuilder } from "typeorm";
+import { limpiarArchivos } from "../libs/limpiarArchivos";
 
 /* ----- Postulante Controller ----- */
 
@@ -78,6 +79,12 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
+
+    if(postulante.foto&&postulante.foto.includes("uploads")){
+        let fileName = postulante.foto.substr(postulante.foto.lastIndexOf('/')+1);
+        limpiarArchivos(fileName)
+    } 
+
     if (req.file) postulante.foto = "http://localhost:3000/" + req.file?.path;
 
     await helperPostulante.save(postulante);
@@ -85,6 +92,24 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
     return response.status(200).json({ message: "Foto subida correctamente" })
 }
 
+export const postCV = async (req: Request, response: Response): Promise<Response> => {
+    let jwtauth = JSON.parse(req.params.jwtauth);
+
+    let postulante = await helperPostulante.get(jwtauth.usuario);
+    if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
+
+
+    if(postulante.curriculum&&postulante.curriculum.includes("uploads")){
+        let fileName = postulante.curriculum.substr(postulante.curriculum.lastIndexOf('/')+1);
+        limpiarArchivos(fileName)
+    } 
+
+    if (req.file) postulante.curriculum = "http://localhost:3000/" + req.file?.path;
+
+    await helperPostulante.save(postulante);
+
+    return response.status(200).json({ message: "Curriculum subida correctamente" })
+}
 
 export const postularse = async (req: Request, res: Response): Promise<Response> => {
     let jwtauth = JSON.parse(req.params.jwtauth);

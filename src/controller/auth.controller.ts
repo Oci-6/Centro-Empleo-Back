@@ -20,7 +20,7 @@ export const login = async (request: Request, response: Response): Promise<Respo
 
     user = await helperUsuario.getByEmail(email);
 
-    if (!user) return response.status(200).json({ mensaje: "No existe usuario" });
+    if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
     
     let tipo: string = user.constructor.name;
     
