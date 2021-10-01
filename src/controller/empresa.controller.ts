@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createConnection } from 'typeorm';
+import { createConnection, getConnection } from 'typeorm';
 import * as helperEmpresa from '../helpers/empresa.helper';
 import * as helperUsuario from '../helpers/usuario.helper';
 import { encrypt } from '../libs/encriptacion';
@@ -35,7 +35,7 @@ export const postEmpresa = async (req: Request, res: Response): Promise<Response
     if (await helperUsuario.getByEmail(empresa.email)) return res.status(400).json({ message: 'Email ya existe' });
     if (await helperEmpresa.getByRUT(empresa.rut)) return res.status(400).json({ message: 'RUT ya existe' });
 
-    const connection = await createConnection("appsocios");
+    const connection = getConnection("appsocios");
     let empresaAppSocios = await connection.createQueryBuilder().select().from("empresa", "empresa").where("empresa.rut = :rut", { rut: empresa.rut }).getRawOne();
     if (empresaAppSocios) {
         let localidad = await connection.createQueryBuilder().select().from("localidad", "localidad").where("localidad.id = :id", { id: empresaAppSocios.id }).getRawOne();

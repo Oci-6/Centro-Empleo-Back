@@ -10,3 +10,9 @@ createConnection()
     console.info("DB is connected...")
   })
   .catch((error) => console.log(error));
+
+createConnection('appsocios')
+  .then((response) => {
+    console.info("AppSocios is connected...")
+  })
+  .catch((error) => console.log(error));
