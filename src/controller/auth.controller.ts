@@ -25,7 +25,7 @@ export const login = async (request: Request, response: Response): Promise<Respo
     let tipo: string = user.constructor.name;
     
     if (await compararHash(contraseña, user.contraseña)) {
-        return response.status(200).json({ usuario: user.id, token: jwt.sign({usuario: user.id, tipo: tipo}, process.env.JWT_TOKEN as string), tipo: tipo });
+        return response.status(200).json({ usuario: user, token: jwt.sign({usuario: user.id, tipo: tipo}, process.env.JWT_TOKEN as string), tipo: tipo });
     } else {
         return response.status(400).json({ mensaje: "Contraseña incorrecta" });
     }

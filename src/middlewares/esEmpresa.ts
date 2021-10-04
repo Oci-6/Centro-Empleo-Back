@@ -4,17 +4,17 @@ import * as helperEmpresa from "../helpers/empresa.helper"
 export const esEmpresa = async (request: Request, response: Response, next: NextFunction) => {
     let jwtauth = JSON.parse(request.params.jwtauth);
 
-    if (jwtauth.tipo && jwtauth.tipo === "Admin") {
+    if (jwtauth.tipo && jwtauth.tipo === "Admin"&& jwtauth.tipo === "Empresa") {
         return next();
 
     }
-    let empresa = await helperEmpresa.get(jwtauth.usuario);
-    if (jwtauth.tipo && jwtauth.tipo === "Empresa") {
-        if(empresa&&empresa.estado&&empresa.fechaExpiracion&&empresa.fechaExpiracion > new Date()){
-            console.log(empresa.fechaExpiracion);
-            return next()
-        }
-    } 
+    // let empresa = await helperEmpresa.get(jwtauth.usuario);
+    // if (jwtauth.tipo && jwtauth.tipo === "Empresa") {
+    //     if(empresa&&empresa.estado&&empresa.fechaExpiracion&&empresa.fechaExpiracion > new Date()){
+    //         console.log(empresa.fechaExpiracion);
+    //         return next()
+    //     }
+    // } 
     return response.status(403).json({ message: "No permitido" });
     
 }
