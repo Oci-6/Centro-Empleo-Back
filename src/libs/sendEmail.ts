@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async (to: string,asunto: string, texto: string ): Promise<boolean> => {
+export const sendEmail = async (to: string,asunto: string, texto: string, html: string ): Promise<boolean> => {
 
 
     var transporter = nodemailer.createTransport({
@@ -17,7 +17,7 @@ export const sendEmail = async (to: string,asunto: string, texto: string ): Prom
         from: "Centro empleo <mauri3418@gmail.com>",
         to: to,
         subject: asunto,
-        text: texto
+        html: html
     }
 
     transporter.verify().then(() => {

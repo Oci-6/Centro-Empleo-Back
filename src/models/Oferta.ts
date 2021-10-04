@@ -4,22 +4,22 @@ import { Empresa } from "./Empresa";
 import { Postulante } from "./Postulante";
 
 @Entity()
-export class Oferta extends BaseEntity{
+export class Oferta extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column()
-    titulo: string;
 
     @Column()
     vacante: string;
 
     @Column()
     areaTrabajo: string;
-    
+
     @Column()
     requisitosExcluyentes: string;
+
+    @Column()
+    funcionesTareas: string;
 
     @Column({
         nullable: true
@@ -32,7 +32,7 @@ export class Oferta extends BaseEntity{
     @Column({
         nullable: true
     })
-   salarioDesde: number;
+    salarioDesde: number;
 
     @Column({
         nullable: true

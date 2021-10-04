@@ -6,6 +6,7 @@ import { encrypt } from '../libs/encriptacion';
 import { sendEmail } from '../libs/sendEmail';
 import { Empresa } from '../models/Empresa';
 import jwt from "jsonwebtoken";
+import { template } from '../libs/htmlMail';
 
 // Conocimientos informaticos Controller
 
@@ -41,7 +42,7 @@ export const postEmpresa = async (req: Request, res: Response): Promise<Response
         let localidad = await connection.createQueryBuilder().select().from("localidad", "localidad").where("localidad.id = :id", { id: empresaAppSocios.id }).getRawOne();
 
         console.log(localidad);
-
+        empresa.estado = true;
         empresa.razonSocial = empresaAppSocios.razon_social;
     }
 
@@ -49,7 +50,7 @@ export const postEmpresa = async (req: Request, res: Response): Promise<Response
 
     let savedEmpresa: any = await helperEmpresa.save(empresa);
     let tipo = "Empresa";
-    return res.status(200).json({ usuario: savedEmpresa.id, token: jwt.sign({ usuario: savedEmpresa.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+    return res.status(200).json({ usuario: savedEmpresa, token: jwt.sign({ usuario: savedEmpresa.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
 
 }
 
@@ -89,7 +90,7 @@ export const sendEmailAcceso = async (req: Request, res: Response): Promise<Resp
 
     let asunto = "Solicitud de acceso"
 
-    let enviado: boolean = await sendEmail(toAdmin, asunto, text);
+    let enviado: boolean = await sendEmail(toAdmin, asunto,"", template());
 
     if (enviado) {
         return res.status(200).json({ message: "Enviado" });

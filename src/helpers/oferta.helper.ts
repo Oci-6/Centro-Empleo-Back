@@ -7,12 +7,12 @@ export const get = async (id: string): Promise<Oferta | undefined> => {
     return await getRepository(Oferta).findOne(id, { relations: ["postulantes", "empresa"] });
 }
 
-export const search = async (query: any, skip: number): Promise<Oferta[]> => {
+export const search = async (query: any, skip: number): Promise<[Oferta[], number]> => {
 
     if (query)
-        return await getRepository(Oferta).find({
+        return await getRepository(Oferta).findAndCount({
             where: {
-                titulo: ILike('%'+query + '%'),
+                vacante: ILike('%'+query + '%'),
                 fechaCierre: MoreThan(new Date())
             },
             take: 12,
@@ -23,7 +23,7 @@ export const search = async (query: any, skip: number): Promise<Oferta[]> => {
             relations: ["empresa"]
         });
     else
-        return await getRepository(Oferta).find({
+        return await getRepository(Oferta).findAndCount({
             where: {
                 fechaCierre: MoreThan(new Date())
             },
@@ -33,23 +33,6 @@ export const search = async (query: any, skip: number): Promise<Oferta[]> => {
                 fechaCreacion: "DESC"
             },
             relations: ["empresa"]
-        });
-}
-
-export const totalRows = async (query: any): Promise<number> => {
-
-    if (query)
-        return await getRepository(Oferta).count({
-            where: {
-                titulo: ILike('%'+query + '%'),
-                fechaCierre: MoreThan(new Date())
-            }
-        });
-    else
-        return await getRepository(Oferta).count({
-            where: {
-                fechaCierre: MoreThan(new Date())
-            }
         });
 }
 

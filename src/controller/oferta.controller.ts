@@ -6,8 +6,8 @@ import { getRepository } from "typeorm";
 export const postOferta = async (request: Request, response: Response): Promise<Response> => {
 
     //Validando
-    if(!request.body.titulo) return response.status(400).json({message: "No ingreso titulo"}); 
     if(!request.body.vacante) return response.status(400).json({message: "No ingreso vacante"}); 
+    if(!request.body.funcionesTareas) return response.status(400).json({message: "No ingreso funciones y tareas"}); 
     if(!request.body.fechaCierre) return response.status(400).json({message: "No ingreso fecha de cierrre"}); 
     if(!request.body.areaTrabajo) return response.status(400).json({message: "No ingreso area de trabajo"});  
     if(!request.body.requisitosExcluyentes) return response.status(400).json({message: "No ingreso requisitos excluyentes"});  
@@ -63,9 +63,10 @@ export const buscarOfertas = async (request: Request, response: Response): Promi
 
     console.log(request.query);
     let {query, page} = request.query;
+    let result: [Oferta[], number] = await helperOferta.search(query, 12*Number(page));
     let res = {
-        ofertas: await helperOferta.search(query,12*Number(page)),
-        total: await helperOferta.totalRows(query)
+        ofertas: result[0],
+        total: result[1]
     }
     
     return response.status(200).json(res);
