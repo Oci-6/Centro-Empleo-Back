@@ -31,13 +31,20 @@ export const getExpLaborales = async (req: Request, res: Response): Promise<Resp
 */
 
 export const postNovedad = async (req: Request, res:Response): Promise<Response> => {
-    if(!req.params.idAdmin) return res.status(400).json({message: "No se ingreso admin"});
+   /* if(!req.params.idAdmin) return res.status(400).json({message: "No se ingreso admin"});
 
     let body: Novedad = req.body;
     let admin = await helperAdmin.get(req.params.idAdmin);
     if(!admin) return res.status(200).json({message: "No se encontro admin"})
     body.admin = admin;
     return res.status(200).json(await helperNovedad.save(body))
+*/
+// Crear nueva novedad
+const { titulo, contenido, imagen } = req.body;
+
+const savedNovedad = await helperNovedad.save({ titulo, contenido, imagen});
+
+return res.status(200).json(savedNovedad);
 
 }
 
