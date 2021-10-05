@@ -30,3 +30,9 @@ export const getByEmail = async (email: string): Promise<User|undefined> => {
 
     return undefined;
 }
+export const update = async (user: User | any): Promise<User[]> => {
+
+   const savedUser = await getRepository(user.constructor).save(user);
+
+   return savedUser;
+}

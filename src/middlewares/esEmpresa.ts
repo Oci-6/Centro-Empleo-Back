@@ -4,7 +4,7 @@ import * as helperEmpresa from "../helpers/empresa.helper"
 export const esEmpresa = async (request: Request, response: Response, next: NextFunction) => {
     let jwtauth = JSON.parse(request.params.jwtauth);
 
-    if (jwtauth.tipo && jwtauth.tipo === "Admin"&& jwtauth.tipo === "Empresa") {
+    if (jwtauth.tipo && jwtauth.tipo === "Admin" || jwtauth.tipo === "Empresa") {
         return next();
 
     }
