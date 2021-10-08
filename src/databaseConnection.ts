@@ -1,12 +1,12 @@
 import { createConnection } from "typeorm";
-import { paisesStartUp } from "./libs/paisesStartUp";
+import { startUp } from "./libs/startUp";
 
 /* ----- DataBase Connection ----- */
 
 // createConnection method will automatically read connection options from the ormconfig file or environment variables
 createConnection()
   .then((response) => {
-    paisesStartUp();
+    startUp();
     console.info("DB is connected...")
   })
   .catch((error) => console.log(error));

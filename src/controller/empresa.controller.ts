@@ -6,7 +6,8 @@ import { encrypt } from '../libs/encriptacion';
 import { sendEmail } from '../libs/sendEmail';
 import { Empresa } from '../models/Empresa';
 import jwt from "jsonwebtoken";
-import { template } from '../libs/htmlMail';
+import { accesoEmpresa, nuevaEmpresa } from '../libs/htmlMail';
+require('dotenv').config()
 
 // Conocimientos informaticos Controller
 
@@ -57,12 +58,26 @@ export const postEmpresa = async (req: Request, res: Response): Promise<Response
 export const putEmpresa = async (req: Request, res: Response): Promise<Response> => {
     if (!req.body.id) return res.status(400).json({ message: "No se ingreso id" });
 
-    if (!await helperEmpresa.get(req.body.id)) return res.status(400).json({ message: 'No se encontro usuario' });
+    let empresa: Empresa | undefined = await helperEmpresa.get(req.body.id)
+    console.log(empresa);
 
-    let empresa: Empresa = req.body;
+    if (!empresa) return res.status(400).json({ message: 'No se encontro usuario' });
 
+    let empresaPut: Empresa = req.body;
+    let saved: any = {}
+    if (!empresa.razonSocial) {
+        
+        empresaPut.estado = true;
+        saved = await helperEmpresa.update(empresaPut)
 
-    return res.status(200).json(await helperEmpresa.update(empresa))
+        let emp: any = await helperEmpresa.get(req.body.id)
+
+        sendEmail("mauri3418@gmail.com", "Nueva Empresa", nuevaEmpresa(emp));
+    }else{
+        saved = await helperEmpresa.update(empresaPut)
+    }
+
+    return res.status(200).json(saved);
 
 }
 
@@ -80,22 +95,29 @@ export const habilitarEmpresa = async (req: Request, res: Response): Promise<Res
 
 export const sendEmailAcceso = async (req: Request, res: Response): Promise<Response> => {
 
-    let text =
-        "Empresa solicita acceso \n\n" +
-        "Datos de la empresa\n" +
-        "RUT: " + req.body.rut +
-        "\nRazon social: " + req.body.razonSocial;
+    let empresa: Empresa | undefined = await helperEmpresa.get(JSON.parse(req.params.jwtauth).usuario)
+    
+    if(!empresa) return res.status(400).json({ message: 'No se encontro usuario' });
 
-    let toAdmin = "mauricio.camacho@estudiantes.utec.edu.uy"
+    sendEmail(process.env.ADMIN as string, "Nueva Empresa", accesoEmpresa(empresa));
 
-    let asunto = "Solicitud de acceso"
 
-    let enviado: boolean = await sendEmail(toAdmin, asunto,"", template());
+    return res.status(200).json({ message: "Enviado" });
 
-    if (enviado) {
-        return res.status(200).json({ message: "Enviado" });
-    } else {
-        return res.status(400).json({ message: "Error" });
+
+}
+
+export const buscarEmpresas = async (request: Request, response: Response): Promise<Response> => {
+
+    console.log(request.query);
+    let {query, page} = request.query;
+    let result: [Empresa[], number] = await helperEmpresa.buscar(query, 12*Number(page));
+    let res = {
+        empresas: result[0],
+        total: result[1]
     }
+    
+    return response.status(200).json(res);
+   
 
 }

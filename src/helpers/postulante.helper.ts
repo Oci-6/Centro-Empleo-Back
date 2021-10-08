@@ -41,6 +41,8 @@ export const buscar = async (params: any, skip: number): Promise<any> => {
     if (params.permisos) query.andWhere("permisos.tipoDocumento = :permisos", { permisos: params.permisos });
     if (params.interes) query.andWhere("preferenciaLaboral.areaInteres = :interes", { interes: params.interes });
 
+    if(params.edadOrden) query.orderBy("postulante.fechaNacimiento", params.edadOrden)
+
     if (params.usuario == "Empresa") {
         query.andWhere("postulante.visibilidad = true")
     }

@@ -1,4 +1,4 @@
-import { DeepPartial, getRepository } from "typeorm";
+import { DeepPartial, getRepository, ILike } from "typeorm";
 import { Empresa } from "../models/Empresa";
 
 export const get = async (id: string): Promise<Empresa|undefined> => {
@@ -36,4 +36,24 @@ export const update = async (empresa: DeepPartial<Empresa>[] | any): Promise<Emp
     const savedEmpresa = await getRepository(Empresa).save(empresa);
 
     return savedEmpresa;
+}
+
+
+export const buscar = async (query: any, skip: number): Promise<[Empresa[], number]> => {
+
+    if (query)
+        return await getRepository(Empresa).findAndCount({
+            where: [
+                {rut: ILike('%'+query + '%')},
+                {razonSocial: ILike('%'+query + '%')},
+            ],
+            take: 10,
+            skip: skip,
+           
+        });
+    else
+        return await getRepository(Empresa).findAndCount({
+            take: 12,
+            skip: skip
+        });
 }

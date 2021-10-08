@@ -12,6 +12,9 @@ const router = Router();
 
     http://localhost:3000/api/empresa
 */
+
+router.get("/buscar/",  EmpresaController.buscarEmpresas);
+
 router.post("/", EmpresaController.postEmpresa);
 
 router.get("/ofertas", [verifyToken, esEmpresa], OfertaController.getOfertasEmpresario);
@@ -22,6 +25,6 @@ router.get("/", [verifyToken, esAdmin], EmpresaController.getEmpresas);
 
 router.put("/", [verifyToken,esEmpresa], EmpresaController.putEmpresa);
 
-router.post("/send-email", EmpresaController.sendEmailAcceso);
+router.post("/send-email",[verifyToken,esEmpresa], EmpresaController.sendEmailAcceso);
 
 export default router;

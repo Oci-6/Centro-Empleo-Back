@@ -1,209 +1,298 @@
+import { Empresa } from "../models/Empresa";
 
-export const template = (): string =>  {
-    var htmlTemplate="";
-    htmlTemplate += "<!DOCTYPE html>";
-    htmlTemplate += "<html>";
-    htmlTemplate += "";
-    htmlTemplate += "<head>";
-    htmlTemplate += "    <meta charset='utf-8'>";
-    htmlTemplate += "    <meta http-equiv='X-UA-Compatible' content='IE=edge'>";
-    htmlTemplate += "    <meta name='viewport' content='width=device-width, initial-scale=1'>";
-    htmlTemplate += "<\/head>";
-    htmlTemplate += "<style>";
-    htmlTemplate += "    .card {";
-    htmlTemplate += "        position: relative;";
-    htmlTemplate += "        display: flex;";
-    htmlTemplate += "        flex-direction: column;";
-    htmlTemplate += "        min-width: 0;";
-    htmlTemplate += "        word-wrap: break-word;";
-    htmlTemplate += "        background-color: #fff;";
-    htmlTemplate += "        background-clip: border-box;";
-    htmlTemplate += "        border: 1px solid rgba(0, 0, 0, 0.125);";
-    htmlTemplate += "        border-radius: 0.25rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .container {";
-    htmlTemplate += "        width: 100%;";
-    htmlTemplate += "        padding-right: var(--bs-gutter-x, 0.75rem);";
-    htmlTemplate += "        padding-left: var(--bs-gutter-x, 0.75rem);";
-    htmlTemplate += "        margin-right: auto;";
-    htmlTemplate += "        margin-left: auto;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .row {";
-    htmlTemplate += "        --bs-gutter-x: 1.5rem;";
-    htmlTemplate += "        --bs-gutter-y: 0;";
-    htmlTemplate += "        display: flex;";
-    htmlTemplate += "        flex-wrap: wrap;";
-    htmlTemplate += "        margin-top: calc(var(--bs-gutter-y) * -1);";
-    htmlTemplate += "        margin-right: calc(var(--bs-gutter-x) * -.5);";
-    htmlTemplate += "        margin-left: calc(var(--bs-gutter-x) * -.5);";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .row>* {";
-    htmlTemplate += "        flex-shrink: 0;";
-    htmlTemplate += "        width: 100%;";
-    htmlTemplate += "        max-width: 100%;";
-    htmlTemplate += "        padding-right: calc(var(--bs-gutter-x) * .5);";
-    htmlTemplate += "        padding-left: calc(var(--bs-gutter-x) * .5);";
-    htmlTemplate += "        margin-top: var(--bs-gutter-y);";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .col {";
-    htmlTemplate += "        flex: 1 0 0%;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .col-6 {";
-    htmlTemplate += "        flex: 0 0 auto;";
-    htmlTemplate += "        width: 50%;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .justify-content-center {";
-    htmlTemplate += "        justify-content: center !important;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .align-items-center {";
-    htmlTemplate += "        align-items: center !important;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    body {";
-    htmlTemplate += "        margin: 0;";
-    htmlTemplate += "        font-family: var(--bs-body-font-family);";
-    htmlTemplate += "        font-size: var(--bs-body-font-size);";
-    htmlTemplate += "        font-weight: var(--bs-body-font-weight);";
-    htmlTemplate += "        line-height: var(--bs-body-line-height);";
-    htmlTemplate += "        color: var(--bs-body-color);";
-    htmlTemplate += "        text-align: var(--bs-body-text-align);";
-    htmlTemplate += "        background-color: var(--bs-body-bg);";
-    htmlTemplate += "        -webkit-text-size-adjust: 100%;";
-    htmlTemplate += "        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    :root {";
-    htmlTemplate += "        --bs-blue: #0d6efd;";
-    htmlTemplate += "        --bs-indigo: #6610f2;";
-    htmlTemplate += "        --bs-purple: #6f42c1;";
-    htmlTemplate += "        --bs-pink: #d63384;";
-    htmlTemplate += "        --bs-red: #dc3545;";
-    htmlTemplate += "        --bs-orange: #fd7e14;";
-    htmlTemplate += "        --bs-yellow: #ffc107;";
-    htmlTemplate += "        --bs-green: #198754;";
-    htmlTemplate += "        --bs-teal: #20c997;";
-    htmlTemplate += "        --bs-cyan: #0dcaf0;";
-    htmlTemplate += "        --bs-white: #fff;";
-    htmlTemplate += "        --bs-gray: #6c757d;";
-    htmlTemplate += "        --bs-gray-dark: #343a40;";
-    htmlTemplate += "        --bs-gray-100: #f8f9fa;";
-    htmlTemplate += "        --bs-gray-200: #e9ecef;";
-    htmlTemplate += "        --bs-gray-300: #dee2e6;";
-    htmlTemplate += "        --bs-gray-400: #ced4da;";
-    htmlTemplate += "        --bs-gray-500: #adb5bd;";
-    htmlTemplate += "        --bs-gray-600: #6c757d;";
-    htmlTemplate += "        --bs-gray-700: #495057;";
-    htmlTemplate += "        --bs-gray-800: #343a40;";
-    htmlTemplate += "        --bs-gray-900: #212529;";
-    htmlTemplate += "        --bs-primary: #0d6efd;";
-    htmlTemplate += "        --bs-secondary: #6c757d;";
-    htmlTemplate += "        --bs-success: #198754;";
-    htmlTemplate += "        --bs-info: #0dcaf0;";
-    htmlTemplate += "        --bs-warning: #ffc107;";
-    htmlTemplate += "        --bs-danger: #dc3545;";
-    htmlTemplate += "        --bs-light: #f8f9fa;";
-    htmlTemplate += "        --bs-dark: #212529;";
-    htmlTemplate += "        --bs-primary-rgb: 13, 110, 253;";
-    htmlTemplate += "        --bs-secondary-rgb: 108, 117, 125;";
-    htmlTemplate += "        --bs-success-rgb: 25, 135, 84;";
-    htmlTemplate += "        --bs-info-rgb: 13, 202, 240;";
-    htmlTemplate += "        --bs-warning-rgb: 255, 193, 7;";
-    htmlTemplate += "        --bs-danger-rgb: 220, 53, 69;";
-    htmlTemplate += "        --bs-light-rgb: 248, 249, 250;";
-    htmlTemplate += "        --bs-dark-rgb: 33, 37, 41;";
-    htmlTemplate += "        --bs-white-rgb: 255, 255, 255;";
-    htmlTemplate += "        --bs-black-rgb: 0, 0, 0;";
-    htmlTemplate += "        --bs-body-color-rgb: 33, 37, 41;";
-    htmlTemplate += "        --bs-body-bg-rgb: 255, 255, 255;";
-    htmlTemplate += "        --bs-font-sans-serif: system-ui, -apple-system, \"Segoe UI\", Roboto, \"Helvetica Neue\", Arial, \"Noto Sans\", \"Liberation Sans\", sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\";";
-    htmlTemplate += "        --bs-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace;";
-    htmlTemplate += "        --bs-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));";
-    htmlTemplate += "        --bs-body-font-family: var(--bs-font-sans-serif);";
-    htmlTemplate += "        --bs-body-font-size: 1rem;";
-    htmlTemplate += "        --bs-body-font-weight: 400;";
-    htmlTemplate += "        --bs-body-line-height: 1.5;";
-    htmlTemplate += "        --bs-body-color: #212529;";
-    htmlTemplate += "        --bs-body-bg: #fff;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-body {";
-    htmlTemplate += "        flex: 1 1 auto;";
-    htmlTemplate += "        padding: 1rem 1rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-title {";
-    htmlTemplate += "        margin-bottom: 0.5rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-subtitle {";
-    htmlTemplate += "        margin-top: -0.25rem;";
-    htmlTemplate += "        margin-bottom: 0;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-text:last-child {";
-    htmlTemplate += "        margin-bottom: 0;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-link+.card-link {";
-    htmlTemplate += "        margin-left: 1rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    h5,";
-    htmlTemplate += "    .h5 {";
-    htmlTemplate += "        font-size: 1.25rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    h6,";
-    htmlTemplate += "    .h6,";
-    htmlTemplate += "    h5,";
-    htmlTemplate += "    .h5,";
-    htmlTemplate += "    h4,";
-    htmlTemplate += "    .h4,";
-    htmlTemplate += "    h3,";
-    htmlTemplate += "    .h3,";
-    htmlTemplate += "    h2,";
-    htmlTemplate += "    .h2,";
-    htmlTemplate += "    h1,";
-    htmlTemplate += "    .h1 {";
-    htmlTemplate += "        margin-top: 0;";
-    htmlTemplate += "        margin-bottom: 0.5rem;";
-    htmlTemplate += "        font-weight: 500;";
-    htmlTemplate += "        line-height: 1.2;";
-    htmlTemplate += "    }";
-    htmlTemplate += "";
-    htmlTemplate += "    .card-link+.card-link {";
-    htmlTemplate += "        margin-left: 1rem;";
-    htmlTemplate += "    }";
-    htmlTemplate += "<\/style>";
-    htmlTemplate += "";
-    htmlTemplate += "<body style=\"background-color: #c1f7de;\">";
-    htmlTemplate += "    <div class=\"container\">";
-    htmlTemplate += "        <div class=\"row justify-content-center align-items-center\" style=\"height: 100vh;\">";
-    htmlTemplate += "            <div class=\"col-6\">";
-    htmlTemplate += "                <div class=\"card\">";
-    htmlTemplate += "                    <div class=\"card-body\">";
-    htmlTemplate += "                        <h5 class=\"card-title\">Nueva empresa solicita acceso<\/h5>";
-    htmlTemplate += "                        <p class=\"card-text\">Some quick example text to build on the card title and make up the bulk of";
-    htmlTemplate += "                            the card's content.<\/p>";
-    htmlTemplate += "                        <a href=\"http:\/\/localhost:4200\" class=\"card-link\">Ir a Centro Empleo<\/a>";
-    htmlTemplate += "                    <\/div>";
-    htmlTemplate += "                <\/div>";
-    htmlTemplate += "            <\/div>";
-    htmlTemplate += "        <\/div>";
-    htmlTemplate += "    <\/div>";
-    htmlTemplate += "<\/body>";
-    htmlTemplate += "<script src=\"https:\/\/cdn.jsdelivr.net\/npm\/bootstrap@5.1.1\/dist\/js\/bootstrap.bundle.min.js\"";
-    htmlTemplate += "    integrity=\"sha384-\/bQdsTh\/da6pkI1MST\/rWKFNjaCP5gBSY4sEBT38Q\/9RBh9AH40zEOg7Hlq2THRZ\"";
-    htmlTemplate += "    crossorigin=\"anonymous\"><\/script>";
-    htmlTemplate += "";
-    htmlTemplate += "<\/html>";
+require('dotenv').config()
+
+export const resetTemplate = (token: string): string =>  {
+    console.log(process.env.URL+`/cambiarContrasenia?token=`+token);
+    var htmlTemplate=`
+    
+<!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>Reset Password Email Template</title>
+    <meta name="description" content="Reset Password Email Template.">
+    <style type="text/css">
+        a:hover {text-decoration: none !important;}
+    </style>
+</head>
+
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <!--100% body table-->
+ <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8" style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+   <tr>
+       <td>
+           <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0" align="center" cellpadding="0" cellspacing="0">
+               <tr>
+                  <td style="height:80px;">&nbsp;</td>
+               </tr>
+               <tr>
+                  <td style="height:20px;">&nbsp;</td>
+                </tr>
+                <tr>
+                  <td>
+                <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0" style="max-width:670px;background:#fff; border-radius:3px; text-align: center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                     <tr>
+                         <td style="height:40px;">&nbsp;</td>
+                     </tr>
+                     <tr>
+                        <td style="padding:0 35px;">
+                           <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif; color:mediumseagreen;">Recuperar cuenta</h1>
+                           <span style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                  <div style="color:#455056; font-size:18px;line-height:24px; margin:0; text-align:left;">
+                      
+                  <div class="alertHeader" style="margin:10px auto; color:rgb(97, 156, 124);">
+                    <h3>Hola, ¿solicitaste restablecer tu contraseña?</h3>
+
+                    <p>
+                        Alguien nos ha solicitado restablecer la contraseña de tu cuenta de Centro Empleo. Haz clic en el siguiente botón para hacerlo. Si no solicitaste restablecer la contraseña, puedes ignorar este mensaje.                    </p>
+                </div>
+                    <br>
+
+                <div class="alertFooter" style="margin-top:20px;">
+                    <a href="`+process.env.URL as string+`/cambiarContrasenia?token=`+token+`" style="border:1px solid mediumseagreen; padding:20px;text-decoration:none;border-radius:26px;color:#fff;background:mediumseagreen;">Restablecer contraseña</a>
+                </div>
+                  </div>
+
+                        </td>
+                      </tr>
+                      <tr>
+                           <td style="height:40px;">&nbsp;</td>
+                       </tr>
+                 </table>
+               </td>
+               <tr>
+                   <td style="height:20px;">&nbsp;</td>
+                </tr>
+               <tr>
+               <td style="text-align:center;">
+                <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>Derechos de autor 2021 Centro Comercial e Industrial</strong></p>
+                          
+                </td>
+                      
+                </tr>
+                <tr>
+                   <td style="height:80px;">&nbsp;</td>
+                </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!--/100% body table-->
+</body>
+
+</html>`;
     
     return htmlTemplate
+}
+
+export const nuevaEmpresa = (empresa: Empresa): string => {
+    return `
+    <!doctype html>
+<html lang="en-US">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta name="description" content="Reset Password Email Template.">
+    <style type="text/css">
+        a:hover {
+            text-decoration: none !important;
+        }
+    </style>
+</head>
+
+<body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+    <!--100% body table-->
+    <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+        style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+        <tr>
+            <td>
+                <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
+                    align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                style="max-width:670px;background:#fff; border-radius:3px; text-align: center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0 35px;">
+                                        <h1
+                                            style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif; color:mediumseagreen;">
+                                            Nueva Empresa desea ingresar</h1>
+                                        <span
+                                            style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                                        <div
+                                            style="color:#455056; font-size:18px;line-height:24px; margin:0; text-align:left;">
+
+                                            <div class="alertHeader" style="margin:10px auto; color:rgb(97, 156, 124);">
+                                                <h3>Buenas administrador, una nueva empresa desea ingresar a Centro
+                                                    Empleo</h3>
+                                                <p>
+                                                    Una empresa no registrada con anterioridad desea ingresar a la
+                                                    plataforma. Sus datos proporcionados son los siguientes...
+                                                </p>
+                                                <h5>
+                                                    RUT: `+empresa.rut+`
+                                                </h5>
+                                                <h5>
+                                                    Razon Social: `+empresa.razonSocial+`
+                                                </h5>
+                                                <h5>
+                                                    Nombre: `+empresa.nombreFantasia+`
+                                                </h5>
+                                                <h5>
+                                                    Teléfono: `+empresa.telefono+`
+                                                </h5>
+                                                <h5>
+                                                    Email: `+empresa.email+`
+                                                </h5>
+                                                <h5>
+                                                    Localidad: `+empresa.localidad?.nombre+`, `+empresa.localidad?.departamento.nombre+`
+                                                </h5>
+                                            </div>
+                                            <br>
+
+                                            <div class="alertFooter" style="margin-top:20px;">
+                                                <a href="`+process.env.URL as string+` "
+                                                    style="border:1px solid mediumseagreen; padding:20px;text-decoration:none;border-radius:26px;color:#fff;background:mediumseagreen;">Ir a Centro Empleo</a>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="height:40px;">&nbsp;</td>
+                                </tr>
+                            </table>
+                        </td>
+                    <tr>
+                        <td style="height:20px;">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:center;">
+                            <p
+                                style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
+                                &copy; <strong>Derechos de autor 2021 Centro Comercial e Industrial</strong></p>
+
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td style="height:80px;">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <!--/100% body table-->
+</body>
+
+</html>`
+}
+
+export const accesoEmpresa = (empresa: Empresa): string => {
+    return `<!doctype html>
+    <html lang="en-US">
+    
+    <head>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+        <meta name="description" content="Reset Password Email Template.">
+        <style type="text/css">
+            a:hover {
+                text-decoration: none !important;
+            }
+        </style>
+    </head>
+    
+    <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
+        <!--100% body table-->
+        <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
+            style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
+            <tr>
+                <td>
+                    <table style="background-color: #f2f3f8; max-width:670px; margin:0 auto;" width="100%" border="0"
+                        align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td style="height:80px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="height:20px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
+                                    style="max-width:670px;background:#fff; border-radius:3px; text-align: center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
+                                    <tr>
+                                        <td style="height:40px;">&nbsp;</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:0 35px;">
+                                            <h1
+                                                style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif; color:mediumseagreen;">
+                                                Empresa solicita acceso</h1>
+                                            <span
+                                                style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
+                                            <div
+                                                style="color:#455056; font-size:18px;line-height:24px; margin:0; text-align:left;">
+    
+                                                <div class="alertHeader" style="margin:10px auto; color:rgb(97, 156, 124);">
+                                                    <h3>Buenas administrador, una empresa conocida desea ingresar a Centro
+                                                        Empleo</h3>
+                                                    <p>
+                                                        La empresa de RUT `+empresa.rut+` desea acceder a Centro Empleo, si desea comunicarse con la misma sus datos de contacto se muestran más adelante.
+                                                    </p>
+                                                    <h5>
+                                                        Teléfono: `+empresa.telefono+`
+                                                    </h5>
+                                                    <h5>
+                                                        Email: `+empresa.email+`
+                                                    </h5>
+                                                </div>
+                                                <br>
+    
+                                                <div class="alertFooter" style="margin-top:20px;">
+                                                    <a href="`+process.env.URL as string+` "
+                                                        style="border:1px solid mediumseagreen; padding:20px;text-decoration:none;border-radius:26px;color:#fff;background:mediumseagreen;">Ir a Centro Empleo</a>
+                                                </div>
+                                            </div>
+    
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height:40px;">&nbsp;</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        <tr>
+                            <td style="height:20px;">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:center;">
+                                <p
+                                    style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">
+                                    &copy; <strong>Derechos de autor 2021 Centro Comercial e Industrial</strong></p>
+    
+                            </td>
+    
+                        </tr>
+                        <tr>
+                            <td style="height:80px;">&nbsp;</td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <!--/100% body table-->
+    </body>
+    
+    </html>`
 }

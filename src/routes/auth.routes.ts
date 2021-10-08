@@ -12,4 +12,8 @@ router.post("/login", AuthController.login);
 
 router.post("/signInSocial", AuthController.signInSocial);
 
+router.post("/recuperarContrasenia", AuthController.recuperarContraseña);
+
+router.post("/cambiarContrasenia", AuthController.cambiarContraseña);
+
 export default router;

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-export const sendEmail = async (to: string,asunto: string, texto: string, html: string ): Promise<boolean> => {
+export const sendEmail = async (to: string,asunto: string, html: string ): Promise<boolean> => {
 
 
     var transporter = nodemailer.createTransport({
@@ -24,7 +24,7 @@ export const sendEmail = async (to: string,asunto: string, texto: string, html: 
         console.log('Ready for send emails');
     })
 
-    await transporter.sendMail(mailOptions, (error: any, info: any)  => {
+    transporter.sendMail(mailOptions, (error: any, info: any)  => {
         if (error) {
             return false
         } else {

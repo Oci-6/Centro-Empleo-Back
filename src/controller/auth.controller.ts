@@ -7,6 +7,7 @@ import * as helperUsuario from "../helpers/usuario.helper"
 import { User } from "../models/User";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../libs/sendEmail";
+import { resetTemplate } from "../libs/htmlMail";
 require('dotenv').config()
 
 /* ----- Auth Controller ----- */
@@ -40,12 +41,12 @@ export const signInSocial = async (request: Request, response: Response): Promis
     let user: User | undefined = await helperUsuario.getByEmail(email);
 
     if (user) {
-        return response.status(200).json({ usuario: user.id, token: jwt.sign({ usuario: user.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+        return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: user.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
     } else {
         switch (tipo) {
             case "Postulante":
                 let postulante: any = await helperPostulante.save({ email, foto });
-                return response.status(200).json({ usuario: postulante.id, token: jwt.sign({ usuario: postulante.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+                return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: postulante.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
 
                 break;
 
@@ -69,11 +70,8 @@ export const recuperarContraseña = async (request: Request, response: Response)
     if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
 
     let tipo: string = user.constructor.name;
-
-    var datos = "";
-    datos += "Para recuperar su contraseña ingrese al siguiente link";
-    datos += "<a href='http://localhost:4200/recuperarContraseña?token" + jwt.sign(email, process.env.JWT_TOKEN + user.contraseña as string) + "&email=" + email + "'>Recuperar contraseña</a>"
-    sendEmail(email, "Recuperar contraseña", "", datos);
+    resetTemplate(jwt.sign({email}, process.env.JWT_TOKEN + user.contraseña as string,{expiresIn: "15m"}))
+    sendEmail(email, "Recuperar contraseña",  resetTemplate(jwt.sign({email}, process.env.JWT_TOKEN + user.contraseña as string,{expiresIn: "15m"})));
 
     return response.status(200).json({});
     // if (await compararHash(contraseña, user.contraseña)) {
@@ -84,32 +82,45 @@ export const recuperarContraseña = async (request: Request, response: Response)
 
 }
 
-// export const cambiarContraseña = async (request: Request, response: Response): Promise<Response> => {
+export const cambiarContraseña = async (request: Request, response: Response): Promise<Response> => {
 
-//     if (!request.body.token) return response.status(400).json({ mensaje: "No ingreso token" });
-//     if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
-//     if (!request.body.contraseña) return response.status(400).json({ mensaje: "No ingreso contraseña" });
+    if (!request.body.token) return response.status(400).json({ mensaje: "No ingreso token" });
+    if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
+    if (!request.body.contraseña) return response.status(400).json({ mensaje: "No ingreso contraseña" });
 
 
-//     let { token, email, contraseña } = request.body;
+    let { token, email, contraseña } = request.body;
 
-//     let user: User | undefined;
+    let user: User | undefined;
 
-//     user = await helperUsuario.getByEmail(email);
+    user = await helperUsuario.getByEmail(email);
 
-//     if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
+    if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
 
-//     jwt.verify(token, process.env.JWT_TOKEN + user.contraseña as string,async  (err: any, data: any) => {
-//         if (err) {
-//             return response.status(400).json({ mensaje: "Token expirado" });
-//         } else {
-//             if (user) {
-//                 user.contraseña = await encrypt(contraseña);
-//                 await helperUsuario.update(user);
-//                 return response.status(200).json({ mensaje: "Contraseña cambiada existosamente" });
+    try {
+        var decoded = jwt.verify(token, process.env.JWT_TOKEN + user.contraseña as string)
+        if (user) {
+            user.contraseña = await encrypt(contraseña);
+            await helperUsuario.update(user);
+            return response.status(200).json({ mensaje: "Contraseña cambiada existosamente" });
 
-//             }
-//         }
-//     })
-// }
+        }
+        return response.status(400).json({ mensaje: "No existe usuario" });
+
+    } catch (err) {
+        return response.status(400).json({ mensaje: "Token expirado" });
+    }
+    // jwt.verify(token, process.env.JWT_TOKEN + user.contraseña as string,async  (err: any, data: any) => {
+    //     if (err) {
+    //         return response.status(400).json({ mensaje: "Token expirado" });
+    //     } else {
+    //         if (user) {
+    //             user.contraseña = await encrypt(contraseña);
+    //             await helperUsuario.update(user);
+    //             return response.status(200).json({ mensaje: "Contraseña cambiada existosamente" });
+
+    //         }
+    //     }
+    // })
+}
 
