@@ -16,6 +16,9 @@ imagen: string;
 @Column()
 contenido: string;
 
+@Column()
+fechaPublicacion: Date;
+
 
 @ManyToOne(() => Admin, admin => admin.novedades)
 admin: Admin;

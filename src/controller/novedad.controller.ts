@@ -40,9 +40,11 @@ export const postNovedad = async (req: Request, res:Response): Promise<Response>
     return res.status(200).json(await helperNovedad.save(body))
 */
 // Crear nueva novedad
-const { titulo, contenido, imagen } = req.body;
+const { titulo, contenido, imagen, fechaPublicacion, admin } = req.body;
 
-const savedNovedad = await helperNovedad.save({ titulo, contenido, imagen});
+const savedNovedad = await helperNovedad.save({ titulo, contenido, imagen, fechaPublicacion, admin});
+
+
 
 return res.status(200).json(savedNovedad);
 
