@@ -41,7 +41,7 @@ export const getAllEmpresa = async (empresa: number): Promise<Oferta[]> => {
 }
 
 export const getAll = async (): Promise<Oferta[]> => {
-    return await getRepository(Oferta).find();
+    return await getRepository(Oferta).find({relations: ["postulantes", "empresa"]});
 }
 
 export const save = async (entity: any): Promise<Oferta[]> => {
