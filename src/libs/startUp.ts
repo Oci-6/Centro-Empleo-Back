@@ -27,7 +27,7 @@ export const startUp = async () => {
         admin.email = "admin@admin.com";
         admin.contraseña = await encrypt("12345")
 
-        await getRepository(Departamento).save(admin);
+        await getRepository(Admin).save(admin);
 
     }
 }
