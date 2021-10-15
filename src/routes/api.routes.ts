@@ -28,4 +28,8 @@ router.use("/ofertas", ofertasRoutes)
 router.use("/admin", adminRoutes)
 router.use("/novedad", novedadesRoutes)
 
+router.use("/empresa", empresaRoutes)
+
+router.use("/ofertas", ofertasRoutes)
+
 export default router;

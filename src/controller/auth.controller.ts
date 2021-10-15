@@ -46,7 +46,7 @@ export const signInSocial = async (request: Request, response: Response): Promis
         switch (tipo) {
             case "Postulante":
                 let postulante: any = await helperPostulante.save({ email, foto });
-                return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: postulante.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+                return response.status(200).json({ usuario: postulante, token: jwt.sign({ usuario: postulante.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
 
                 break;
 
