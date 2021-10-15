@@ -7,6 +7,7 @@ import paisRoutes from './pais.routes';
 import empresaRoutes from './empresa.routes';
 import ofertasRoutes from './ofertas.routes';
 import adminRoutes from './admin.routes';
+import novedadesRoutes from './novedad.routes';
 
 const router = Router();
 /*
@@ -25,5 +26,6 @@ router.use("/empresa", empresaRoutes)
 router.use("/ofertas", ofertasRoutes)
 
 router.use("/admin", adminRoutes)
+router.use("/novedad", novedadesRoutes)
 
 export default router;
