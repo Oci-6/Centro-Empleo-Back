@@ -9,7 +9,7 @@ export class Empresa extends User{
     @Column({
         unique:true
     })
-    rut: number;
+    rut: string;
 
     @Column({
         nullable: true

@@ -8,19 +8,19 @@ export const getByEmail = async (email: string): Promise<User|undefined> => {
 
     let user: User | undefined;
 
-    user = await getRepository(Postulante).findOne({where: {email}, select: ["id","email", "contraseña"]});
+    user = await getRepository(Postulante).findOne({where: {email}});
     
     if(user){
        return user; 
     }
 
-    user = await getRepository(Empresa).findOne({where: {email}, select: ["id","email", "contraseña"]});
+    user = await getRepository(Empresa).findOne({where: {email}});
     
     if(user){
        return user; 
     }
 
-    user = await getRepository(Admin).findOne({where: {email}, select: ["id","email", "contraseña"]});
+    user = await getRepository(Admin).findOne({where: {email}});
     
     if(user){
        return user; 

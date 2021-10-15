@@ -13,7 +13,7 @@ export const getByEmail = async (email: string): Promise<Empresa|undefined> => {
     return await getRepository(Empresa).findOne({where: {email}, relations: ["ofertas", "localidad","localidad.departamento"]});
 }
 
-export const getByRUT = async (rut: number): Promise<Empresa|undefined> => {
+export const getByRUT = async (rut: string): Promise<Empresa|undefined> => {
     if (!rut) return undefined;
 
     return await getRepository(Empresa).findOne({where: {rut}, relations: ["ofertas", "localidad","localidad.departamento"]});
