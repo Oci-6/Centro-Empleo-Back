@@ -1,5 +1,7 @@
 import { Router } from "express"
 import * as NovedadController from "../controller/novedad.controller"
+import { upload, uploadNovedad } from "../libs/multerPostulante";
+import { esAdmin } from "../middlewares/esAdmin";
 import { verifyToken } from "../middlewares/verifyToken";
 
 const router = Router()
@@ -10,7 +12,11 @@ const router = Router()
     http://localhost:3000/api/ofertas/
 */
 
-router.post("/", [verifyToken], NovedadController.postNovedad);
+router.get("/buscar/",  NovedadController.buscarNovedades);
+
+router.get("/ultimasNovedades/",  NovedadController.ultimasNovedades);
+
+router.post("/", [verifyToken, esAdmin, uploadNovedad], NovedadController.postNovedad);
 
 router.get("/:id", NovedadController.getNovedad);
 
