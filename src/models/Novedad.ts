@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, JoinTable, OneToMany} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToOne, JoinTable, OneToMany, CreateDateColumn} from "typeorm";
 import { Admin } from "./Admin";
 
 @Entity()
@@ -16,7 +16,7 @@ imagen: string;
 @Column()
 contenido: string;
 
-@Column()
+@CreateDateColumn()
 fechaPublicacion: Date;
 
 

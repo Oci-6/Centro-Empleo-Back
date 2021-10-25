@@ -24,8 +24,6 @@ router.post("/",  PostulanteController.postPostulante)
 
 router.get("/buscar/", [verifyToken, esEmpresa], PostulanteController.buscarPostulantes)
 
-router.get("/:id", [verifyToken], PostulanteController.getPostulante)
-
 router.get("/", [verifyToken], PostulanteController.getPostulantes)
 
 router.put("/", [verifyToken,esPostulante],PostulanteController.putPostulante)
@@ -35,6 +33,10 @@ router.post("/foto",  [verifyToken,esPostulante,upload], PostulanteController.po
 router.post("/curriculum",  [verifyToken,esPostulante,upload], PostulanteController.postCV)
 
 router.get("/postularse/:idOferta",  [verifyToken,esPostulante], PostulanteController.postularse)
+
+router.get("/getPDF/:id", [], PostulanteController.generarPDF) 
+
+router.get("/:id", [verifyToken], PostulanteController.getPostulante)
 
 //Capacitaciones y cursos
 router.get("/capacitacion/:id",  [verifyToken,esPostulante], CapacitacionController.getCapacitacion)

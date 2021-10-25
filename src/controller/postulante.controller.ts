@@ -9,6 +9,8 @@ import * as helperOferta from "../helpers/oferta.helper"
 import { Oferta } from "../models/Oferta";
 import { RelationQueryBuilder } from "typeorm";
 import { limpiarArchivos } from "../libs/limpiarArchivos";
+import pdf from "html-pdf";
+import { templatePDF } from "../libs/pdf";
 
 /* ----- Postulante Controller ----- */
 
@@ -135,4 +137,22 @@ export const buscarPostulantes = async (request: Request, response: Response): P
     params["usuario"] = jwtauth.tipo;
 
     return response.status(200).json(await helperPostulante.buscar(params, 10 * Number(page)));
+}
+
+export const generarPDF = async (request: Request, response: Response): Promise<Response> => {
+
+    if (!request.params.id) return response.status(400).json({ message: 'No se ingreso el id del postulante' });
+    const postulante = await helperPostulante.get(request.params.id);
+    if(!postulante) return response.status(400).json({ message: 'No se encontró el postulante' });
+
+    pdf.create(await templatePDF(request.protocol + "://" + request.get("Host"), postulante)).toBuffer((err: any, res: any) =>{
+        if(err) return Promise.reject;
+
+        response.setHeader('Content-Type', 'application/pdf');
+        response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf');
+
+        return response.end(res);
+    }) 
+    
+    return response;
 }
