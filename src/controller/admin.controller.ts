@@ -49,3 +49,12 @@ export const putAdmin = async (request: Request, response: Response): Promise<Re
     
     return response.status(200).json(await helperAdmin.update(admin));
 }
+
+
+export const getStats = async (request: Request, response: Response): Promise<Response> => {
+    let {fechaInicio,fechaFin} =request.query
+    
+
+    return response.status(200).json(await helperAdmin.data(fechaInicio as string,fechaFin as string));
+}
+

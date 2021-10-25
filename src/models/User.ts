@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable} from "typeorm";
+import {Entity, Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, JoinTable, CreateDateColumn} from "typeorm";
 
 @Entity()
 export class User extends BaseEntity {
@@ -14,4 +14,6 @@ export class User extends BaseEntity {
     })
     contraseña: string;
 
+    @CreateDateColumn()
+    fechaCreacion: Date;
 }

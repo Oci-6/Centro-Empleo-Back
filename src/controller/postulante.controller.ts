@@ -65,7 +65,8 @@ export const putPostulante = async (request: Request, response: Response): Promi
             postulante.pais = localidad.departamento.pais
         }
     }
-
+    console.log(postulante);
+    
     if (postulante.documento && !postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo de documento' })
     if (!postulante.documento && postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo documento' })
 

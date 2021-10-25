@@ -146,6 +146,10 @@ export class Postulante extends User {
     })
     recibirOfertas: boolean;
 
+    @Column({
+        default: false
+    })
+    terminosCondiciones: boolean;
     //Relaciones con otros datos
 
     @ManyToOne(() => Pais)
