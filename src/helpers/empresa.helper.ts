@@ -31,7 +31,7 @@ export const save = async (empresa: any): Promise<Empresa[]> => {
     return savedEmpresa;
 }
 
-export const update = async (empresa: DeepPartial<Empresa>[] | any): Promise<Empresa[]> => {
+export const update = async (empresa: DeepPartial<Empresa>[] | any): Promise<any> => {
     
     const savedEmpresa = await getRepository(Empresa).save(empresa);
 

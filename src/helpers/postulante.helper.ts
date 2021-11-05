@@ -27,7 +27,7 @@ export const buscar = async (params: any, skip: number): Promise<any> => {
     //Filtros Datos Personales
     if (params.sexo) query.andWhere("postulante.sexo = :sexo", { sexo: params.sexo });
     if (params.fechaNacimiento) query.andWhere("postulante.fechaNacimiento < :fechaNacimiento", { fechaNacimiento: params.fechaNacimiento });
-    if (params.departamento) query.andWhere("localidad.departamento.nombre = :departamento", { departamento: params.departamento });
+    if (params.departamento) query.andWhere("departamento.nombre = :departamento", { departamento: params.departamento });
     if (params.localidad) query.andWhere("localidad.nombre = :localidad", { localidad: params.localidad });
 
     //Formacion
@@ -46,6 +46,8 @@ export const buscar = async (params: any, skip: number): Promise<any> => {
     if (params.usuario == "Empresa") {
         query.andWhere("postulante.visibilidad = true")
     }
+
+    query.andWhere("postulante.terminosCondiciones = true")
 
     let queryResult = await query.skip(skip).take(10).getManyAndCount();
     return { postulantes: queryResult[0], total: queryResult[1] }
@@ -66,6 +68,10 @@ export const getByDocumento = async (documento: string): Promise<Postulante | un
 
 export const getAll = async (): Promise<Postulante[]> => {
     return await getRepository(Postulante).find({ relations: relaciones });
+}
+
+export const getSuscriptoresEmail = async (): Promise<Postulante[]> => {
+    return await getRepository(Postulante).find({where: {terminosCondiciones: true, recibirOfertas: true}});
 }
 
 export const save = async (postulante: any): Promise<Postulante[]> => {

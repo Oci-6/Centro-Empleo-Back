@@ -6,7 +6,7 @@ import { encrypt } from '../libs/encriptacion';
 import { sendEmail } from '../libs/sendEmail';
 import { Empresa } from '../models/Empresa';
 import jwt from "jsonwebtoken";
-import { accesoEmpresa, nuevaEmpresa } from '../libs/htmlMail';
+import { accesoConcedido, accesoEmpresa, nuevaEmpresa } from '../libs/htmlMail';
 require('dotenv').config()
 
 // Conocimientos informaticos Controller
@@ -88,8 +88,11 @@ export const habilitarEmpresa = async (req: Request, res: Response): Promise<Res
 
     let empresa: Empresa = req.body;
 
+    let savedEmpresa = await helperEmpresa.update(empresa)
+    
+    sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
 
-    return res.status(200).json(await helperEmpresa.update(empresa))
+    return res.status(200).json(savedEmpresa);
 
 }
 

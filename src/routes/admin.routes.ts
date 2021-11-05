@@ -7,12 +7,16 @@ import { esAdmin } from "../middlewares/esAdmin";
 const router = Router();
 
 /*
-    Rutas Empresa
+    Rutas Admin
 
-    http://localhost:3000/api/empresa
+    http://localhost:3000/api/admin
 */
 router.put("/habilitar",[verifyToken, esAdmin], EmpresaController.habilitarEmpresa);
 
 router.get("/datos",[verifyToken, esAdmin], AdminController.getStats);
+
+router.get("/enviarOferta/:id",[verifyToken, esAdmin], AdminController.compartirOferta);
+
+router.get("/enviarNovedad/:id",[verifyToken, esAdmin], AdminController.compartirNovedad);
 
 export default router;
