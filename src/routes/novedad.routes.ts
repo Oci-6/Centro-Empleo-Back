@@ -22,9 +22,9 @@ router.get("/:id", NovedadController.getNovedad);
 
 router.get("/", [verifyToken], NovedadController.getAll);
 
-router.put("/", [verifyToken], NovedadController.putNovedad);
+router.put("/", [verifyToken, uploadNovedad], NovedadController.putNovedad);
 
-router.delete("/", [verifyToken], NovedadController.deleteNovedad);
+router.delete("/:id", [verifyToken], NovedadController.deleteNovedad);
 
 
 export default router;

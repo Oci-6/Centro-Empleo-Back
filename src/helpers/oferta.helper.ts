@@ -60,5 +60,5 @@ export const update = async (entity: DeepPartial<Oferta>[]): Promise<Oferta[]> =
 
 export const borrar = async (id: string | number): Promise<DeleteResult> => {
 
-    return await getRepository(Oferta).delete(id);;
+    return await getRepository(Oferta).softDelete(id);
 }

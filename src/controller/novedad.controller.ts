@@ -1,4 +1,4 @@
-import { request, Request, response, Response } from 'express';
+import { Request, Response } from 'express';
 import * as helperNovedad from '../helpers/novedad.helper';
 import * as helperAdmin from '../helpers/admin.helper';
 import { Novedad } from '../models/Novedad';
@@ -68,15 +68,36 @@ export const postNovedad = async (request: Request, response:Response): Promise<
 
 
 export const putNovedad = async (req: Request, res: Response): Promise<Response> => {
+
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
 
+    let novedad = await helperNovedad.get(req.body.id);
+    if(!novedad) return res.status(400).json({ message: 'No existe una novedad con ese id' });
 
-    return res.status(200).json(await helperNovedad.update(req.body))
+    if (req.file){
+        if(novedad?.imagen&&novedad?.imagen.includes("uploads")){
+            let fileName = novedad?.imagen.substr(novedad?.imagen.lastIndexOf('/')+1);
+            limpiarArchivos(fileName)
+        }
+        novedad.imagen = "http://localhost:3000/" + req.file?.path;
+    } 
+
+    novedad.titulo = req.body.titulo;
+    novedad.contenido = req.body.contenido;
+
+    console.log(novedad);
+    
+
+    return res.status(200).json(await helperNovedad.update(novedad))
 
 }
 
 export const  deleteNovedad = async (req: Request, res: Response): Promise<Response> => {
-    return res.send("borrado");
+    console.log(req.params);
+    if (!await getRepository(Novedad).findOne({ where: { id: req.params.id } })) return res.status(400).json({ message: 'No existe una novedad con ese id' });
+
+
+    return res.json(await getRepository(Novedad).delete(req.params.id));
 }
 
 

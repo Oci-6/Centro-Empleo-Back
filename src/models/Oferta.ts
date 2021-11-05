@@ -1,4 +1,4 @@
-import { BaseEntity, Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, DeleteDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Admin } from "./Admin";
 import { Empresa } from "./Empresa";
 import { Postulante } from "./Postulante";
@@ -8,6 +8,9 @@ export class Oferta extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @DeleteDateColumn()
+    fechaBorrado?: Date;
 
     @Column()
     vacante: string;

@@ -21,7 +21,7 @@ router.get("/", [verifyToken, esEmpresa], OfertaController.getOfertas);
 
 router.put("/", [verifyToken, esEmpresa], OfertaController.putOferta);
 
-router.delete("/", [verifyToken, esEmpresa], OfertaController.deleteOferta);
+router.delete("/:id", [verifyToken, esEmpresa], OfertaController.deleteOferta);
 
 
 export default router;
