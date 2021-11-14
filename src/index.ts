@@ -1,4 +1,9 @@
 import app from "./app";
+import { connection } from "./databaseConnection";
+
+/* ----- DataBase Connection ----- */
+
+connection.create();
 
 /* ----- Server ----- */
 

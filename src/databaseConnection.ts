@@ -1,21 +1,22 @@
-import { createConnection } from "typeorm";
-import { data } from "./helpers/admin.helper";
-import { get } from "./helpers/empresa.helper";
-import { accesoConcedido } from "./libs/htmlMail";
+import { ConnectionOptions, createConnections, getConnection } from "typeorm";
 import { startUp } from "./libs/startUp";
 
 /* ----- DataBase Connection ----- */
 
 // createConnection method will automatically read connection options from the ormconfig file or environment variables
-createConnection()
-  .then(async (response) => {
-    startUp();
-    console.info("DB is connected...")    
-  })
-  .catch((error) => console.log(error));
+export const connection = {
+  async create(options? : ConnectionOptions[]){
+    await createConnections(options).then(async () => {
+      await startUp();
 
-createConnection('appsocios')
-  .then((response) => {
-    console.info("AppSocios is connected...")
-  })
-  .catch((error) => console.log(error));
+      console.info("DB is connected...")    
+      
+    }).catch(e => console.log(e));
+    
+
+  },
+  
+  async close() {
+    await getConnection().close();
+  }
+}
