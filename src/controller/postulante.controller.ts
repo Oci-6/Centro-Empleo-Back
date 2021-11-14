@@ -9,6 +9,8 @@ import * as helperOferta from "../helpers/oferta.helper"
 import { Oferta } from "../models/Oferta";
 import { RelationQueryBuilder } from "typeorm";
 import { limpiarArchivos } from "../libs/limpiarArchivos";
+import pdf from "html-pdf";
+import { templatePDF } from "../libs/pdf";
 
 /* ----- Postulante Controller ----- */
 
@@ -44,17 +46,16 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
+    if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
     if (request.body.email && await helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
     if (request.body.cedula && await helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
     
-    let jwtauth = JSON.parse(request.params.jwtauth);
+    let postulante: Postulante | undefined = await helperPostulante.get(request.body.id)
 
-    let postulante: Postulante | undefined = await helperPostulante.get(jwtauth.usuario);
+    if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
+    Object.assign(postulante, request.body);
 
-    if (!await helperPostulante.get(request.body.id)) return response.status(400).json({ message: 'No se encontro usuario' });
-
-    let postulante: Postulante = request.body;
     if (request.body.localidadId || request.body.paisId) {
         if (!request.body.localidadId) {
             let pais = await helperPais.get(request.body.paisId);
@@ -68,9 +69,10 @@ export const putPostulante = async (request: Request, response: Response): Promi
             postulante.pais = localidad.departamento.pais
         }
     }
-
     if (postulante.documento && !postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo de documento' })
     if (!postulante.documento && postulante.tipoDocumento) return response.status(400).json({ message: 'No ingreso tipo documento' })
+
+    postulante.terminosCondiciones = perfilCompleto(postulante);
 
     return response.status(200).json(await helperPostulante.update(postulante));
 }
@@ -123,7 +125,7 @@ export const postularse = async (req: Request, res: Response): Promise<Response>
 
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return res.status(400).json({ message: 'No se encontro usuario' });
-
+    if (!postulante.terminosCondiciones) return res.status(400).json({ message: 'Perfil incompleto' });
     oferta.postulantes.push(postulante);
 
     return res.status(200).json(await helperOferta.update(oferta));
@@ -137,4 +139,43 @@ export const buscarPostulantes = async (request: Request, response: Response): P
     params["usuario"] = jwtauth.tipo;
 
     return response.status(200).json(await helperPostulante.buscar(params, 10 * Number(page)));
+}
+
+export const generarPDF = async (request: Request, response: Response): Promise<Response> => {
+
+    if (!request.params.id) return response.status(400).json({ message: 'No se ingreso el id del postulante' });
+    const postulante = await helperPostulante.get(request.params.id);
+    if(!postulante) return response.status(400).json({ message: 'No se encontró el postulante' });
+
+    pdf.create(await templatePDF(request.protocol + "://" + request.get("Host"), postulante)).toBuffer((err: any, res: any) =>{
+        if(err) return Promise.reject;
+
+        response.setHeader('Content-Type', 'application/pdf');
+        response.setHeader('Content-Disposition', 'attachment; filename=cv.pdf');
+
+        return response.end(res);
+    }) 
+    
+    return response;
+}
+
+const perfilCompleto = (postulante: Postulante): boolean => {
+
+    if(!postulante.documento) return false;
+    if(!postulante.tipoDocumento) return false;
+    if(!postulante.primerNombre) return false;
+    if(!postulante.primerApellido) return false;
+    if(!postulante.segundoApellido) return false;
+    if(!postulante.sexo) return false;
+    if(!postulante.fechaNacimiento) return false;
+    if(!postulante.direccion) return false;
+    if(!postulante.primerTelefono) return false;
+    if(!postulante.email) return false;
+    if(!postulante.nivelEducativo) return false;
+    if(!postulante.estadoNE) return false;
+    if(!postulante.orientacionNE&&postulante.nivelEducativo=="Otro") return false;
+    if(!(postulante.jCompleta||postulante.jIndiferente||postulante.jMtManiana||postulante.jMtNoche||postulante.jMtTarde)) return false;
+    if(!postulante.pais&&!postulante.localidad) return false;
+
+    return true;
 }
