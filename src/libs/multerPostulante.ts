@@ -28,3 +28,21 @@ const storagePostulante = multer.diskStorage({
 export const upload = multer({
     storage: storagePostulante
 }).single('file');
+
+const storageNovedad = multer.diskStorage({
+    destination: (req: any, file: any, cb: any) => {
+
+        if ('image/jpeg')
+            cb(null, 'uploads');
+      
+    },
+    filename: (req: any, file: any, cb: any) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+
+
+})
+
+export const uploadNovedad = multer({
+    storage: storageNovedad
+}).single('file');

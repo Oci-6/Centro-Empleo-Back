@@ -44,9 +44,12 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
-    if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
-    if (request.body.email && helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
-    if (request.body.cedula && helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
+    if (request.body.email && await helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
+    if (request.body.cedula && await helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
+    
+    let jwtauth = JSON.parse(request.params.jwtauth);
+
+    let postulante: Postulante | undefined = await helperPostulante.get(jwtauth.usuario);
 
 
     if (!await helperPostulante.get(request.body.id)) return response.status(400).json({ message: 'No se encontro usuario' });

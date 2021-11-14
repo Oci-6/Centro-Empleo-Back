@@ -4,6 +4,8 @@ import * as helperAdmin from '../helpers/admin.helper';
 import { Novedad } from '../models/Novedad';
 import { getRepository } from "typeorm";
 import { encrypt } from "../libs/encriptacion"
+import { limpiarArchivos } from '../libs/limpiarArchivos';
+import { uploadNovedad } from '../libs/multerPostulante';
 
 // Conocimientos informaticos Controller
 
@@ -69,3 +71,26 @@ export const  deleteNovedad = async (req: Request, res: Response): Promise<Respo
 //export const getPostulantes = async (request: Request, response: Response): Promise<Response> => {
 //    return response.status(200).json(await helperPostulante.getAll());
 //}
+
+export const buscarNovedades = async (request: Request, response: Response): Promise<Response> => {
+
+    let {query, page} = request.query;
+    let result: [Novedad[], number] = await helperNovedad.search(query, 12*Number(page));
+    let res = {
+        novedades: result[0],
+        total: result[1]
+    }
+    
+    return response.status(200).json(res);
+   
+}
+
+export const ultimasNovedades = async (request: Request, response: Response): Promise<Response> => {
+
+    console.log(request.query);
+    let result: Novedad[] = await helperNovedad.lastNews();
+
+    return response.status(200).json(result);
+   
+}
+
