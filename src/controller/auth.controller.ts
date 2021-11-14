@@ -14,26 +14,25 @@ require('dotenv').config()
 
 export const login = async (request: Request, response: Response): Promise<Response> => {
 
-        if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
-        if (!request.body.contraseña) return response.status(400).json({ mensaje: "No ingreso contraseña" });
+    if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
+    if (!request.body.contraseña) return response.status(400).json({ mensaje: "No ingreso contraseña" });
 
-        let { email, contraseña } = request.body;
-        let user: User | undefined;
+    let { email, contraseña } = request.body;
+    let user: User | undefined;
 
-        user = await helperUsuario.getByEmail(email);
+    user = await helperUsuario.getByEmail(email);
 
-        if (!user) return response.status(404).json({ mensaje: "No existe usuario" });
+    if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
 
-        let tipo: string = user.constructor.name;
+    let tipo: string = user.constructor.name;
 
-        if (await compararHash(contraseña, user.contraseña)) {
-            return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: user.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
-        } else {
-            return response.status(400).json({ mensaje: "Contraseña incorrecta" });
-        }
+    if (await compararHash(contraseña, user.contraseña)) {
+        return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: user.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+    } else {
+        return response.status(400).json({ mensaje: "Contraseña incorrecta" });
     }
-    
 
+}
 
 export const signInSocial = async (request: Request, response: Response): Promise<Response> => {
     if (!request.body.email) return response.status(400).json({ mensaje: "No ingreso email" });
@@ -71,10 +70,15 @@ export const recuperarContraseña = async (request: Request, response: Response)
     if (!user) return response.status(400).json({ mensaje: "No existe usuario" });
 
     let tipo: string = user.constructor.name;
-    resetTemplate(jwt.sign({ email }, process.env.JWT_TOKEN + user.contraseña as string, { expiresIn: "15m" }))
-    sendEmail(email, "Recuperar contraseña", resetTemplate(jwt.sign({ email }, process.env.JWT_TOKEN + user.contraseña as string, { expiresIn: "15m" })));
+    resetTemplate(jwt.sign({email}, process.env.JWT_TOKEN + user.contraseña as string,{expiresIn: "15m"}))
+    sendEmail(email, "Recuperar contraseña",  resetTemplate(jwt.sign({email}, process.env.JWT_TOKEN + user.contraseña as string,{expiresIn: "15m"})));
 
     return response.status(200).json({});
+    // if (await compararHash(contraseña, user.contraseña)) {
+    //     return response.status(200).json({ usuario: user, token: jwt.sign({usuario: user.id, tipo: tipo}, process.env.JWT_TOKEN as string), tipo: tipo });
+    // } else {
+    //     return response.status(400).json({ mensaje: "Contraseña incorrecta" });
+    // }
 
 }
 
@@ -106,6 +110,17 @@ export const cambiarContraseña = async (request: Request, response: Response): 
     } catch (err) {
         return response.status(400).json({ mensaje: "Token expirado" });
     }
-  
+    // jwt.verify(token, process.env.JWT_TOKEN + user.contraseña as string,async  (err: any, data: any) => {
+    //     if (err) {
+    //         return response.status(400).json({ mensaje: "Token expirado" });
+    //     } else {
+    //         if (user) {
+    //             user.contraseña = await encrypt(contraseña);
+    //             await helperUsuario.update(user);
+    //             return response.status(200).json({ mensaje: "Contraseña cambiada existosamente" });
+
+    //         }
+    //     }
+    // })
 }
 

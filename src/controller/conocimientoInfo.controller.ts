@@ -25,11 +25,8 @@ export const postConocimientoInfo = async (req: Request, res:Response): Promise<
     if(!req.params.idPostulante) return res.status(400).json({message: "No se ingreso postulante"});
 
     let body: ConocimientoInfo = req.body;
-
-    if(validacion(body)) return res.status(400).json({message: "Valores incorrectos" })
-
     let postulante = await helperPostulante.get(req.params.idPostulante);
-    if(!postulante) return res.status(400).json({message: "No se encontre postulante"})
+    if(!postulante) return res.status(200).json({message: "No se encontre postulante"})
     body.postulante = postulante;
     return res.status(200).json(await helperConocimientoInfo.save(body))
 
@@ -47,15 +44,4 @@ export const  deleteConocimientoInfo = async (req: Request, res: Response): Prom
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
 
     return res.status(200).json(await helperConocimientoInfo.borrar(req.params.id))
-}
-
-
-const validacion = (info: ConocimientoInfo) => {
-
-    if (!info.nombreApp || typeof info.nombreApp != 'string') return true;
-    if (!info.categoria || typeof info.categoria != 'string') return true;
-    if (!info.nivelConocimiento || typeof info.nivelConocimiento != 'string') return true;
-
-    return false;
-
 }

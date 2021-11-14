@@ -6,6 +6,16 @@ import apiRoutes from "./routes/api.routes";
 
 const app = express();
 
+/* ----- DataBase Connection ----- */
+
+import './databaseConnection';
+
+/* ----- Middlewares ----- */
+
+import { esPublico } from "./middlewares/esPublico";
+import { verifyToken } from "./middlewares/verifyToken";
+import { esEmpresa } from "./middlewares/esEmpresa";
+
 // Enable connection between diferent servers
 app.use(cors());
 
