@@ -26,8 +26,10 @@ export const postCapacitacion = async (req: Request, res:Response): Promise<Resp
     if(!req.params.idPostulante) return res.status(400).json({message: "No se ingreso postulante"});
 
     let body: CapacitacionFormacion = req.body;
+    if (validacion(body)) return res.status(400).json({ message: "Valores incorrectos" });
+
     let postulante = await helperPostulante.get(req.params.idPostulante);
-    if(!postulante) return res.status(200).json({message: "No se encontre postulante"})
+    if(!postulante) return res.status(404).json({message: "No se encontre postulante"})
     body.postulante = postulante;
     return res.status(200).json(await helperCapacitacion.save(body))
 
@@ -45,4 +47,18 @@ export const  deleteCapacitacion = async (req: Request, res: Response): Promise<
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
 
     return res.status(200).json(await helperCapacitacion.borrar(req.params.id))
+}
+
+const validacion = (cap: CapacitacionFormacion) => {
+
+    if (!cap.nombre || typeof cap.nombre != 'string') return true;
+    if (!cap.areaTematica || typeof cap.areaTematica != 'string') return true;
+    if (!cap.institucion || typeof cap.institucion != 'string') return true;
+    if (!cap.fechaInicio || cap.fechaInicio > new Date()) return true;
+    if (!cap.duracion || typeof cap.duracion != 'number' || cap.duracion < 1) return true;
+    if (!cap.tipoDuracion || typeof cap.estado != 'string') return true;
+    if (!cap.estado || typeof cap.estado != 'string') return true;
+
+    return false;
+
 }

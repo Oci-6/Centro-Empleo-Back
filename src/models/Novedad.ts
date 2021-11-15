@@ -10,7 +10,9 @@ id: number;
 @Column()
 titulo: string;
 
-@Column()
+@Column({
+    nullable: true
+})
 imagen: string;
 
 @Column()

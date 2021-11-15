@@ -46,16 +46,21 @@ export const getPostulantes = async (request: Request, response: Response): Prom
 }
 
 export const putPostulante = async (request: Request, response: Response): Promise<Response> => {
-    if (!request.body.id) return response.status(400).json({ message: 'No se ingreso id' });
     if (request.body.email && await helperUsuario.getByEmail(request.body.email)) return response.status(400).json({ message: 'Email ya existe' });
     if (request.body.cedula && await helperPostulante.getByDocumento(request.body.documento)) return response.status(400).json({ message: 'Cedula ya existe' });
+
+    let jwtauth = JSON.parse(request.params.jwtauth);
+
+    let postulante: Postulante | undefined = await helperPostulante.get(jwtauth.usuario);
+
+    console.log(postulante);
     
-    let postulante: Postulante | undefined = await helperPostulante.get(request.body.id)
 
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
     Object.assign(postulante, request.body);
 
+    
     if (request.body.localidadId || request.body.paisId) {
         if (!request.body.localidadId) {
             let pais = await helperPais.get(request.body.paisId);

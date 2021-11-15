@@ -13,7 +13,9 @@ export class Idioma extends BaseEntity {
     @Column()
     nombre: string;
     
-    @Column()
+    @Column(
+        {nullable: true}
+    )
     especificacion: string;
     
     @Column()
