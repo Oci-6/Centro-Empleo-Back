@@ -16,6 +16,6 @@ export class PermisosLicencias extends BaseEntity {
     @Column()
     vigencia: Date;
 
-    @Column()
+    @Column({nullable: true})
     especificacion: string;
 }

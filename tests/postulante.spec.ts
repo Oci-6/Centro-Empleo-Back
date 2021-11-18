@@ -85,7 +85,7 @@ describe('Postulante', () => {
 
                 expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
             }
-            
+
 
         })
     })
@@ -117,7 +117,7 @@ describe('Postulante', () => {
 
                 expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
             }
-            
+
 
         })
 
@@ -144,6 +144,119 @@ describe('Postulante', () => {
 
         })
 
+        test('should respond with error statuses code', async () => {
+            for await (const idioma of PostulanteTest.idiomasValues) {
+                const response = await request(app).post('/api/postulante/idioma/' + idioma.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(idioma.idioma);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
     })
 
+    describe('POST /api/postulante/expLaboral/{idPostulante}', () => {
+
+        test('should respond with a 200 status code and create "expLaboral" instance', async () => {
+            const response = await request(app).post('/api/postulante/expLaboral/' + PostulanteTest.postulante?.id)
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.expLaboralPost);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.nombreEmp).toBe('Altech');
+            expect(response.body.cargo).toBe('Pasante');
+            expect(response.body.area).toBe('Tecnologia');
+            expect(response.body.nivelJer).toBe('Pasante');
+            expect(response.body.tareas).toBe('Desarrollo, testing, documentacion');
+            expect(new Date(response.body.fechaFin)).toBeInstanceOf(Date);
+            expect(new Date(response.body.fechaInicio)).toBeInstanceOf(Date);
+            expect(response.body.trabajando).toBe(false);
+            expect(response.body.nombreRef).toBe('Mauricio');
+            expect(response.body.apellidoRef).toBe('Ronqui');
+            expect(response.body.cargoRef).toBe('CEO');
+            expect(response.body.telefonoRef).toBe('099133535');
+            expect(response.body.emailRef).toBe('mronqui@gmail.com');
+
+
+        })
+
+        test('should respond with error statuses code', async () => {
+            for await (const exp of PostulanteTest.expLaboralValues) {
+                const response = await request(app).post('/api/postulante/expLaboral/' + exp.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(exp.exp);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+    })
+
+    describe('POST /api/postulante/permisosLicencia/{idPostulante}', () => {
+
+        test('should respond with a 200 status code and create "permisosLicencia" instance', async () => {
+            const response = await request(app).post('/api/postulante/permisosLicencia/' + PostulanteTest.postulante?.id)
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.permisosLicenciaPost);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.tipoDocumento).toBe('Carne');
+            expect(new Date(response.body.vigencia)).toBeInstanceOf(Date);
+
+
+        })
+
+        test('should respond with error statuses code', async () => {
+            for await (const permiso of PostulanteTest.permisosLicenciasValues) {
+                const response = await request(app).post('/api/postulante/permisosLicencia/' + permiso.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(permiso.permiso);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+    })
+
+    describe('POST /api/postulante/preferenciaLaboral/{idPostulante}', () => {
+
+        test('should respond with a 200 status code and create "preferenciaLaboral" instance', async () => {
+            const response = await request(app).post('/api/postulante/preferenciaLaboral/' + PostulanteTest.postulante?.id)
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.preferenciaLaboralPost);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.puestoPreferido).toBe('Gerente');
+            expect(response.body.areaInteres).toBe('Tecnologia');
+            expect(response.body.aspiracionSalarial).toBe(30000);
+
+        })
+
+        test('should respond with error statuses code', async () => {
+            for await (const pref of PostulanteTest.preferenciaLaboralValues) {
+                const response = await request(app).post('/api/postulante/preferenciaLaboral/' + pref.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(pref.pref);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+    })
 });

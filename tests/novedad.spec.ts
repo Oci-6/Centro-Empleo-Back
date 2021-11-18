@@ -20,16 +20,6 @@ afterAll(async () => {
 })
 
 
-const loginValues = [
-    {},
-    { email: "" },
-    { contraseña: "" },
-    { email: "admin@admin.com" },
-    { email: 12345, contraseña: true },
-    { email: "admin@yi.com", contraseña: "12345" },
-    { email: "admin@admin.com", contraseña: "12355" },
-]
-
 describe('Novedad', () => {
     describe('GET /api/novedad/', () => {
         test('should respond with a 200 status code', async () => {

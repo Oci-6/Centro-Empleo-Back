@@ -56,7 +56,7 @@ const validacion = (cap: CapacitacionFormacion) => {
     if (!cap.institucion || typeof cap.institucion != 'string') return true;
     if (!cap.fechaInicio || cap.fechaInicio > new Date()) return true;
     if (!cap.duracion || typeof cap.duracion != 'number' || cap.duracion < 1) return true;
-    if (!cap.tipoDuracion || typeof cap.estado != 'string') return true;
+    if (!cap.tipoDuracion || typeof cap.tipoDuracion != 'string') return true;
     if (!cap.estado || typeof cap.estado != 'string') return true;
 
     return false;

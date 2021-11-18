@@ -25,8 +25,9 @@ export const postPreferenciaLaboral = async (req: Request, res:Response): Promis
     if(!req.params.idPostulante) return res.status(400).json({message: "No se ingreso postulante"});
 
     let body: PreferenciaLaboral = req.body;
+    if(validacion(body)) return res.status(400).json({message: "Valores incorrectors"})
     let postulante = await helperPostulante.get(req.params.idPostulante);
-    if(!postulante) return res.status(200).json({message: "No se encontre postulante"})
+    if(!postulante) return res.status(404).json({message: "No se encontre postulante"})
     body.postulante = postulante;
     return res.status(200).json(await helperPreferenciaLaboral.save(body))
 
@@ -44,4 +45,12 @@ export const  deletePreferenciaLaboral = async (req: Request, res: Response): Pr
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
 
     return res.status(200).json(await helperPreferenciaLaboral.borrar(req.params.id))
+}
+
+const validacion = (preferenciaLaboral: PreferenciaLaboral) => {
+    if (!preferenciaLaboral.puestoPreferido || typeof preferenciaLaboral.puestoPreferido != 'string') return true;
+    if (!preferenciaLaboral.aspiracionSalarial || typeof preferenciaLaboral.aspiracionSalarial != 'number' || preferenciaLaboral.aspiracionSalarial < 1) return true;
+    if (!preferenciaLaboral.areaInteres || typeof preferenciaLaboral.areaInteres != 'string') return true;
+
+    return false;
 }

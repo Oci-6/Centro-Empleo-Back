@@ -25,8 +25,9 @@ export const postPermisosLicencia = async (req: Request, res:Response): Promise<
     if(!req.params.idPostulante) return res.status(400).json({message: "No se ingreso postulante"});
 
     let body: PermisosLicencias = req.body;
+    if(validacion(body)) return res.status(400).json({message: "Valores incorrectos"})
     let postulante = await helperPostulante.get(req.params.idPostulante);
-    if(!postulante) return res.status(200).json({message: "No se encontre postulante"})
+    if(!postulante) return res.status(404).json({message: "No se encontre postulante"})
     body.postulante = postulante;
     return res.status(200).json(await helperPermisosLicencias.save(body))
 
@@ -44,4 +45,12 @@ export const  deletePermisosLicencia = async (req: Request, res: Response): Prom
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
 
     return res.status(200).json(await helperPermisosLicencias.borrar(req.params.id))
+}
+
+const validacion = (permiso: PermisosLicencias) => {
+    if (!permiso.tipoDocumento || typeof permiso.tipoDocumento != 'string') return true;
+    if (!permiso.vigencia) return true;
+    if (permiso.tipoDocumento == "Otro" &&(!permiso.especificacion || typeof permiso.especificacion != 'string')) return true;
+
+    return false;
 }

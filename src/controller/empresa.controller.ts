@@ -64,6 +64,8 @@ export const putEmpresa = async (req: Request, res: Response): Promise<Response>
     if (!empresa) return res.status(400).json({ message: 'No se encontro usuario' });
 
     let empresaPut: Empresa = req.body;
+
+    if(validacion(empresaPut)) return res.status(400).json({message: 'Valores incorrectos'});
     let saved: any = {}
     if (!empresa.razonSocial) {
         
@@ -72,7 +74,7 @@ export const putEmpresa = async (req: Request, res: Response): Promise<Response>
 
         let emp: any = await helperEmpresa.get(req.body.id)
 
-        sendEmail("mauri3418@gmail.com", "Nueva Empresa", nuevaEmpresa(emp));
+        // await sendEmail(process.env.ADMIN as string, "Nueva Empresa", nuevaEmpresa(emp));
     }else{
         saved = await helperEmpresa.update(empresaPut)
     }
@@ -84,13 +86,16 @@ export const putEmpresa = async (req: Request, res: Response): Promise<Response>
 export const habilitarEmpresa = async (req: Request, res: Response): Promise<Response> => {
     if (!req.body.id) return res.status(400).json({ message: "No se ingreso id" });
 
-    if (!await helperEmpresa.get(req.body.id)) return res.status(400).json({ message: 'No se encontro usuario' });
+    if(validacionHabilitar(req.body)) return res.status(400).json({message: "Valores incorrectos"});
+    let empresa = await helperEmpresa.get(req.body.id)
+    if (!empresa) return res.status(404).json({ message: 'No se encontro usuario' });
 
-    let empresa: Empresa = req.body;
+    Object.assign(empresa, req.body)
 
     let savedEmpresa = await helperEmpresa.update(empresa)
+    console.log(savedEmpresa);
     
-    sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
+    // await sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
 
     return res.status(200).json(savedEmpresa);
 
@@ -102,7 +107,7 @@ export const sendEmailAcceso = async (req: Request, res: Response): Promise<Resp
     
     if(!empresa) return res.status(400).json({ message: 'No se encontro usuario' });
 
-    sendEmail(process.env.ADMIN as string, "Nueva Empresa", accesoEmpresa(empresa));
+    // await sendEmail(process.env.ADMIN as string, "Nueva Empresa", accesoEmpresa(empresa));
 
 
     return res.status(200).json({ message: "Enviado" });
@@ -123,4 +128,21 @@ export const buscarEmpresas = async (request: Request, response: Response): Prom
     return response.status(200).json(res);
    
 
+}
+
+const validacion = (empresa: Empresa) =>{
+    if (!empresa.razonSocial || typeof empresa.razonSocial != 'string') return true;
+    if (typeof empresa.visibilidad === 'undefined') return true;
+    if (empresa.visibilidad && !empresa.nombreFantasia || typeof empresa.nombreFantasia != 'string') return true;
+    if (!empresa.telefono || typeof empresa.telefono != 'string' || (empresa.telefono.length != 8 && empresa.telefono.length !=12&&empresa.telefono.length !=9)) return true;
+
+    return false;
+
+}
+
+const validacionHabilitar = (body: any) =>{
+    if (!body.fechaExpiracion || new Date(body.fechaExpiracion) < new Date()) return true;
+    console.log(body);
+    
+    return false;
 }
