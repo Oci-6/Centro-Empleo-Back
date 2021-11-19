@@ -25,6 +25,12 @@ export class EmpresaTest {
 
     }
 
+    static empresaPost = {
+        email: "empresaTest@mail.com",
+        rut: "123456789123",
+        contraseña: "contraseña",
+    }
+
     static empresaPut = {
         id: 1,
         razonSocial: "Pepito SRL",
@@ -237,5 +243,23 @@ export class EmpresaTest {
             lugar: "Panaderia",
             fechaCierre: new Date("2021-12-20T00:00:00"),
         },
+    ]
+
+    static empresaPostValues = [
+        {
+            email: "empresaTestmail.com",
+            rut: "asfafafafa",
+            contraseña: "contraseña",
+        }
+        , {
+            email: "empresaTest@mail.com",
+            rut: "agagsagagaga",
+            contraseña: true,
+
+        }, {
+            email: "empresaTestmail.com",
+            rut: "ahasahahahaha",
+            contraseña: "contraseña",
+        }
     ]
 }

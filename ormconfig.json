@@ -11,6 +11,14 @@
   ],
   "logging": false,
   "synchronize": true
+}, {
+  "name": "appsocios",
+  "type": "postgres",
+  "host": "db.cpyxafjlyybbgggzhnfd.supabase.co",
+  "port": 5432,
+  "username": "postgres",
+  "password": "MaxiSebaMartin",
+  "database": "postgres"
 }
 
 ]

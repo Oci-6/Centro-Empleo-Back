@@ -22,6 +22,39 @@ afterAll(async () => {
 })
 
 describe('Empresa', () => {
+    describe('POST /api/empresa', () => {
+
+        test('should respond with 200 status code', async () => {
+
+            const response = await request(app).post('/api/empresa')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+                .send(EmpresaTest.empresaPost);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.usuario.id).toBe(3);
+            expect(response.body.usuario.email).toBe('empresaTest@mail.com');
+            expect(response.body.usuario.rut).toBe('123456789123');
+            expect(typeof response.body.usuario.contraseña).toBe('string');
+
+        })
+
+        test('should respond with error statuses code', async () => {
+
+            for await (const emp of EmpresaTest.empresaPostValues) {
+                const response = await request(app).post('/api/empresa')
+                    .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+                    .send(emp);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+    })
+
     describe('PUT /api/empresa', () => {
 
         test('should respond with 200 status code', async () => {
