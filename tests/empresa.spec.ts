@@ -118,6 +118,75 @@ describe('Empresa', () => {
             expect(typeof response.body.fechaCierre).toBe("string");
 
         })
+
+        
+        test('should respond with error statuses code', async () => {
+            for await (const oferta of EmpresaTest.ofertasValues) {
+                const response = await request(app).post('/api/ofertas/')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+                .send(oferta);
+
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
     })
+
+    describe('PUT /api/ofertas', () => {
+        test('should respond with 200 status code', async () => {
+
+            const response = await request(app).put('/api/ofertas/')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+                .send(EmpresaTest.ofertaPut);
+
+            expect(response.statusCode).toBe(200);
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+            expect(response.body.id).toBe(1);
+            expect(response.body.vacante).toBe("Panadero en jefe");
+            expect(response.body.areaTrabajo).toBe("Gastronomia");
+            expect(response.body.requisitosExcluyentes).toBe("Saber hacer pan");
+            expect(response.body.funcionesTareas).toBe("Hacer pan");
+            expect(response.body.requisitosValorar).toBe("Que le quede rico el pan");
+            expect(response.body.horario).toBe("L a D de 8 a 23");
+            expect(response.body.salarioDesde).toBe(200);
+            expect(response.body.salarioHasta).toBe(500);
+            expect(response.body.lugar).toBe("Panaderia");
+            expect(typeof response.body.fechaCierre).toBe("string");
+
+        })
+
+        test('should respond with error statuses code', async () => {
+            for await (const put of EmpresaTest.ofertasPutValues) {
+                const response = await request(app).put('/api/ofertas')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenAdmin)
+                .send(put);
+
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+    })
+
+    describe('DELETE /api/ofertas/1', () => {
+        test('should respond with 200 status code', async () => {
+            const response = await request(app).delete('/api/ofertas/1')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+
+                expect(response.statusCode).toBe(200);
+ 
+        })
+
+        test('should respond with error status code', async () => {
+            const response = await request(app).delete('/api/ofertas/100')
+                .set('Authorization', 'Bearer ' + EmpresaTest.tokenEmpresa)
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+
+        })
+    })
+
 })
 

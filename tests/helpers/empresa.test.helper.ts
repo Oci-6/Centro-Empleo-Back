@@ -89,13 +89,25 @@ export class EmpresaTest {
 
     static ofertasValues = [
         {
+            vacante: true,
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: new Date(),
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: -100,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2021-12-20T00:00:00"),
+        }
+        ,
+        {
             vacante: "Panadero",
             areaTrabajo: "Gastronomia",
             requisitosExcluyentes: "Saber hacer pan",
             funcionesTareas: "Hacer pan",
             requisitosValorar: "Que le quede rico el pan",
             horario: "L a D de 8 a 23",
-            salarioDesde: 200,
+            salarioDesde: -200,
             salarioHasta: 500,
             lugar: "Panaderia",
             fechaCierre: new Date("2021-12-20T00:00:00"),
@@ -109,10 +121,22 @@ export class EmpresaTest {
             requisitosValorar: "Que le quede rico el pan",
             horario: "L a D de 8 a 23",
             salarioDesde: 200,
-            salarioHasta: 500,
+            salarioHasta: -400,
             lugar: "Panaderia",
             fechaCierre: new Date("2021-12-20T00:00:00"),
-        }
+        },
+        {
+            vacante: "Panadero",
+            areaTrabajo: "Gastronomia",
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: "Que le quede rico el pan",
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: 10400,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2020-12-20T00:00:00"),
+        },
         ,
         {
             vacante: "Panadero",
@@ -122,9 +146,96 @@ export class EmpresaTest {
             requisitosValorar: "Que le quede rico el pan",
             horario: "L a D de 8 a 23",
             salarioDesde: 200,
+            salarioHasta: 100,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2021-12-20T00:00:00"),
+        },
+        {
+
+        }
+    ]
+
+    static ofertaPut = {
+        id: 1,
+        vacante: "Panadero en jefe",
+        areaTrabajo: "Gastronomia",
+        requisitosExcluyentes: "Saber hacer pan",
+        funcionesTareas: "Hacer pan",
+        requisitosValorar: "Que le quede rico el pan",
+        horario: "L a D de 8 a 23",
+        salarioDesde: 200,
+        salarioHasta: 500,
+        lugar: "Panaderia",
+        fechaCierre: new Date("2021-12-20T00:00:00"),
+    }
+
+    static ofertasPutValues = [
+        {
+            id: 1,
+            vacante: true,
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: new Date(),
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: -100,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2021-12-20T00:00:00"),
+        }
+        ,
+        {
+            id: 1,
+            vacante: "Panadero",
+            areaTrabajo: "Gastronomia",
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: "Que le quede rico el pan",
+            horario: "L a D de 8 a 23",
+            salarioDesde: -200,
             salarioHasta: 500,
             lugar: "Panaderia",
             fechaCierre: new Date("2021-12-20T00:00:00"),
         }
+        ,
+        {
+            id: 1,
+            vacante: "Panadero",
+            areaTrabajo: "Gastronomia",
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: "Que le quede rico el pan",
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: -400,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2021-12-20T00:00:00"),
+        },
+        {
+            id: 1,
+            vacante: "Panadero",
+            areaTrabajo: "Gastronomia",
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: "Que le quede rico el pan",
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: 10400,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2020-12-20T00:00:00"),
+        },
+        ,
+        {
+            id: 1,
+            vacante: "Panadero",
+            areaTrabajo: "Gastronomia",
+            requisitosExcluyentes: "Saber hacer pan",
+            funcionesTareas: "Hacer pan",
+            requisitosValorar: "Que le quede rico el pan",
+            horario: "L a D de 8 a 23",
+            salarioDesde: 200,
+            salarioHasta: 100,
+            lugar: "Panaderia",
+            fechaCierre: new Date("2021-12-20T00:00:00"),
+        },
     ]
 }

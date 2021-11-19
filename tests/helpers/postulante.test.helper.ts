@@ -24,6 +24,29 @@ export class PostulanteTest {
 
     }
 
+    static postulantePost =
+        {
+            email: "mauricio@mail.com",
+            contraseña: "12345",
+        }
+
+    static postulanteValues = [
+        {
+            email: "mauricio@mail.com",
+            contraseña: "12345",
+        },{
+            email: "mauriciomail.com",
+            contraseña: "",
+        },{
+            email: "235@mail.com",
+            contraseña: true,
+        },{
+            contraseña: "12345",
+        },{
+            email: "478@mail.com",
+        }
+    ]
+
     static postulantePut =
         {
             primerNombre: "Mauricio",
@@ -39,10 +62,12 @@ export class PostulanteTest {
             primerTelefono: "091854085",
             nivelEducativo: "Universitario",
             orientacionNE: "Ingenieria",
+            estadoNE: "Completo",
             jIndiferente: true,
             jCompleta: true,
             recibirOfertas: true,
-            terminosCondiciones: true
+            terminosCondiciones: true,
+            pais: 1
         }
 
     static capacitacionPost = {
