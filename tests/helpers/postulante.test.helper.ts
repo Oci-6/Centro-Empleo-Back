@@ -5,6 +5,7 @@ import { Postulante } from "../../src/models/Postulante";
 export class PostulanteTest {
 
     static tokenPostulante: string;
+    static tokenAdmin: string;
 
     static postulante: Postulante | undefined;
 
@@ -319,4 +320,256 @@ export class PostulanteTest {
 
     ]
 
+    static capacitacionesPutValues = [{
+        cap: {
+            id: "1",
+            nombre: "",
+            institucion: "Genexus Training",
+            fechaInicio: new Date("2022-06-20T00:00:00"),
+            duracion: -1,
+            estado: true
+        },
+        postulante: 1
+    },
+    {
+        cap: {
+            id: "100",
+            nombre: "Genexus",
+            areaTematica: "Tecnologia",
+            institucion: "Genexus Training",
+            fechaInicio: new Date("2021-06-20T00:00:00"),
+            duracion: 5,
+            tipoDuracion: "Semanas",
+            estado: "Completo"
+        },
+        postulante: 100
+    }
+
+    ]
+
+    static conocimientoInfoPutValues = [
+        {
+            info: {
+                id:"1",
+                nombreApp: true,
+                categoria: 353,
+                nivelConocimiento: "coso"
+            },
+            postulante: 1
+        },
+        {
+
+            info: {
+                categoria: false,
+                nivelConocimiento: "Avanzado"
+            },
+            postulante: 1
+
+        },
+        {
+            info: {
+                id:"100",
+                nombreApp: "Excel",
+                categoria: "Ofimatica",
+                nivelConocimiento: "Avanzado"
+            },
+            postulante: 100
+        },
+    ]
+
+    static idiomaPut = {
+        id: 1,
+        nombre: "Ingles",
+        hablaConv: "Basico",
+        compLec: "Basico",
+        escritura: "Basico",
+        compAud: "Basico"
+    }
+
+    static idiomasPutValues = [{
+        idioma: {
+            id: 1,
+            nombre: "Aleman",
+            compLec: "",
+            escritura: -1,
+            compAud: true
+        },
+        postulante: 1
+    },
+    {
+        idioma: {
+            id: 1,
+            nombre: "Aleman",
+            hablaConv: "Basico",
+            compLec: "Basico",
+            escritura: "Basico",
+            compAud: "Basico"
+        },
+        postulante: 100
+    },
+    {
+        idioma: {
+            id: 100,
+            nombre: "Otro",
+            hablaConv: "Basico",
+            compLec: "Basico",
+            escritura: "Basico",
+            compAud: "Basico"
+        },
+        postulante: 1
+    }
+
+    ]
+
+    static expLaboralPut = {
+        id:1,
+        nombreEmp: "Modificado",
+        cargo: "Pasante",
+        area: "Tecnologia",
+        nivelJer: "Pasante",
+        tareas: "Desarrollo, testing, documentacion",
+        fechaInicio: new Date("2021-04-20T00:00:00"),
+        fechaFin: new Date("2021-09-20T00:00:00"),
+        trabajando: false,
+        nombreRef: "Mauricio",
+        apellidoRef: "Ronqui",
+        cargoRef: "CEO",
+        telefonoRef: "099133535",
+        emailRef: "mronqui@gmail.com"
+
+    }
+
+    static expLaboralPutValues = [{
+        exp: {
+            id: 1,
+            nombreEmp: "",
+            cargo: "Pasante",
+            nivelJer: "Pasante",
+            fechaInicio: false,
+            fechaFin: new Date("2021-09-20T00:00:00"),
+            trabajando: -100,
+            nombreRef: "Mauricio",
+            apellidoRef: true,
+            cargoRef: "CEO",
+            telefonoRef: "099133535",
+            emailRef: "mronqui@gmail.com"
+        },
+        postulante: 1
+    },
+    {
+        exp: {
+            id:1,
+            nombreEmp: "Altech",
+            cargo: "Pasante",
+            area: "Tecnologia",
+            nivelJer: "Pasante",
+            tareas: "Desarrollo, testing, documentacion",
+            fechaInicio: new Date("2021-04-20T00:00:00"),
+            fechaFin: new Date("2021-09-20T00:00:00"),
+            trabajando: false,
+            nombreRef: "Mauricio",
+            apellidoRef: "Ronqui",
+            cargoRef: "CEO",
+            telefonoRef: "099133535",
+            emailRef: "mronqui@gmail.com"
+        },
+        postulante: 100
+    }, {
+        exp: {
+            id:100,
+            nombreEmp: "Altech",
+            cargo: "Pasante",
+            area: "Tecnologia",
+            nivelJer: "Pasante",
+            tareas: "Desarrollo, testing, documentacion",
+            fechaInicio: new Date("2021-04-20T00:00:00"),
+            fechaFin: new Date("2021-09-20T00:00:00"),
+            trabajando: false,
+            nombreRef: "Mauricio",
+            apellidoRef: "Ronqui",
+            cargoRef: "CEO",
+            telefonoRef: "09914533535",
+            emailRef: "mronqudsg.com"
+        },
+        postulante: 1
+    },
+
+
+
+    ]
+
+    static permisosLicenciaPut = {
+        id:1,
+        tipoDocumento: "Licencia de Conducir",
+        vigencia: new Date("2023-09-20T00:00:00"),
+
+    }
+
+    static permisosLicenciasPutValues = [
+        {
+            permiso: {
+                id:1,
+                tipoDocumento: "",
+                vigencia: -1,
+            },
+            postulante: 1
+        },
+        {
+            permiso: {
+                id:1,
+                tipoDocumento: "Carne",
+                vigencia: new Date("2022-04-20T00:00:00"),
+            },
+            postulante: 100
+        }, {
+            permiso: {
+                id:100,
+                tipoDocumento: "Otro",
+                vigencia: new Date("2022-04-20T00:00:00"),
+            },
+            postulante: 1
+        },
+
+
+
+
+    ]
+
+    static preferenciaLaboralPut = {
+        id:1,
+        puestoPreferido: "Modificado",
+        areaInteres: "Tecnologia",
+        aspiracionSalarial: 30000
+    }
+
+    static preferenciaLaboralPutValues = [
+        {
+            pref: {
+                id:1,
+                puestoPreferido: new Date(),
+                areaInteres: true,
+                aspiracionSalarial: -1000,
+            },
+            postulante: 1
+        },
+        {
+            pref: {
+                id:1,
+                puestoPreferido: "Gerente",
+                areaInteres: "Tecnologia",
+                aspiracionSalarial: '30000'
+            },
+            postulante: 100
+        }, {
+            pref: {
+                id:100,
+                puestoPreferido: "Otro",
+            },
+            postulante: 1
+        },
+
+
+
+
+    ]
 }
