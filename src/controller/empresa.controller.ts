@@ -93,7 +93,6 @@ export const habilitarEmpresa = async (req: Request, res: Response): Promise<Res
     Object.assign(empresa, req.body)
 
     let savedEmpresa = await helperEmpresa.update(empresa)
-    console.log(savedEmpresa);
     
     // await sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
 
@@ -117,7 +116,6 @@ export const sendEmailAcceso = async (req: Request, res: Response): Promise<Resp
 
 export const buscarEmpresas = async (request: Request, response: Response): Promise<Response> => {
 
-    console.log(request.query);
     let {query, page} = request.query;
     let result: [Empresa[], number] = await helperEmpresa.buscar(query, 12*Number(page));
     let res = {
@@ -142,7 +140,6 @@ const validacion = (empresa: Empresa) =>{
 
 const validacionHabilitar = (body: any) =>{
     if (!body.fechaExpiracion || new Date(body.fechaExpiracion) < new Date()) return true;
-    console.log(body);
     
     return false;
 }

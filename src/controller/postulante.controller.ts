@@ -16,8 +16,7 @@ import { templatePDF } from "../libs/pdf";
 
 export const postPostulante = async (request: Request, response: Response): Promise<Response> => {
     // Validando data
-    if (!request.body.email) return response.status(400).json({ message: 'Falta el email del usuario' });
-    if (!request.body.contraseña) return response.status(400).json({ message: 'Falta la contraseña del usuario' });
+    if(validacionPost(request.body)) return response.status(400).json({message: "Valores incorrectos"});
 
     const { email, contraseña } = request.body;
 
@@ -85,6 +84,10 @@ export const putPostulante = async (request: Request, response: Response): Promi
 export const postFoto = async (req: Request, response: Response): Promise<Response> => {
     let jwtauth = JSON.parse(req.params.jwtauth);
 
+    if(!req.file) return response.status(400).json({message: "No se envio archivo"})
+
+    if(!req.file?.mimetype.includes("image/")) return response.status(400).json({message: "Archivo invalido"})
+
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
 
@@ -94,7 +97,7 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
         limpiarArchivos(fileName)
     } 
 
-    if (req.file) postulante.foto = "http://localhost:3000/" + req.file?.path;
+    if (req.file) postulante.foto = req.file?.path;
 
     await helperPostulante.save(postulante);
 
@@ -103,6 +106,10 @@ export const postFoto = async (req: Request, response: Response): Promise<Respon
 
 export const postCV = async (req: Request, response: Response): Promise<Response> => {
     let jwtauth = JSON.parse(req.params.jwtauth);
+
+    if(!req.file) return response.status(400).json({message: "No se envio archivo"})
+
+    if(req.file?.mimetype != "application/pdf") return response.status(400).json({message: "Archivo invalido"})
 
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return response.status(400).json({ message: 'No se encontro usuario' });
@@ -113,7 +120,7 @@ export const postCV = async (req: Request, response: Response): Promise<Response
         limpiarArchivos(fileName)
     } 
 
-    if (req.file) postulante.curriculum = "http://localhost:3000/" + req.file?.path;
+    if (req.file) postulante.curriculum =  req.file?.path;
 
     await helperPostulante.save(postulante);
 
@@ -128,8 +135,12 @@ export const postularse = async (req: Request, res: Response): Promise<Response>
     let oferta: any | undefined = await helperOferta.get(req.params.idOferta);
     if (!oferta) return res.status(400).json({ message: 'No se encontro oferta' });
 
+
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return res.status(400).json({ message: 'No se encontro usuario' });
+
+    if(oferta.postulantes.find((elem:any) => elem.id = jwtauth.usuario)) return res.status(400).json({ message: 'Ya se encuentra postulado' });
+
     if (!postulante.terminosCondiciones) return res.status(400).json({ message: 'Perfil incompleto' });
     oferta.postulantes.push(postulante);
 
@@ -150,7 +161,7 @@ export const generarPDF = async (request: Request, response: Response): Promise<
 
     if (!request.params.id) return response.status(400).json({ message: 'No se ingreso el id del postulante' });
     const postulante = await helperPostulante.get(request.params.id);
-    if(!postulante) return response.status(400).json({ message: 'No se encontró el postulante' });
+    if(!postulante) return response.status(404).json({ message: 'No se encontró el postulante' });
 
     pdf.create(await templatePDF(request.protocol + "://" + request.get("Host"), postulante)).toBuffer((err: any, res: any) =>{
         if(err) return Promise.reject;
@@ -180,7 +191,15 @@ const perfilCompleto = (postulante: Postulante): boolean => {
     if(!postulante.estadoNE) return false;
     if(!postulante.orientacionNE&&postulante.nivelEducativo=="Otro") return false;
     if(!(postulante.jCompleta||postulante.jIndiferente||postulante.jMtManiana||postulante.jMtNoche||postulante.jMtTarde)) return false;
-    if(!postulante.pais&&!postulante.localidad) return false;
+    if(!postulante.pais) return false;
+    if(postulante.pais.nombre== "Uruguay" &&!postulante.localidad) return false;
 
     return true;
+}
+
+const validacionPost = (postulante: Postulante): boolean => {
+    if (!postulante.email || typeof postulante.email != 'string'|| !postulante.email.includes('@')) return true;
+    if (!postulante.contraseña || typeof postulante.contraseña != 'string') return true;
+
+    return false;
 }

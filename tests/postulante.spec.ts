@@ -5,6 +5,10 @@ import { getConnection, getRepository } from "typeorm";
 import { Postulante } from "../src/models/Postulante";
 import { PostulanteTest } from "./helpers/postulante.test.helper";
 import { connectionConfig } from "./helpers/connection";
+import { EmpresaTest } from "./helpers/empresa.test.helper";
+import { Empresa } from "../src/models/Empresa";
+import { OfertaTest } from "./helpers/oferta.test.helper";
+import { Oferta } from "../src/models/Oferta";
 
 beforeAll(async () => {
     await connection.create(connectionConfig);
@@ -13,6 +17,8 @@ beforeAll(async () => {
     await PostulanteTest.postulantesSeed(repositorio);
     PostulanteTest.tokenPostulante = (await request(app).post('/api/auth/login').send({ email: "mauri3418@gmail.com", contraseña: "12345" })).body.token;
 
+    await EmpresaTest.empresasSeed(getRepository(Empresa));
+    await OfertaTest.OfertaSeed(getRepository(Oferta));
 })
 
 afterAll(async () => {
@@ -20,6 +26,37 @@ afterAll(async () => {
 })
 
 describe('Postulante', () => {
+
+    describe('POST /api/postulante/', () => {
+
+        test('should respond with 200 status code and create "postulante" instance', async () => {
+
+            const response = await request(app).post('/api/postulante/')
+                .send(PostulanteTest.postulantePost);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(3);
+            expect(response.body.email).toBe('mauricio@mail.com');
+            expect(typeof response.body.contraseña).toBe('string');
+        })
+
+        test('should respond with error statuses code', async () => {
+
+            for await (const post of PostulanteTest.postulanteValues) {
+                const response = await request(app).post('/api/postulante')
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(post);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+
+        })
+    })
 
     describe('PUT /api/postulante/', () => {
         test('should respond with a 200 status code', async () => {
@@ -45,11 +82,115 @@ describe('Postulante', () => {
             expect(typeof response.body.segundoApellido).toBe('string');
             expect(typeof response.body.segundoNombre).toBe('string');
             expect(typeof response.body.sexo).toBe('string');
-            expect(response.body.terminosCondiciones).toBe(false);
+            expect(response.body.terminosCondiciones).toBe(true);
             expect(typeof response.body.tipoDocumento).toBe('string');
 
         })
 
+
+    })
+
+    describe('POST /api/postulante/foto', () => {
+        test('should respond with a 200 status code', async () => {
+            const response = await request(app).post('/api/postulante/foto')
+            .attach('file', "placeholder.png")
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+
+            expect(response.statusCode).toBe(200);
+
+            
+
+        })
+
+        test('should respond with a 400 status code', async () => {
+            const response = await request(app).post('/api/postulante/foto')
+            .attach('file', "Placeholder-PDF.pdf")
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+
+            expect(response.statusCode).toBe(400);
+
+            
+
+        })
+
+    })
+
+    describe('POST /api/postulante/curriculum', () => {
+        test('should respond with a 200 status code', async () => {
+            const response = await request(app).post('/api/postulante/curriculum')
+            .attach('file', "Placeholder-PDF.pdf")
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+
+            expect(response.statusCode).toBe(200);
+
+            
+
+        })
+
+        test('should respond with a 400 status code', async () => {
+            const response = await request(app).post('/api/postulante/curriculum')
+            .attach('file', "placeholder.png")
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+
+            expect(response.statusCode).toBe(400);
+
+            
+
+        })
+
+    })
+
+    describe('GET /api/postulante/getPDF/:id', () => {
+        test('should respond with a 200 status code and content type PDF', async () => {
+            const response = await request(app).get('/api/postulante/getPDF/1')
+            .expect('Content-Type', /application\/pdf/)
+            .expect('Content-Disposition', /attachment; filename=cv.pdf/);
+
+            expect(response.statusCode).toBe(200);
+
+            
+
+        }, 15000)
+
+        test('should respond with a 404 status code', async () => {
+            const response = await request(app).get('/api/postulante/getPDF/10')
+           
+            expect(response.statusCode).toBe(404);
+
+            
+
+        }, 15000)
+        
+    })
+
+    describe('GET /api/postulante/postularse', () => {
+        test('should respond with a 200 status code', async () => {
+            const response = await request(app).get('/api/postulante/postularse/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+ 
+
+            expect(response.statusCode).toBe(200);
+            
+            
+            expect(response.body.postulantes.length).toBe(1);
+
+            
+
+        })
+
+        test('should respond with a 404 status code', async () => {
+            const response = await request(app).get('/api/postulante/postularse/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+ 
+            expect(response.statusCode).toBe(400);
+        })
+
+        test('should respond with a 404 status code', async () => {
+            const response = await request(app).get('/api/postulante/postularse/1000')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);
+ 
+            expect(response.statusCode).toBe(400);
+        })
 
     })
 
