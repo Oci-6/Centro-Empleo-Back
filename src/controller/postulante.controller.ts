@@ -152,7 +152,7 @@ export const buscarPostulantes = async (request: Request, response: Response): P
     //Obtener token
     let jwtauth = JSON.parse(request.params.jwtauth);
     let params = JSON.parse(filtros as string)
-    params["usuario"] = jwtauth.tipo;
+    params["usuario"] = jwtauth.tipo;   
 
     return response.status(200).json(await helperPostulante.buscar(params, 10 * Number(page)));
 }

@@ -5,6 +5,7 @@ import { Postulante } from "../../src/models/Postulante";
 export class PostulanteTest {
 
     static tokenPostulante: string;
+    static tokenAdmin: string;
 
     static postulante: Postulante | undefined;
 
@@ -80,17 +81,6 @@ export class PostulanteTest {
         estado: "Completo"
     }
 
-    static capacitacionPut = {
-        id: 1,
-        nombre: "Modificado",
-        areaTematica: "Tecnologia",
-        institucion: "Genexus Training",
-        fechaInicio: new Date("2021-06-20T00:00:00"),
-        duracion: 5,
-        tipoDuracion: "Semanas",
-        estado: "Completo"
-    }
-
     static capacitacionesValues = [{
         cap: {
             nombre: "",
@@ -118,13 +108,6 @@ export class PostulanteTest {
 
     static conocimientoInfoPost = {
         nombreApp: "Excel",
-        categoria: "Ofimatica",
-        nivelConocimiento: "Avanzado"
-    }
-
-    static conocimientoInfoPut = {
-        id: 1,
-        nombreApp: "Modificado",
         categoria: "Ofimatica",
         nivelConocimiento: "Avanzado"
     }
@@ -396,7 +379,7 @@ export class PostulanteTest {
 
     static idiomaPut = {
         id: 1,
-        nombre: "Modificado",
+        nombre: "Ingles",
         hablaConv: "Basico",
         compLec: "Basico",
         escritura: "Basico",
@@ -517,7 +500,7 @@ export class PostulanteTest {
 
     static permisosLicenciaPut = {
         id:1,
-        tipoDocumento: "Modificado",
+        tipoDocumento: "Licencia de Conducir",
         vigencia: new Date("2023-09-20T00:00:00"),
 
     }
