@@ -90,6 +90,66 @@ describe('Postulante', () => {
         })
     })
 
+    describe('PUT /api/postulante/capacitacion/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "capacitacion" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/capacitacion/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.capacitacionPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.nombre).toBe('Modificado');
+            expect(response.body.areaTematica).toBe('Tecnologia');
+            expect(response.body.institucion).toBe('Genexus Training');
+            expect(new Date(response.body.fechaInicio)).toBeInstanceOf(Date);
+            expect(response.body.duracion).toBe(5);
+            expect(response.body.tipoDuracion).toBe("Semanas");
+            expect(response.body.estado).toBe("Completo");
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const cap of PostulanteTest.capacitacionesPutValues) {
+                const response = await request(app).put('/api/postulante/capacitacion/' + cap.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(cap.cap);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/capacitacion/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "capacitacion" instance', async () => {
+
+            await request(app).delete('/api/postulante/capacitacion/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/capacitaciones/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/capacitacion/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
+
+        })
+
+    })
+
     describe('POST /api/postulante/conocimientoInfo/{idPostulante}', () => {
         test('should respond with a 200 status code and create "conocimiento" instance', async () => {
             const response = await request(app).post('/api/postulante/conocimientoInfo/' + PostulanteTest.postulante?.id)
@@ -118,6 +178,62 @@ describe('Postulante', () => {
                 expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
             }
 
+
+        })
+
+    })
+
+    describe('PUT /api/postulante/conocimientoInfo/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "capacitacion" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/conocimientoInfo/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.conocimientoInfoPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.nombreApp).toBe('Modificado');
+            expect(response.body.categoria).toBe('Ofimatica');
+            expect(response.body.nivelConocimiento).toBe('Avanzado');
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const con of PostulanteTest.conocimientoInfoPutValues) {
+                const response = await request(app).put('/api/postulante/conocimientoInfo/' + con.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(con.info);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/conocimientoInfo/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "conocimiento" instance', async () => {
+
+            await request(app).delete('/api/postulante/conocimientoInfo/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/conocimientoInfos/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/conocimientoInfo/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
 
         })
 
@@ -154,6 +270,64 @@ describe('Postulante', () => {
             }
 
         })
+    })
+
+    describe('PUT /api/postulante/idioma/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "idioma" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/idioma/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.idiomaPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.nombre).toBe('Modificado');
+            expect(response.body.hablaConv).toBe('Basico');
+            expect(response.body.compLec).toBe('Basico');
+            expect(response.body.escritura).toBe('Basico');
+            expect(response.body.compAud).toBe('Basico');
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const idi of PostulanteTest.idiomasPutValues) {
+                const response = await request(app).put('/api/postulante/conocimientoInfo/' + idi.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(idi.idioma);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/idioma/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "conocimiento" instance', async () => {
+
+            await request(app).delete('/api/postulante/idioma/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/idiomas/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/idioma/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
+
+        })
+
     })
 
     describe('POST /api/postulante/expLaboral/{idPostulante}', () => {
@@ -198,6 +372,72 @@ describe('Postulante', () => {
         })
     })
 
+    describe('PUT /api/postulante/expLaboral/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "expLaboral" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/expLaboral/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.expLaboralPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.nombreEmp).toBe('Modificado');
+            expect(response.body.cargo).toBe('Pasante');
+            expect(response.body.area).toBe('Tecnologia');
+            expect(response.body.nivelJer).toBe('Pasante');
+            expect(response.body.tareas).toBe('Desarrollo, testing, documentacion');
+            expect(new Date(response.body.fechaInicio)).toBeInstanceOf(Date);
+            expect(new Date(response.body.fechaFin)).toBeInstanceOf(Date);
+            expect(response.body.trabajando).toBe(false);
+            expect(response.body.nombreRef).toBe('Mauricio');
+            expect(response.body.apellidoRef).toBe('Ronqui');
+            expect(response.body.cargoRef).toBe('CEO');
+            expect(response.body.telefonoRef).toBe('099133535');
+            expect(response.body.emailRef).toBe('mronqui@gmail.com');       
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const expL of PostulanteTest.expLaboralPutValues) {
+                const response = await request(app).put('/api/postulante/expLaboral/' + expL.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(expL.exp);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/expLaboral/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "expLab" instance', async () => {
+
+            await request(app).delete('/api/postulante/expLaboral/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/expLaborales/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/expLaborales/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
+
+        })
+
+    })
+
     describe('POST /api/postulante/permisosLicencia/{idPostulante}', () => {
 
         test('should respond with a 200 status code and create "permisosLicencia" instance', async () => {
@@ -229,6 +469,61 @@ describe('Postulante', () => {
         })
     })
 
+    describe('PUT /api/postulante/permisosLicencia/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "permisosLicencia" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/permisosLicencia/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.permisosLicenciaPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.tipoDocumento).toBe('Modificado');
+            expect(new Date(response.body.vigencia)).toBeInstanceOf(Date);     
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const permLic of PostulanteTest.permisosLicenciasPutValues) {
+                const response = await request(app).put('/api/postulante/permisosLicencia/' + permLic.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(permLic.permiso);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/permisosLicencia/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "permLic" instance', async () => {
+
+            await request(app).delete('/api/postulante/permisosLicencia/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/permisosLicencias/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/permisosLicencia/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
+
+        })
+
+    })
+
     describe('POST /api/postulante/preferenciaLaboral/{idPostulante}', () => {
 
         test('should respond with a 200 status code and create "preferenciaLaboral" instance', async () => {
@@ -258,5 +553,60 @@ describe('Postulante', () => {
             }
 
         })
+    })
+
+    describe('PUT /api/postulante/preferenciaLaboral/{idPostulante}', () => {
+
+        test('should respond with 200 status code and update "preferenciaLaboral" instance', async () => {
+
+            const response = await request(app).put('/api/postulante/preferenciaLaboral/')
+                .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                .send(PostulanteTest.preferenciaLaboralPut);
+
+            expect(response.statusCode).toBe(200);
+
+            expect(response.statusCode).toBeDefined();
+            expect(response.body).toBeInstanceOf(Object);
+
+            expect(response.body.id).toBe(1);
+            expect(response.body.puestoPreferido).toBe('Modificado');
+            expect(response.body.areaInteres).toBe('Tecnologia');
+            expect(response.body.aspiracionSalarial).toBe(30000);   
+            
+        })
+
+        test('should respond with error status code', async () => {
+
+            for await (const prefLab of PostulanteTest.preferenciaLaboralPutValues) {
+                const response = await request(app).put('/api/postulante/preferenciaLaboral/' + prefLab.postulante)
+                    .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante)
+                    .send(prefLab.pref);
+
+                expect(response.statusCode === 400 || response.statusCode === 404).toBeTruthy();
+            }
+
+        })
+
+    })
+
+    describe('DELETE /api/postulante/preferenciaLaboral/{idPostulante}', () => {
+
+        test('should respond with 200 status code and delete a "preferenciaLaboral" instance', async () => {
+
+            await request(app).delete('/api/postulante/preferenciaLaboral/1').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+            const response = await request(app).get('/api/postulante/preferenciaLaborales/1')
+            .set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante).send();
+
+            expect(response.body.length).toBe(0);
+
+        })
+        test('should respond with 400 status code', async () => {
+
+            const response = await request(app).delete('/api/postulante/preferenciaLaboral/300').set('Authorization', 'Bearer ' + PostulanteTest.tokenPostulante);  
+
+            expect(response.statusCode).toBe(404);
+
+        })
+
     })
 });

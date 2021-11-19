@@ -35,14 +35,21 @@ export const postPermisosLicencia = async (req: Request, res:Response): Promise<
 
 export const putPermisosLicencia = async (req: Request, res: Response): Promise<Response> => {
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
-
-
+    let permLic: any = await helperPermisosLicencias.get(req.body.id);
+    if(!permLic) return res.status(404).json({message: "No existe Permiso o Licencia"});
+    Object.assign(permLic, req.body);
+    if(validacion(permLic)) return res.status(400).json({message: "Valores incorrectos"});
+    
     return res.status(200).json(await helperPermisosLicencias.update(req.body))
-
 }
 
 export const  deletePermisosLicencia = async (req: Request, res: Response): Promise<Response> => {
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+    let permLic: any = await helperPermisosLicencias.get(req.params.id);
+    if(!permLic) return res.status(404).json({message: "No existe Permiso o Licencia"});
+
+    let jwtauth = JSON.parse(req.params.jwtauth);
+    if(permLic.postulante.id!=jwtauth.usuario) return res.status(403).json({message: "No tienes los permisos"});
 
     return res.status(200).json(await helperPermisosLicencias.borrar(req.params.id))
 }

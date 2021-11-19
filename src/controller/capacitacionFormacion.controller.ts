@@ -36,16 +36,26 @@ export const postCapacitacion = async (req: Request, res:Response): Promise<Resp
 }
 
 export const putCapacitacion = async (req: Request, res: Response): Promise<Response> => {
+
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
-
-
+    let capacitacion: any = await helperCapacitacion.get(req.body.id);
+    if(!capacitacion) return res.status(404).json({message: "No existe capacitación"});
+    Object.assign(capacitacion, req.body);
+    if(validacion(capacitacion)) return res.status(400).json({message: "Valores incorrectos"});
+    
     return res.status(200).json(await helperCapacitacion.update(req.body))
 
 }
 
 export const  deleteCapacitacion = async (req: Request, res: Response): Promise<Response> => {
+    
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+    let capacitacion: any = await helperCapacitacion.get(req.params.id);
+    if(!capacitacion) return res.status(404).json({message: "No existe capacitación"});
 
+    let jwtauth = JSON.parse(req.params.jwtauth);
+    if(capacitacion.postulante.id!=jwtauth.usuario) return res.status(403).json({message: "No tienes los permisos"});
+    
     return res.status(200).json(await helperCapacitacion.borrar(req.params.id))
 }
 

@@ -15,13 +15,12 @@ router.get("/", PaisController.getPaises);
 
 router.get("/:id", PaisController.getPais);
 
-
 router.get("/departamentos/:paisId", DepartamentoController.getDepartamentos);
 
 router.get("/departamento/:id", DepartamentoController.getDepartamento);
 
-
 router.get("/departamento/localidades/:departamentoId", LocalidadController.getLocalidades);
 
 router.get("/departamento/localidad/:id", LocalidadController.getLocalidad);
+
 export default router;

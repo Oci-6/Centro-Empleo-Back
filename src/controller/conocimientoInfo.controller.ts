@@ -36,15 +36,24 @@ export const postConocimientoInfo = async (req: Request, res:Response): Promise<
 }
 
 export const putConocimientoInfo = async (req: Request, res: Response): Promise<Response> => {
+
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
-
-
+    let conInfo: any = await helperConocimientoInfo.get(req.body.id);
+    if(!conInfo) return res.status(404).json({message: "No existe Conocimiento Informático"});
+    Object.assign(conInfo, req.body);
+    if(validacion(conInfo)) return res.status(400).json({message: "Valores incorrectos"});
+    
     return res.status(200).json(await helperConocimientoInfo.update(req.body))
 
 }
 
 export const  deleteConocimientoInfo = async (req: Request, res: Response): Promise<Response> => {
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+    let conInfo: any = await helperConocimientoInfo.get(req.params.id);
+    if(!conInfo) return res.status(404).json({message: "No existe Conocimiento Informático"});
+
+    let jwtauth = JSON.parse(req.params.jwtauth);
+    if(conInfo.postulante.id!=jwtauth.usuario) return res.status(403).json({message: "No tienes los permisos"});
 
     return res.status(200).json(await helperConocimientoInfo.borrar(req.params.id))
 }

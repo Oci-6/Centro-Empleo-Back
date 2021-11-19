@@ -35,14 +35,22 @@ export const postIdioma = async (req: Request, res:Response): Promise<Response> 
 
 export const putIdioma = async (req: Request, res: Response): Promise<Response> => {
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
-
-
+    let idioma: any = await helperIdioma.get(req.body.id);
+    if(!idioma) return res.status(404).json({message: "No existe Idioma"});
+    Object.assign(idioma, req.body);
+    if(validacion(idioma)) return res.status(400).json({message: "Valores incorrectos"});
+    
     return res.status(200).json(await helperIdioma.update(req.body))
 
 }
 
 export const  deleteIdioma = async (req: Request, res: Response): Promise<Response> => {
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+    let idioma: any = await helperIdioma.get(req.params.id);
+    if(!idioma) return res.status(404).json({message: "No existe Idioma"});
+
+    let jwtauth = JSON.parse(req.params.jwtauth);
+    if(idioma.postulante.id!=jwtauth.usuario) return res.status(403).json({message: "No tienes los permisos"});
 
     return res.status(200).json(await helperIdioma.borrar(req.params.id))
 }

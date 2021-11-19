@@ -23,19 +23,12 @@ export const getAll = async (request: Request, response: Response): Promise<Resp
     return response.status(200).json(await helperNovedad.getAll());
 }
 
-/*
-export const getExpLaborales = async (req: Request, res: Response): Promise<Response> => {
-    if(!req.params.idPostulante) return res.status(400).json({message: "No se ingreso id"});
-
-    return res.status(200).json(await helperExpLaboral.getAll(req.params.idPostulante));
-}
-*/
-
 export const postNovedad = async (request: Request, response:Response): Promise<Response> => {
+
     // Validando data
-    if (!request.body.titulo) return response.status(400).json({ message: 'Falta el titulo de la novedad' });
-    if (!request.body.contenido) return response.status(400).json({ message: 'Falta el contenido de la novedad' });
+    if(validacion(request.body)) return response.status(400).json({message: "Valores incorrectos"});
     if (!request.file) return response.status(400).json({ message: 'Falta la imagen de la novedad' });
+    if (!request.file.mimetype.includes('image/')) return response.status(400).json({ message: 'El archivo no es una imagen' });
 
     if (request.file) request.body.imagen = "http://localhost:3000/" + request.file?.path;
     
@@ -45,34 +38,19 @@ export const postNovedad = async (request: Request, response:Response): Promise<
 
     return response.status(200).json(savedNovedad);
 
-   /* if(!req.params.idAdmin) return res.status(400).json({message: "No se ingreso admin"});
-
-    let body: Novedad = req.body;
-    let admin = await helperAdmin.get(req.params.idAdmin);
-    if(!admin) return res.status(200).json({message: "No se encontro admin"})
-    body.admin = admin;
-    return res.status(200).json(await helperNovedad.save(body))
-*/
-
-// Crear nueva novedad
-// const { titulo, contenido, imagen, fechaPublicacion, admin } = req.body;
-
-// const savedNovedad = await helperNovedad.save({ titulo, contenido, imagen, fechaPublicacion, admin});
-
-
-
-// return res.status(200).json(savedNovedad);
-
 }
 
 
 
 export const putNovedad = async (req: Request, res: Response): Promise<Response> => {
 
+    if(validacion(req.body)) return res.status(400).json({message: "Valores incorrectos"});
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
 
     let novedad = await helperNovedad.get(req.body.id);
     if(!novedad) return res.status(400).json({ message: 'No existe una novedad con ese id' });
+    if (!req.file) return res.status(400).json({ message: 'Falta la imagen de la novedad' });
+    if (!req.file.mimetype.includes('image/')) return res.status(400).json({ message: 'El archivo no es una imagen' });
 
     if (req.file){
         if(novedad?.imagen&&novedad?.imagen.includes("uploads")){
@@ -93,7 +71,6 @@ export const putNovedad = async (req: Request, res: Response): Promise<Response>
 }
 
 export const  deleteNovedad = async (req: Request, res: Response): Promise<Response> => {
-    console.log(req.params);
     if (!await getRepository(Novedad).findOne({ where: { id: req.params.id } })) return res.status(400).json({ message: 'No existe una novedad con ese id' });
 
 
@@ -101,14 +78,9 @@ export const  deleteNovedad = async (req: Request, res: Response): Promise<Respo
 }
 
 
-
-//export const getPostulantes = async (request: Request, response: Response): Promise<Response> => {
-//    return response.status(200).json(await helperPostulante.getAll());
-//}
-
 export const buscarNovedades = async (request: Request, response: Response): Promise<Response> => {
 
-    console.log(request.query);
+
     let {query, page} = request.query;
     let result: [Novedad[], number] = await helperNovedad.search(query, 12*Number(page));
     let res = {
@@ -122,10 +94,19 @@ export const buscarNovedades = async (request: Request, response: Response): Pro
 
 export const ultimasNovedades = async (request: Request, response: Response): Promise<Response> => {
 
-    console.log(request.query);
+
     let result: Novedad[] = await helperNovedad.lastNews();
 
     return response.status(200).json(result);
    
+}
+
+const validacion = (novedad: Novedad) => {
+
+    if (!novedad.titulo || typeof novedad.titulo != 'string') return true;
+    if (!novedad.contenido || typeof novedad.contenido != 'string') return true;
+
+    return false;
+
 }
 

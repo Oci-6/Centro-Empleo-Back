@@ -35,14 +35,22 @@ export const postPreferenciaLaboral = async (req: Request, res:Response): Promis
 
 export const putPreferenciaLaboral = async (req: Request, res: Response): Promise<Response> => {
     if(!req.body.id) return res.status(400).json({message: "No se ingreso id"});
-
-
+    let prefLab: any = await helperPreferenciaLaboral.get(req.body.id);
+    if(!prefLab) return res.status(404).json({message: "No existe Preferencia Laboral"});
+    Object.assign(prefLab, req.body);
+    if(validacion(prefLab)) return res.status(400).json({message: "Valores incorrectos"});
+    
     return res.status(200).json(await helperPreferenciaLaboral.update(req.body))
 
 }
 
 export const  deletePreferenciaLaboral = async (req: Request, res: Response): Promise<Response> => {
     if(!req.params.id) return res.status(400).json({message: "No se ingreso id"});
+    let prefLab: any = await helperPreferenciaLaboral.get(req.params.id);
+    if(!prefLab) return res.status(404).json({message: "No existe Preferencia Laboral"});
+
+    let jwtauth = JSON.parse(req.params.jwtauth);
+    if(prefLab.postulante.id!=jwtauth.usuario) return res.status(403).json({message: "No tienes los permisos"});
 
     return res.status(200).json(await helperPreferenciaLaboral.borrar(req.params.id))
 }
