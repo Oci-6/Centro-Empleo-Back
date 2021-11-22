@@ -132,7 +132,7 @@ const validacion = (empresa: Empresa) => {
     if (!empresa.razonSocial || typeof empresa.razonSocial != 'string') return true;
     if (typeof empresa.visibilidad === 'undefined') return true;
     if (empresa.visibilidad && !empresa.nombreFantasia || typeof empresa.nombreFantasia != 'string') return true;
-    if (!empresa.telefono || typeof empresa.telefono != 'string' || (empresa.telefono.length != 8 && empresa.telefono.length != 12 && empresa.telefono.length != 9)) return true;
+    if (!empresa.telefono || (typeof empresa.telefono != 'string'&&typeof empresa.telefono != 'number') || !/^\d+$/.test(empresa.telefono)) return true;
     return false;
 
 }

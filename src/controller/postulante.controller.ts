@@ -139,7 +139,7 @@ export const postularse = async (req: Request, res: Response): Promise<Response>
     let postulante = await helperPostulante.get(jwtauth.usuario);
     if (!postulante) return res.status(400).json({ message: 'No se encontro usuario' });
 
-    if(oferta.postulantes.find((elem:any) => elem.id = jwtauth.usuario)) return res.status(400).json({ message: 'Ya se encuentra postulado' });
+    if(oferta.postulantes.find((elem:any) => elem.id == jwtauth.usuario)) return res.status(400).json({ message: 'Ya se encuentra postulado' });
 
     if (!postulante.terminosCondiciones) return res.status(400).json({ message: 'Perfil incompleto' });
     oferta.postulantes.push(postulante);
