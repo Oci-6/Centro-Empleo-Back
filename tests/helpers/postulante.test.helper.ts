@@ -320,6 +320,17 @@ export class PostulanteTest {
 
     ]
 
+    static capacitacionPut = {
+        id: 1,
+        nombre: "Modificado",
+        areaTematica: "Tecnologia",
+        institucion: "Genexus Training",
+        fechaInicio: new Date("2021-06-20T00:00:00"),
+        duracion: 5,
+        tipoDuracion: "Semanas",
+        estado: "Completo"
+    }
+
     static capacitacionesPutValues = [{
         cap: {
             id: "1",
@@ -346,6 +357,13 @@ export class PostulanteTest {
     }
 
     ]
+
+    static conocimientoInfoPut = {
+        id: 1,
+        nombreApp: "Modificado",
+        categoria: "Ofimatica",
+        nivelConocimiento: "Avanzado"
+    }
 
     static conocimientoInfoPutValues = [
         {

@@ -30,7 +30,7 @@ export const postNovedad = async (request: Request, response:Response): Promise<
     if (!request.file) return response.status(400).json({ message: 'Falta la imagen de la novedad' });
     if (!request.file.mimetype.includes('image/')) return response.status(400).json({ message: 'El archivo no es una imagen' });
 
-    if (request.file) request.body.imagen = "http://localhost:3000/" + request.file?.path;
+    if (request.file) request.body.imagen = request.file?.path;
     
     const { titulo, contenido, imagen } = request.body;
 
@@ -57,7 +57,7 @@ export const putNovedad = async (req: Request, res: Response): Promise<Response>
             let fileName = novedad?.imagen.substr(novedad?.imagen.lastIndexOf('/')+1);
             limpiarArchivos(fileName)
         }
-        novedad.imagen = "http://localhost:3000/" + req.file?.path;
+        novedad.imagen = req.file?.path;
     } 
 
     novedad.titulo = req.body.titulo;
