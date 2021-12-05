@@ -49,10 +49,10 @@ export const putNovedad = async (req: Request, res: Response): Promise<Response>
 
     let novedad = await helperNovedad.get(req.body.id);
     if(!novedad) return res.status(400).json({ message: 'No existe una novedad con ese id' });
-    if (!req.file) return res.status(400).json({ message: 'Falta la imagen de la novedad' });
-    if (!req.file.mimetype.includes('image/')) return res.status(400).json({ message: 'El archivo no es una imagen' });
 
     if (req.file){
+        if (!req.file.mimetype.includes('image/')) return res.status(400).json({ message: 'El archivo no es una imagen' });
+
         if(novedad?.imagen&&novedad?.imagen.includes("uploads")){
             let fileName = novedad?.imagen.substr(novedad?.imagen.lastIndexOf('/')+1);
             limpiarArchivos(fileName)

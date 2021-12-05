@@ -61,8 +61,8 @@ const validacion = (expLaboral: ExpLaboral) => {
     if (!expLaboral.area || typeof expLaboral.area != 'string') return true;
     if (!expLaboral.nivelJer || typeof expLaboral.nivelJer != 'string') return true;
     if (!expLaboral.tareas || typeof expLaboral.tareas != 'string') return true;
-    if (!expLaboral.fechaFin || expLaboral.fechaFin > new Date()) return true;
-    if (!expLaboral.fechaInicio || expLaboral.fechaInicio > new Date() || expLaboral.fechaInicio > expLaboral.fechaFin) return true;
+    if (!expLaboral.fechaFin) return true;
+    if (!expLaboral.fechaInicio || expLaboral.fechaInicio > new Date() || expLaboral.fechaInicio > expLaboral.fechaFin) return true;    
     if (typeof expLaboral.trabajando === 'undefined'|| typeof expLaboral.trabajando != 'boolean') return true;
     if (!expLaboral.nombreRef || typeof expLaboral.nombreRef != 'string') return true;
     if (!expLaboral.apellidoRef || typeof expLaboral.apellidoRef != 'string') return true;

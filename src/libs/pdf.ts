@@ -40,11 +40,6 @@ export const templatePDF = async (host: string, data: Postulante): Promise<strin
 
             <div class="card border-dark mb-3">
                 <div class="row ">
-                    <div class="col-md-4 justify-content-center">
-                        <div class="p-2 ">
-                            <img src="C:\Users\Admin\Desktop\pfp.png" class="card-image imagen" alt="">
-                        </div>
-                    </div>
                     <div class="col-md-8">
                         <div class="card-body">
                             <h2 class="card-title mb-4 mt-2">

@@ -5,6 +5,7 @@ import { Localidad } from "../models/Localidad"
 import * as helperPais from "../helpers/pais.helper"
 import { Admin } from "../models/Admin"
 import { encrypt } from "./encriptacion"
+import { localidades } from "./localidades"
 
 export const startUp = async () => {
     if (await getRepository(Pais).count() === 0) {
@@ -17,6 +18,14 @@ export const startUp = async () => {
 
         let departamentos = [{nombre: "Artigas",pais: uruguay},{nombre: "Canelones",pais: uruguay},{nombre: "Cerro Largo",pais: uruguay},{nombre: "Colonia",pais: uruguay},{nombre: "Durazno",pais: uruguay},{nombre: "Flores",pais: uruguay},{nombre: "Florida",pais: uruguay},{nombre: "Lavalleja",pais: uruguay},{nombre: "Maldonado",pais: uruguay},{nombre: "Montevideo",pais: uruguay},{nombre: "Paysandú",pais: uruguay},{nombre: "Río Negro",pais: uruguay},{nombre: "Rivera",pais: uruguay},{nombre: "Rocha",pais: uruguay},{nombre: "Salto",pais: uruguay},{nombre: "San José",pais: uruguay},{nombre: "Soriano",pais: uruguay},{nombre: "Tacuarembo",pais: uruguay},{nombre: "Treinta y Tres",pais: uruguay},];
         await getRepository(Departamento).save(departamentos);
+        
+
+    }
+
+    if(await getRepository(Localidad).count() === 0){
+        let localidad: any = await localidades();
+       await getRepository(Localidad).save(localidad);
+        
 
     }
 
@@ -31,3 +40,5 @@ export const startUp = async () => {
 
     }
 }
+
+
