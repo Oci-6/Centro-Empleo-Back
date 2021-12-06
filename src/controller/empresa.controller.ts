@@ -74,7 +74,7 @@ export const putEmpresa = async (req: Request, res: Response): Promise<Response>
 
         let emp: any = await helperEmpresa.get(req.body.id)
 
-        // await sendEmail(process.env.ADMIN as string, "Nueva Empresa", nuevaEmpresa(emp));
+        await sendEmail(process.env.ADMIN as string, "Nueva Empresa", nuevaEmpresa(emp));
     } else {
         saved = await helperEmpresa.update(empresaPut)
     }
@@ -94,7 +94,7 @@ export const habilitarEmpresa = async (req: Request, res: Response): Promise<Res
 
     let savedEmpresa = await helperEmpresa.update(empresa)
 
-    // await sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
+    await sendEmail(savedEmpresa.email, "Acceso concedido", accesoConcedido(savedEmpresa));
 
     return res.status(200).json(savedEmpresa);
 
@@ -106,7 +106,7 @@ export const sendEmailAcceso = async (req: Request, res: Response): Promise<Resp
 
     if (!empresa) return res.status(400).json({ message: 'No se encontro usuario' });
 
-    // await sendEmail(process.env.ADMIN as string, "Nueva Empresa", accesoEmpresa(empresa));
+    await sendEmail(process.env.ADMIN as string, "Nueva Empresa", accesoEmpresa(empresa));
 
 
     return res.status(200).json({ message: "Enviado" });

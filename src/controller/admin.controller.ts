@@ -25,7 +25,7 @@ export const compartirOferta = async (request: Request, response: Response): Pro
     let emails = postulantes.map(e => e.email).join(",");
 
 
-    sendEmail(emails,"Nueva oportunidad laboral", ofertaLaboral(oferta));
+    await sendEmail(emails,"Nueva oportunidad laboral", ofertaLaboral(oferta));
 
     return response.status(204).json();
 }
@@ -39,7 +39,7 @@ export const compartirNovedad = async (request: Request, response: Response): Pr
     let emails = postulantes.map(e => e.email).join(",");
 
 
-    sendEmail(emails,"Nueva novedad del Centro Comercial", novedadTemplate(novedad));
+    await sendEmail(emails,"Nueva novedad del Centro Comercial", novedadTemplate(novedad));
 
     return response.status(204).json();
 }
