@@ -13,6 +13,8 @@ const router = Router();
 */
 router.put("/habilitar",[verifyToken, esAdmin], EmpresaController.habilitarEmpresa);
 
+router.put("/inhabilitar",[verifyToken, esAdmin], EmpresaController.inhabilitarEmpresa);
+
 router.get("/datos",[verifyToken, esAdmin], AdminController.getStats);
 
 router.get("/enviarOferta/:id",[verifyToken, esAdmin], AdminController.compartirOferta);

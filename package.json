@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "tsc && npx jest --silent --verbose --watch",
-    "dev": "tsc-watch --onSuccess \"node ./build/index.js\""
+    "dev": "tsc-watch --onSuccess \"node ./build/index.js\"",
+    "build": "tsc"
+
   },
   "author": "",
   "license": "ISC",

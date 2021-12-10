@@ -100,6 +100,21 @@ export const habilitarEmpresa = async (req: Request, res: Response): Promise<Res
 
 }
 
+export const inhabilitarEmpresa = async (req: Request, res: Response): Promise<Response> => {
+    if (!req.body.id) return res.status(400).json({ message: "No se ingreso id" });
+
+    let empresa = await helperEmpresa.get(req.body.id)
+    if (!empresa) return res.status(404).json({ message: 'No se encontro usuario' });
+    if(empresa.fechaExpiracion < new Date()) return res.status(404).json({ message: 'Empresa ya inhabilitada' });
+    Object.assign(empresa, req.body)
+
+    let savedEmpresa = await helperEmpresa.update(empresa)
+
+
+    return res.status(200).json(savedEmpresa);
+
+}
+
 export const sendEmailAcceso = async (req: Request, res: Response): Promise<Response> => {
 
     let empresa: Empresa | undefined = await helperEmpresa.get(JSON.parse(req.params.jwtauth).usuario)

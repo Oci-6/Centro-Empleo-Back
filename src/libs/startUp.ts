@@ -39,6 +39,18 @@ export const startUp = async () => {
         await getRepository(Admin).save(admin);
 
     }
+
+    const fs = require('fs');
+
+    // check if directory exists
+    let path = 'uploads/postulantes/documentos'
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path, { recursive: true })
+    } 
+    path = 'uploads/postulantes/imagenes'
+    if (!fs.existsSync(path)) {
+        fs.mkdirSync(path, { recursive: true })
+    } 
 }
 
 
