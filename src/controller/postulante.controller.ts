@@ -181,7 +181,6 @@ const perfilCompleto = (postulante: Postulante): boolean => {
     if(!postulante.tipoDocumento) return false;
     if(!postulante.primerNombre) return false;
     if(!postulante.primerApellido) return false;
-    if(!postulante.segundoApellido) return false;
     if(!postulante.sexo) return false;
     if(!postulante.fechaNacimiento) return false;
     if(!postulante.direccion) return false;

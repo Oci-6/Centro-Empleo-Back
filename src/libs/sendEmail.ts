@@ -8,13 +8,13 @@ export const sendEmail = async (to: string,asunto: string, html: string ): Promi
         port: 465,
         secure: true,
         auth: {
-            user: "mauri3418@gmail.com",
-            pass: "weqmlnjpcakcomld"
+            user: "centroempleotest@gmail.com",
+            pass: "sevhbkeywgxvpgzj"
         }
     });
 
     var mailOptions = {
-        from: "Centro empleo <mauri3418@gmail.com>",
+        from: "Centro Empleo <centroempleotest@gmail.com>",
         to: to,
         subject: asunto,
         html: html

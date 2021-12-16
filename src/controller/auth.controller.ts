@@ -39,9 +39,10 @@ export const signInSocial = async (request: Request, response: Response): Promis
 
     let { email, tipo, foto } = request.body;
     let user: User | undefined = await helperUsuario.getByEmail(email);
-
+    console.log(user?.constructor.name);
+    
     if (user) {
-        return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: user.id, tipo: tipo }, process.env.JWT_TOKEN as string), tipo: tipo });
+        return response.status(200).json({ usuario: user, token: jwt.sign({ usuario: user.id, tipo: user.constructor.name }, process.env.JWT_TOKEN as string), tipo: user.constructor.name });
     } else {
         switch (tipo) {
             case "Postulante":
